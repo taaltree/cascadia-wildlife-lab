@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img"
+     aria-label="Placeholder: a marbled murrelet photograph is still needed here">
+  <rect width="960" height="540" fill="#1b3a1b"/>
+  <rect x="14" y="14" width="932" height="512" fill="none"
+        stroke="#c8a951" stroke-width="3" stroke-dasharray="14 10"/>
+  <text x="480" y="238" text-anchor="middle" fill="#c8a951"
+        font-family="Helvetica, Arial, sans-serif" font-size="54" font-weight="bold"
+        letter-spacing="4">PHOTO NEEDED</text>
+  <text x="480" y="308" text-anchor="middle" fill="#ffffff"
+        font-family="Georgia, serif" font-size="42">Marbled Murrelet</text>
+  <text x="480" y="366" text-anchor="middle" fill="#8fae95"
+        font-family="Helvetica, Arial, sans-serif" font-size="24"
+        letter-spacing="2">replace before merging</text>
+</svg>
