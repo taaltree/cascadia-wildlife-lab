@@ -1236,12 +1236,13 @@ h1, h2, h3, h4 {
   padding: var(--section-pad) 2rem;
   background: var(--off-white);
 }
+/* Three focus areas, so three columns or one — never a ragged row. */
 .focus-grid {
   max-width: var(--max-width);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
   align-items: start;
 }
 .focus-item {
@@ -1279,12 +1280,17 @@ h1, h2, h3, h4 {
   display: block;
 }
 
+@media (max-width: 1100px) {
+  .focus-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+  .focus-item-image img,
+  .focus-item-image video { height: 320px; }
+}
+
 @media (max-width: 900px) {
   .people-grid,
   .people-grid--leadership {
     grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   }
-  .focus-grid { grid-template-columns: 1fr; }
 }
 
 /* =====================================================

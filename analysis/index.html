@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cascadia Analysis Lab — Cascadia Wildlife Lab</title>
-  <meta name="description" content="The Cascadia Analysis Lab specializes in density estimation via spatial capture-recapture, animal movement, and spatial ecology across mammals, birds, and amphibians in the Pacific Northwest.">
+  <meta name="description" content="The Cascadia Analysis Lab specializes in density estimation via spatial capture-recapture, animal movement, and species distribution modeling across mammals, birds, and amphibians in the Pacific Northwest.">
   <link rel="canonical" href="https://cascadiawildlifelab.org/analysis/">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Cascadia Wildlife Lab">
   <meta property="og:url" content="https://cascadiawildlifelab.org/analysis/">
   <meta property="og:title" content="Cascadia Analysis Lab">
-  <meta property="og:description" content="Density estimation, animal movement, and spatial ecology — rigorous quantitative inference across mammals, birds, and amphibians.">
+  <meta property="og:description" content="Density estimation, animal movement, and species distribution modeling — rigorous quantitative inference across mammals, birds, and amphibians.">
   <meta property="og:image" content="https://cascadiawildlifelab.org/assets/images/wildlife/cougar.jpg">
   <meta property="og:image:alt" content="A mountain lion in a conifer tree">
   <meta name="twitter:card" content="summary_large_image">
@@ -132,6 +132,8 @@
           <li>N-mixture &amp; distance sampling abundance</li>
           <li>Bayesian hierarchical modeling (Stan, NIMBLE)</li>
           <li>Species distribution modeling</li>
+          <li>Joint species distribution models (JSDM)</li>
+          <li>Multi-species community models from metabarcoding</li>
           <li>Landscape connectivity &amp; circuit theory</li>
           <li>LiDAR forest structure metrics</li>
           <li>Population viability analysis</li>
@@ -146,7 +148,7 @@
       <span class="eyebrow">What We Do Best</span>
       <h2>Analytical Focus Areas</h2>
       <p class="section-subtitle">
-        Two methodological specializations that define the work of the Cascadia Analysis Lab
+        Three methodological specializations that define the work of the Cascadia Analysis Lab
       </p>
     </div>
 
@@ -201,6 +203,41 @@
         <div class="focus-item-image">
           <img src="../assets/images/wildlife/lidar.jpg"
                alt="LiDAR forest structure visualization" loading="lazy">
+        </div>
+      </div>
+
+      <div class="focus-item reveal reveal-d3">
+        <div class="focus-item-number">03</div>
+        <h3>Species Distribution Models</h3>
+        <p>
+          Where a species occurs, and why, is a different question from how many
+          there are — and often the more consequential one for planning. We build
+          species distribution and occupancy models that link detections to
+          climate, topography, and fine-scale forest structure, then use them to
+          project distributions across landscapes and under changing conditions.
+        </p>
+        <p>
+          This work draws on unusually deep bench strength. Matt Betts brings
+          decades of forest landscape ecology and long-term bird monitoring,
+          including the habitat-fragmentation and old-growth questions that make
+          distribution modeling difficult. Rebecca Hutchinson works on the
+          statistical and machine learning methods themselves — how to fit these
+          models when detection is imperfect, sampling is opportunistic, and the
+          data were never collected with modeling in mind.
+        </p>
+        <p>
+          Increasingly we fit <em>joint</em> species distribution models, which
+          estimate many species at once and let information from common species
+          inform inference about rare ones, while separating shared environmental
+          responses from residual co-occurrence. These pair naturally with bulk
+          DNA metabarcoding from the Cascadia Genetics Laboratory: a single
+          sequencing run over environmental or scat samples yields
+          community-wide detections across dozens of taxa at once — exactly the
+          multi-species, presence-heavy data these models are built for.
+        </p>
+        <div class="focus-item-image">
+          <img src="../assets/images/media/old-growth.jpg"
+               alt="A researcher climbing a large old-growth conifer" loading="lazy">
         </div>
       </div>
 
