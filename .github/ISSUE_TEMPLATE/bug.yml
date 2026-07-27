@@ -1,0 +1,40 @@
+name: Something is broken
+description: Broken link, missing image, layout problem, or anything that doesn't work
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What's wrong?
+      placeholder: The "Explore Genetics Lab" button on the homepage goes to a 404 page.
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: Page address
+      placeholder: https://cascadiawildlifelab.org/ai/
+    validations:
+      required: false
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: Where did you see it?
+      options:
+        - Desktop / laptop
+        - Phone
+        - Tablet
+        - Both desktop and phone
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: Drag an image into this box. Enormously helpful for layout problems.
+    validations:
+      required: false

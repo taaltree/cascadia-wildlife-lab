@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cascadia Analysis Lab — Cascadia Wildlife Lab</title>
+  <meta name="description" content="The Cascadia Analysis Lab specializes in density estimation via spatial capture-recapture, animal movement, and spatial ecology across mammals, birds, and amphibians in the Pacific Northwest.">
+  <link rel="canonical" href="https://cascadiawildlifelab.org/analysis/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cascadia Wildlife Lab">
+  <meta property="og:url" content="https://cascadiawildlifelab.org/analysis/">
+  <meta property="og:title" content="Cascadia Analysis Lab">
+  <meta property="og:description" content="Density estimation, animal movement, and spatial ecology — rigorous quantitative inference across mammals, birds, and amphibians.">
+  <meta property="og:image" content="https://cascadiawildlifelab.org/assets/images/wildlife/cougar.jpg">
+  <meta property="og:image:alt" content="A mountain lion in a conifer tree">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta name="theme-color" content="#111b11">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <script>document.documentElement.classList.add('js');</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- NAV -->
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="../index.html" class="nav-logo">
+          <img src="../assets/images/logos/Cascadia_Wildlife_Lab_LogoVectorOwl.png"
+               alt="Cascadia Wildlife Lab" class="nav-logo-img">
+        </a>
+        <div class="nav-institution">
+          <a href="https://oregonstate.edu" target="_blank" rel="noopener">
+            <img src="../assets/images/logos/osu-logo.webp"
+                 alt="Oregon State University" class="nav-osu-img">
+          </a>
+        </div>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" type="button"
+              aria-label="Open navigation" aria-expanded="false"
+              aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="../index.html#labs">Our Labs</a></li>
+        <li><a href="#focus">Focus Areas</a></li>
+        <li><a href="#taxa">Taxa</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="../index.html#contact" class="nav-cta">Contact Us</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main">
+
+  <!-- BACK -->
+  <div class="lab-back" style="padding-top:5rem;">
+    <a href="../index.html">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <polyline points="10,3 5,8 10,13"/>
+      </svg>
+      Back to Cascadia Wildlife Lab
+    </a>
+  </div>
+
+  <!-- HERO -->
+  <section class="lab-hero">
+    <img class="lab-hero-image"
+         src="../assets/images/wildlife/cougar.jpg"
+         alt="Mountain lion in a conifer tree">
+    <div class="lab-hero-overlay"></div>
+    <div class="lab-hero-content">
+      <img src="../assets/images/logos/Analysis.png"
+           alt="Cascadia Analysis Lab" class="lab-hero-logo">
+      <h1>Cascadia<br>Analysis Lab</h1>
+      <p>
+        Density estimation, animal movement, and spatial ecology — rigorous
+        quantitative inference across mammals, birds, and amphibians
+        of the Pacific Northwest.
+      </p>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section style="background:var(--off-white);">
+    <div class="lab-intro">
+      <div class="lab-intro-text reveal">
+        <span class="eyebrow">About the Lab</span>
+        <h2>From Data to Decisions</h2>
+        <p>
+          The Cascadia Analysis Lab translates wildlife monitoring data into
+          the population estimates, habitat models, and movement analyses
+          that guide real management decisions. We are a collaborative group
+          of quantitative ecologists, spatial analysts, and field biologists
+          covering mammals, birds, and amphibians across the Pacific Northwest.
+        </p>
+        <p>
+          Our signature strength is density estimation using spatial
+          capture-recapture (SCR) — a framework that integrates individual
+          identity from noninvasive genetic samples or camera traps with
+          precise spatial information to estimate animal density, survival,
+          and movement simultaneously, without an assumed study area boundary.
+        </p>
+        <p>
+          We pair SCR with GPS telemetry analysis, occupancy modeling, and
+          LiDAR-based habitat characterization to link population dynamics
+          directly to landscape structure. Our analyses are conducted in R and
+          Python using hierarchical Bayesian frameworks, and all outputs are
+          documented to publication and regulatory standards.
+        </p>
+        <a href="../index.html#contact" class="btn btn-primary">Work With Us</a>
+      </div>
+
+      <aside class="lab-intro-sidebar reveal reveal-d2">
+        <h3>Core Capabilities</h3>
+        <ul>
+          <li>Spatial capture-recapture density estimation</li>
+          <li>Open-population SCR — survival &amp; recruitment</li>
+          <li>GPS telemetry &amp; step selection analysis</li>
+          <li>Autocorrelated kernel density home range (AKDE)</li>
+          <li>Continuous-time movement modeling (ctmm)</li>
+          <li>Single-season &amp; dynamic occupancy modeling</li>
+          <li>N-mixture &amp; distance sampling abundance</li>
+          <li>Bayesian hierarchical modeling (Stan, NIMBLE)</li>
+          <li>Species distribution modeling</li>
+          <li>Landscape connectivity &amp; circuit theory</li>
+          <li>LiDAR forest structure metrics</li>
+          <li>Population viability analysis</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- FOCUS AREAS -->
+  <section class="focus-section" id="focus">
+    <div class="section-header reveal">
+      <span class="eyebrow">What We Do Best</span>
+      <h2>Analytical Focus Areas</h2>
+      <p class="section-subtitle">
+        Two methodological specializations that define the work of the Cascadia Analysis Lab
+      </p>
+    </div>
+
+    <div class="focus-grid">
+
+      <div class="focus-item reveal reveal-d1">
+        <div class="focus-item-number">01</div>
+        <h3>Density Estimation &amp; Spatial Capture-Recapture</h3>
+        <p>
+          Classical mark-recapture estimates detection probability but not
+          density — it requires an assumed study area to convert counts to
+          animals per unit area. Spatial capture-recapture solves this by
+          modeling each individual's activity center and detection probability
+          as a joint function of distance from sampling locations and landscape
+          features. The result: an absolute density estimate in animals per
+          km&sup2;, free from arbitrary boundary assumptions.
+        </p>
+        <p>
+          Our Bayesian SCR implementations accommodate individual
+          heterogeneity, sex-specific behavior, seasonal variation, and
+          landscape permeability. We have estimated densities for wolverine,
+          Pacific marten, fisher, mountain lion, wolf, black bear, and a
+          growing list of Pacific Northwest species — combining DNA-based
+          individual ID from the Cascadia Genetics Laboratory with SCR to
+          produce estimates that are often impossible to obtain any other way.
+        </p>
+        <div class="focus-item-image">
+          <img src="../assets/images/wildlife/cougar.jpg"
+               alt="Mountain lion — a focal SCR species" loading="lazy">
+        </div>
+      </div>
+
+      <div class="focus-item reveal reveal-d2">
+        <div class="focus-item-number">02</div>
+        <h3>Spatial Ecology &amp; Animal Movement</h3>
+        <p>
+          Where animals go, and why, reveals the functional landscape they
+          inhabit. We analyze GPS telemetry using continuous-time movement
+          models (ctmm), autocorrelated kernel density estimators (AKDE),
+          and integrated step selection functions — characterizing home range
+          dynamics, habitat selection, dispersal, and connectivity at the
+          individual and population level.
+        </p>
+        <p>
+          Our spatial ecology work integrates LiDAR-derived forest structure
+          data, allowing us to link fine-scale canopy characteristics to
+          wildlife space use at resolutions not possible with conventional
+          remote sensing. This combination is especially powerful for
+          forest-dependent species whose distributions and movements track
+          structural features of old-growth and late-successional habitats.
+        </p>
+        <div class="focus-item-image">
+          <img src="../assets/images/wildlife/lidar.jpg"
+               alt="LiDAR forest structure visualization" loading="lazy">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TAXONOMIC SCOPE -->
+  <section class="taxon-section" id="taxa">
+    <div class="section-header reveal">
+      <span class="eyebrow">Research Scope</span>
+      <h2>Taxa &amp; Research Groups</h2>
+      <p class="section-subtitle">
+        Our collaborative team covers three major taxonomic groups,
+        each led by specialists with deep field and analytical expertise
+      </p>
+    </div>
+
+    <div class="taxon-grid">
+
+      <div class="taxon-card reveal reveal-d1">
+        <div class="taxon-card-header">
+          <span class="taxon-label">Mammals</span>
+          <h3>Carnivores, Ungulates &amp; Small Mammals</h3>
+        </div>
+        <div class="taxon-card-body">
+          <p>
+            Large-scale mammal monitoring using GPS collaring, noninvasive
+            genetic surveys, camera trap networks, and spatial
+            capture-recapture. Focal taxa include Pacific marten, fisher,
+            wolverine, mountain lion, wolf, black bear, and ungulates.
+          </p>
+          <p>
+            Traditional trapping and GPS collaring programs provide
+            individual-based telemetry data for survival and movement
+            analysis, complementing DNA-based density estimation.
+          </p>
+          <span class="taxon-lead">
+            Led by: Taal Levi &bull; Katie Moriarty &bull; Joshua Twining
+          </span>
+        </div>
+      </div>
+
+      <div class="taxon-card reveal reveal-d2">
+        <div class="taxon-card-header">
+          <span class="taxon-label">Avian &amp; Forest Ecology</span>
+          <h3>Birds &amp; Forest Landscape Dynamics</h3>
+        </div>
+        <div class="taxon-card-body">
+          <p>
+            Point count surveys, mist netting, GPS tracking, and acoustic
+            monitoring for birds — integrated with LiDAR-based forest
+            structure characterization and landscape-scale occupancy models.
+          </p>
+          <p>
+            The Forest Landscape Ecology Lab brings additional expertise in
+            forest disturbance, succession, and the ecological consequences
+            of habitat change for bird communities.
+          </p>
+          <span class="taxon-lead">Led by: Matt Betts</span>
+        </div>
+      </div>
+
+      <div class="taxon-card reveal reveal-d3">
+        <div class="taxon-card-header">
+          <span class="taxon-label">Herpetology</span>
+          <h3>Amphibians &amp; Reptiles</h3>
+        </div>
+        <div class="taxon-card-body">
+          <p>
+            Traditional visual encounter surveys, cover board arrays, and
+            aquatic trapping — paired with eDNA-based species detection and
+            metabarcoding for community-level amphibian assessments.
+          </p>
+          <p>
+            Occupancy modeling and abundance estimation for species of
+            conservation concern, including obligate wetland and
+            stream-associated amphibians of the Pacific Northwest.
+          </p>
+          <span class="taxon-lead">Led by: Tiffany Garcia</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="people" id="team">
+    <div class="section-header section-header--on-dark reveal">
+      <span class="eyebrow">The Team</span>
+      <h2>Our People</h2>
+      <p class="section-subtitle">
+        Quantitative ecologists, spatial analysts, and field biologists
+        with deep expertise in Pacific Northwest wildlife systems
+      </p>
+    </div>
+
+    <div class="team-grid" style="max-width:1280px;margin:0 auto;">
+
+      <div class="person-card reveal reveal-d1">
+        <div class="person-card-media">
+          <img src="../assets/images/people/TaalLevi.jpeg" alt="Taal Levi" loading="lazy">
+        </div>
+        <div class="person-card-overlay"></div>
+        <div class="person-card-info">
+          <span class="person-focus">Mammals &amp; Landscape Ecology</span>
+          <h3>Taal Levi</h3>
+          <p>Professor, Oregon State University</p>
+          <a href="https://agsci-labs.oregonstate.edu/levit/" class="person-lab-link" target="_blank" rel="noopener">Levi Lab &rarr;</a>
+        </div>
+      </div>
+
+      <div class="person-card reveal reveal-d2">
+        <div class="person-card-media">
+          <img src="../assets/images/people/MattBetts.jpg" alt="Matt Betts" loading="lazy">
+        </div>
+        <div class="person-card-overlay"></div>
+        <div class="person-card-info">
+          <span class="person-focus">Avian Ecology &amp; Forest Ecology</span>
+          <h3>Matt Betts</h3>
+          <p>Professor, Oregon State University</p>
+          <a href="https://flel.forestry.oregonstate.edu/" class="person-lab-link" target="_blank" rel="noopener">Forest Landscape Ecology Lab &rarr;</a>
+        </div>
+      </div>
+
+      <div class="person-card reveal reveal-d3">
+        <div class="person-card-media">
+          <img src="../assets/images/people/TiffanyGarcia.jpg" alt="Tiffany Garcia" loading="lazy">
+        </div>
+        <div class="person-card-overlay"></div>
+        <div class="person-card-info">
+          <span class="person-focus">Herpetology &amp; Amphibians</span>
+          <h3>Tiffany Garcia</h3>
+          <p>Professor, Oregon State University</p>
+          <a href="https://garcia.fw.oregonstate.edu/" class="person-lab-link" target="_blank" rel="noopener">Garcia Lab &rarr;</a>
+        </div>
+      </div>
+
+      <div class="person-card reveal reveal-d4">
+        <div class="person-card-media">
+          <img src="../assets/images/people/JoelRuprecht.jpg" alt="Joel Ruprecht" loading="lazy">
+        </div>
+        <div class="person-card-overlay"></div>
+        <div class="person-card-info">
+          <h3>Joel Ruprecht</h3>
+          <p>Research Scientist</p>
+        </div>
+      </div>
+
+      <div class="person-card reveal reveal-d1">
+        <div class="person-card-media">
+          <img src="../assets/images/people/KatieMoriarty.webp" alt="Katie Moriarty" loading="lazy">
+        </div>
+        <div class="person-card-overlay"></div>
+        <span class="person-partner-badge">Partner</span>
+        <div class="person-card-info">
+          <span class="person-focus">Mammals &amp; Mustelids</span>
+          <h3>Katie Moriarty</h3>
+          <p>Senior Research Scientist, NCASI</p>
+          <a href="https://www.ncasi.org/staff/katie-moriarty/" class="person-lab-link" target="_blank" rel="noopener">NCASI &rarr;</a>
+        </div>
+      </div>
+
+      <div class="person-card reveal reveal-d2">
+        <div class="person-card-media">
+          <img src="../assets/images/people/JoshuaTwining.jpg" alt="Joshua Twining" loading="lazy">
+        </div>
+        <div class="person-card-overlay"></div>
+        <div class="person-card-info">
+          <span class="person-focus">Mammals &amp; Carnivores</span>
+          <h3>Joshua Twining</h3>
+          <p>Assistant Professor, Oregon State University</p>
+          <a href="https://fwcs.oregonstate.edu/users/joshua-twining" class="person-lab-link" target="_blank" rel="noopener">OSU Profile &rarr;</a>
+        </div>
+      </div>
+
+      <div class="person-card reveal reveal-d3">
+        <div class="person-card-media">
+          <img src="../assets/images/people/RebeccaHutchinson.jpg" alt="Rebecca Hutchinson" loading="lazy">
+        </div>
+        <div class="person-card-overlay"></div>
+        <div class="person-card-info">
+          <span class="person-focus">AI &amp; Ecology</span>
+          <h3>Rebecca Hutchinson</h3>
+          <p>Professor, Oregon State University</p>
+          <a href="https://engineering.oregonstate.edu/people/rebecca-hutchinson" class="person-lab-link" target="_blank" rel="noopener">OSU Profile &rarr;</a>
+        </div>
+      </div>
+
+      <div class="person-card reveal reveal-d4">
+        <div class="person-card-media">
+          <img src="../assets/images/people/ChrisSullivan.jpg" alt="Chris Sullivan" loading="lazy">
+        </div>
+        <div class="person-card-overlay"></div>
+        <div class="person-card-info">
+          <span class="person-focus">Research Computing</span>
+          <h3>Chris Sullivan</h3>
+          <p>Director, Research &amp; Academic Computing, OSU</p>
+          <a href="https://ceoas.oregonstate.edu/directory/christopher-chris-sullivan" class="person-lab-link" target="_blank" rel="noopener">OSU Research Computing &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <div class="lab-gallery">
+    <div class="lab-gallery-item">
+      <img src="../assets/images/wildlife/lidar.jpg"
+           alt="LiDAR forest structure" loading="lazy">
+    </div>
+    <div class="lab-gallery-item">
+      <img src="../assets/images/wildlife/cougar.jpg"
+           alt="Mountain lion" loading="lazy">
+    </div>
+    <div class="lab-gallery-item">
+      <img src="../assets/images/wildlife/cascades.jpg"
+           alt="Cascade landscape" loading="lazy">
+    </div>
+  </div>
+
+  </main>
+
+  <!-- AFFILIATION BAR -->
+  <div class="affiliation-bar">
+    <span class="affiliation-label">Based at</span>
+    <div class="affiliation-divider"></div>
+    <a href="https://oregonstate.edu" target="_blank" rel="noopener">
+      <img src="../assets/images/logos/osu-logo.webp"
+           alt="Oregon State University">
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="contact">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="../assets/images/logos/Cascadia_Wildlife_Lab_LogoVectorOwl.png"
+             alt="Cascadia Wildlife Lab" class="footer-logo">
+        <p>Mobilizing technology for wildlife ecology and conservation
+        in the Pacific Northwest and beyond.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Our Labs</h4>
+        <ul>
+          <li><a href="../genetics/index.html">Cascadia Genetics Laboratory</a></li>
+          <li><a href="../ai/index.html">Cascadia AI Lab</a></li>
+          <li><a href="../analysis/index.html">Cascadia Analysis Lab</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="../index.html#methods">Capabilities</a></li>
+          <li><a href="../ai/index.html#tools">Tools &amp; Software</a></li>
+          <li><a href="../index.html#team">Our Team</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>Contact</h4>
+        <p>Cascadia Wildlife Lab<br>Pacific Northwest, USA</p>
+        <a href="mailto:info@cascadiawildlifelab.org">info@cascadiawildlifelab.org</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span id="year">2026</span> Cascadia Wildlife Lab. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

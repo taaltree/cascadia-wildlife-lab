@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cascadia AI Lab — Cascadia Wildlife Lab</title>
+  <meta name="description" content="The Cascadia AI Lab applies deep learning, computer vision, and bioacoustics AI to wildlife monitoring — in partnership with the Pacific Northwest Bioacoustics Lab, NCASI, and leading ecologists.">
+  <link rel="canonical" href="https://cascadiawildlifelab.org/ai/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cascadia Wildlife Lab">
+  <meta property="og:url" content="https://cascadiawildlifelab.org/ai/">
+  <meta property="og:title" content="Cascadia AI Lab">
+  <meta property="og:description" content="Deep learning, computer vision, and bioacoustics AI for wildlife monitoring at scale.">
+  <meta property="og:image" content="https://cascadiawildlifelab.org/assets/images/wildlife/camera-trap-ai.jpg">
+  <meta property="og:image:alt" content="Camera trap imagery being classified by a computer vision model">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta name="theme-color" content="#111b11">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <script>document.documentElement.classList.add('js');</script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- NAV -->
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="../index.html" class="nav-logo">
+          <img src="../assets/images/logos/Cascadia_Wildlife_Lab_LogoVectorOwl.png"
+               alt="Cascadia Wildlife Lab" class="nav-logo-img">
+        </a>
+        <div class="nav-institution">
+          <a href="https://oregonstate.edu" target="_blank" rel="noopener">
+            <img src="../assets/images/logos/osu-logo.webp"
+                 alt="Oregon State University" class="nav-osu-img">
+          </a>
+        </div>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" type="button"
+              aria-label="Open navigation" aria-expanded="false"
+              aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="../index.html#labs">Our Labs</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#tools">Tools</a></li>
+        <li><a href="#team">Team &amp; Partners</a></li>
+        <li><a href="../index.html#contact" class="nav-cta">Contact Us</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main">
+
+  <!-- BACK -->
+  <div class="lab-back" style="padding-top:5rem;">
+    <a href="../index.html">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <polyline points="10,3 5,8 10,13"/>
+      </svg>
+      Back to Cascadia Wildlife Lab
+    </a>
+  </div>
+
+  <!-- HERO -->
+  <section class="lab-hero">
+    <video class="lab-hero-image" autoplay muted loop playsinline preload="auto"
+           poster="../assets/images/wildlife/poster-marten.jpg" aria-hidden="true">
+      <source src="../assets/videos/marten.mp4" type="video/mp4">
+    </video>
+    <div class="lab-hero-overlay"></div>
+    <div class="lab-hero-content">
+      <img src="../assets/images/logos/CascadiaAILab.png"
+           alt="Cascadia AI Lab" class="lab-hero-logo">
+      <h1>Cascadia AI Lab</h1>
+      <p>
+        Deep learning, computer vision, and bioacoustics AI for wildlife
+        monitoring at scale — backed by expertise in ecology, computer
+        science, and research computing.
+      </p>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section style="background:var(--off-white);">
+    <div class="lab-intro">
+      <div class="lab-intro-text reveal">
+        <span class="eyebrow">About the Lab</span>
+        <h2>AI Built for the Field, Not the Benchmark</h2>
+        <p>
+          Wildlife monitoring generates data at a pace that has long outrun
+          our ability to review it manually. The Cascadia AI Lab exists to
+          close that gap — deploying machine learning models that are
+          trained for your specific taxa, your sensors, and your habitat,
+          not optimized for generic benchmark datasets.
+        </p>
+        <p>
+          We bring together wildlife ecologists who understand the biology,
+          computer scientists who understand the models, and research computing
+          specialists who understand how to process data at scale. This
+          combination — rare in the Pacific Northwest — means we can take a
+          camera trap array or acoustic recorder network from raw data to
+          species-level occupancy estimates without the research team ever
+          touching a single image or audio file.
+        </p>
+        <p>
+          Bioacoustics is a core pillar of the lab. Through our partnership
+          with the Pacific Northwest Bioacoustics Lab and co-led by Damon
+          Lesmeister of the USDA Forest Service, we offer integrated acoustic
+          monitoring for owls, bats, frogs, and songbirds — from hardware
+          deployment through custom neural network detectors and
+          occupancy-based population inference.
+        </p>
+        <a href="../index.html#contact" class="btn btn-primary">Work With Us</a>
+      </div>
+
+      <aside class="lab-intro-sidebar reveal reveal-d2">
+        <h3>Core Capabilities</h3>
+        <ul>
+          <li>Camera trap species classification (CNN / ViT)</li>
+          <li>Multi-species detection &amp; object localization</li>
+          <li>Individual re-identification from natural markings</li>
+          <li>Behavior classification from image sequences</li>
+          <li>Passive acoustic monitoring &amp; species detection</li>
+          <li>Owl, bat, frog &amp; songbird acoustic AI</li>
+          <li>Soundscape ecology &amp; acoustic index analysis</li>
+          <li>Custom model training, validation &amp; uncertainty quantification</li>
+          <li>Automated data pipelines &amp; cloud processing</li>
+          <li>Edge AI deployment (field hardware)</li>
+          <li>Active learning &amp; annotation workflow design</li>
+          <li>Integration with MegaDetector, BirdNET, Wildlife Insights</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="lab-services" id="services">
+    <div class="section-header reveal">
+      <span class="eyebrow">What We Provide</span>
+      <h2>AI &amp; Data Science Services</h2>
+      <p class="section-subtitle">
+        From raw sensor data to publication-ready ecological inference
+      </p>
+    </div>
+    <div class="lab-services-grid">
+
+      <div class="lab-service-item reveal reveal-d1">
+        <h3>Camera Trap Image Classification</h3>
+        <p>Custom species classifiers trained on your images and your target
+        taxa — optimized for your camera models, habitat types, and focal
+        species. We deliver calibrated confidence scores ready for occupancy
+        and abundance modeling.</p>
+      </div>
+
+      <div class="lab-service-item reveal reveal-d2">
+        <h3>Acoustic Species Detection</h3>
+        <p>Automated detection of focal species from AudioMoth, Swift, and
+        Song Meter recordings. We build custom detectors for owls, bats,
+        frogs, and songbirds that go beyond generic classifiers — tuned for
+        your soundscape and species of interest.</p>
+      </div>
+
+      <div class="lab-service-item reveal reveal-d3">
+        <h3>Soundscape Ecology</h3>
+        <p>Quantify acoustic biodiversity, habitat quality, and anthropogenic
+        disturbance using soundscape indices and community-level acoustic
+        analysis. A powerful complement to point-count or camera trap data,
+        and well-suited for continuous long-term monitoring.</p>
+      </div>
+
+      <div class="lab-service-item reveal reveal-d1">
+        <h3>Individual Re-identification</h3>
+        <p>Match individuals across camera stations using natural markings —
+        spots, stripes, coat patterns — enabling DNA-free mark-recapture
+        studies for felids, canids, and other distinctively marked species.</p>
+      </div>
+
+      <div class="lab-service-item reveal reveal-d2">
+        <h3>Automated Monitoring Pipelines</h3>
+        <p>End-to-end data workflows that ingest raw sensor output, apply
+        AI inference, filter detections, and produce structured databases
+        ready for downstream occupancy or abundance modeling — reducing
+        manual review from months to days.</p>
+      </div>
+
+      <div class="lab-service-item reveal reveal-d3">
+        <h3>Edge &amp; Field Deployment</h3>
+        <p>Deploy trained models on field hardware for real-time detection
+        without cloud connectivity. Enables triggered camera activation,
+        adaptive sampling, and smart sensor applications in remote
+        environments without data upload requirements.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TOOLS & SOFTWARE -->
+  <section style="background:var(--off-white);" id="tools">
+    <div class="section-header reveal" style="padding-top:4rem;">
+      <span class="eyebrow">Open Science</span>
+      <h2>Tools &amp; Featured Work</h2>
+      <p class="section-subtitle">
+        Peer-reviewed models and open-source software developed by the Cascadia AI Lab
+      </p>
+    </div>
+
+    <div style="max-width:1280px;margin:0 auto;padding:0 2rem 4rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;">
+
+      <!-- PNW-Cnet -->
+      <div class="partner-card reveal reveal-d1" style="background:var(--white);">
+        <span class="partner-badge">Bioacoustics AI</span>
+        <h3 style="font-family:var(--font-display);font-size:1.35rem;margin:0.5rem 0 0.75rem;">PNW-Cnet</h3>
+        <p style="color:var(--forest-green);margin-bottom:1.25rem;">
+          A convolutional neural network for automated species identification from
+          passive acoustic recorders. PNW-Cnet was trained on Pacific Northwest
+          soundscapes and provides high-accuracy detection of owls, bats, frogs,
+          and other taxa directly from AudioMoth and Swift recordings — enabling
+          survey-scale acoustic monitoring without manual review.
+        </p>
+        <a href="https://www.sciencedirect.com/science/article/pii/S1574954126000634"
+           target="_blank" rel="noopener"
+           style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.82rem;font-weight:600;color:var(--sage);border-bottom:1px solid rgba(62,107,77,0.35);transition:color 0.2s,border-color 0.2s;text-decoration:none;">
+          Read the Paper
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- NJOBVU-AI -->
+      <div class="partner-card reveal reveal-d2" style="background:var(--white);">
+        <span class="partner-badge">Computer Vision · Open Source</span>
+        <h3 style="font-family:var(--font-display);font-size:1.35rem;margin:0.5rem 0 0.75rem;">NJOBVU-AI</h3>
+        <p style="color:var(--forest-green);margin-bottom:1.25rem;">
+          Open-source software for training custom computer vision models on
+          camera trap imagery. NJOBVU-AI lowers the barrier to species-specific
+          classifier development — providing a full active-learning workflow from
+          raw images through model training, validation, and deployment, without
+          requiring deep machine learning expertise.
+        </p>
+        <a href="https://esajournals.onlinelibrary.wiley.com/doi/full/10.1002/eap.70096"
+           target="_blank" rel="noopener"
+           style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.82rem;font-weight:600;color:var(--sage);border-bottom:1px solid rgba(62,107,77,0.35);transition:color 0.2s,border-color 0.2s;text-decoration:none;">
+          Read the Paper
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Custom CV Model Portfolio -->
+      <div class="partner-card reveal reveal-d3" style="background:var(--white);">
+        <span class="partner-badge">Custom Model Portfolio</span>
+        <h3 style="font-family:var(--font-display);font-size:1.35rem;margin:0.5rem 0 0.75rem;">Deployed Classifier Models</h3>
+        <p style="color:var(--forest-green);margin-bottom:1rem;">
+          A growing library of custom computer vision classifiers trained for
+          specific taxa, landscapes, and camera systems:
+        </p>
+        <ul style="color:var(--forest-green);font-size:0.92rem;line-height:1.85;padding-left:1.1rem;margin:0;">
+          <li>
+            <strong>Oregon Critters</strong> — multi-species classifier for Pacific
+            Northwest mammals trained on large-scale Oregon camera trap datasets
+            in partnership with NCASI
+          </li>
+          <li>
+            <strong>Project Nkhotakota</strong> — species classifier for the
+            Nkhotakota Wildlife Reserve in Malawi, trained on a rewilded savanna
+            community following Africa's largest elephant translocation
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TEAM & PARTNERS -->
+  <section class="people" id="team">
+    <div class="section-header section-header--on-dark reveal">
+      <span class="eyebrow">Team &amp; Partners</span>
+      <h2>People &amp; Partnerships</h2>
+      <p class="section-subtitle">
+        Wildlife ecologists, computer scientists, and research computing
+        specialists — working together with key partner organizations
+      </p>
+    </div>
+
+    <!-- Team portraits -->
+    <div class="team-grid" style="max-width:1280px;margin:0 auto 3rem;">
+
+      <div class="person-card reveal reveal-d1">
+        <div class="person-card-media">
+          <img src="../assets/images/people/DamonLesmeister.jpg" alt="Damon Lesmeister" loading="lazy">
+        </div>
+        <div class="person-card-overlay"></div>
+        <div class="person-card-info">
+          <span class="person-focus">Avian Ecology &amp; Bioacoustics</span>
+          <h3>Damon Lesmeister</h3>
+          <p>Research Wildlife Biologist, USFS</p>
+          <a href="https://research.fs.usda.gov/about/people/damon.lesmeister" class="person-lab-link" target="_blank" rel="noopener">USFS PNW Research Station &rarr;</a>
+        </div>
+      </div>
+
+      <div class="person-card reveal reveal-d2">
+        <div class="person-card-media">
+          <img src="../assets/images/people/RebeccaHutchinson.jpg" alt="Rebecca Hutchinson" loading="lazy">
+        </div>
+        <div class="person-card-overlay"></div>
+        <div class="person-card-info">
+          <span class="person-focus">AI &amp; Ecology Interface</span>
+          <h3>Rebecca Hutchinson</h3>
+          <p>Professor, Oregon State University</p>
+          <a href="https://engineering.oregonstate.edu/people/rebecca-hutchinson" class="person-lab-link" target="_blank" rel="noopener">OSU Profile &rarr;</a>
+        </div>
+      </div>
+
+      <div class="person-card reveal reveal-d3">
+        <div class="person-card-media">
+          <img src="../assets/images/people/ChrisSullivan.jpg" alt="Chris Sullivan" loading="lazy">
+        </div>
+        <div class="person-card-overlay"></div>
+        <div class="person-card-info">
+          <span class="person-focus">Research Computing</span>
+          <h3>Chris Sullivan</h3>
+          <p>Director, Research &amp; Academic Computing, OSU</p>
+          <a href="https://ceoas.oregonstate.edu/directory/christopher-chris-sullivan" class="person-lab-link" target="_blank" rel="noopener">OSU Research Computing &rarr;</a>
+        </div>
+      </div>
+
+      <div class="person-card reveal reveal-d4">
+        <div class="person-card-media">
+          <img src="../assets/images/people/TaalLevi.jpeg" alt="Taal Levi" loading="lazy">
+        </div>
+        <div class="person-card-overlay"></div>
+        <div class="person-card-info">
+          <span class="person-focus">Mammals &amp; Landscape Ecology</span>
+          <h3>Taal Levi</h3>
+          <p>Professor, Oregon State University</p>
+          <a href="https://agsci-labs.oregonstate.edu/levit/" class="person-lab-link" target="_blank" rel="noopener">Levi Lab &rarr;</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Partner organizations -->
+    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;padding:0 0 1rem;">
+
+      <div class="partner-card reveal reveal-d1">
+        <span class="partner-badge">Partner Organization</span>
+        <h3>Pacific Northwest Bioacoustics Lab</h3>
+        <p>
+          A core partner of the Cascadia AI Lab and co-led with Damon
+          Lesmeister, the PNW Bioacoustics Lab provides deep expertise in
+          passive acoustic monitoring hardware, deployment protocol design,
+          and custom AI detection models for the full Pacific Northwest
+          acoustic community. Together we offer fully integrated acoustic
+          monitoring services — from AudioMoth and Swift recorder deployment
+          through detector training and occupancy-based population inference
+          for owls, bats, frogs, and songbirds.
+        </p>
+        <a href="https://www.damonlesmeister.com/bioacoustics.html"
+           class="partner-link" target="_blank" rel="noopener">
+          PNW Bioacoustics Lab &rarr;
+        </a>
+      </div>
+
+      <div class="partner-card reveal reveal-d2">
+        <span class="partner-badge">Partner Organization</span>
+        <h3>NCASI</h3>
+        <p>
+          The National Council for Air and Stream Improvement (NCASI) is a
+          partner organization that brings wildlife monitoring expertise and
+          industry-scale data collection capacity to the Cascadia AI Lab.
+          Katie Moriarty leads mammal-focused work at NCASI, and our
+          collaboration allows us to train AI models on exceptionally large
+          camera trap datasets spanning Pacific Northwest forest landscapes.
+        </p>
+        <a href="https://www.ncasi.org/" class="partner-link"
+           target="_blank" rel="noopener">
+          NCASI &rarr;
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <div class="lab-gallery">
+    <div class="lab-gallery-item">
+      <video autoplay muted loop playsinline preload="none"
+             poster="../assets/images/wildlife/poster-marten.jpg" aria-hidden="true">
+        <source src="../assets/videos/marten.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="lab-gallery-item">
+      <img src="../assets/images/wildlife/camera-trap-ai.jpg"
+           alt="Camera trap AI detection interface" loading="lazy">
+    </div>
+    <div class="lab-gallery-item">
+      <img src="../assets/images/wildlife/wildlife-monitoring.jpg"
+           alt="Wildlife monitoring technology" loading="lazy">
+    </div>
+  </div>
+
+  </main>
+
+  <!-- AFFILIATION BAR -->
+  <div class="affiliation-bar">
+    <span class="affiliation-label">Based at</span>
+    <div class="affiliation-divider"></div>
+    <a href="https://oregonstate.edu" target="_blank" rel="noopener">
+      <img src="../assets/images/logos/osu-logo.webp"
+           alt="Oregon State University">
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="contact">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="../assets/images/logos/Cascadia_Wildlife_Lab_LogoVectorOwl.png"
+             alt="Cascadia Wildlife Lab" class="footer-logo">
+        <p>Mobilizing technology for wildlife ecology and conservation
+        in the Pacific Northwest and beyond.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Our Labs</h4>
+        <ul>
+          <li><a href="../genetics/index.html">Cascadia Genetics Laboratory</a></li>
+          <li><a href="../ai/index.html">Cascadia AI Lab</a></li>
+          <li><a href="../analysis/index.html">Cascadia Analysis Lab</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="../index.html#methods">Capabilities</a></li>
+          <li><a href="../ai/index.html#tools">Tools &amp; Software</a></li>
+          <li><a href="../index.html#team">Our Team</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>Contact</h4>
+        <p>Cascadia Wildlife Lab<br>Pacific Northwest, USA</p>
+        <a href="mailto:info@cascadiawildlifelab.org">info@cascadiawildlifelab.org</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span id="year">2026</span> Cascadia Wildlife Lab. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+name: Add or update a person
+description: A new team member, or a correction to someone already listed
+title: "[Person] "
+labels: ["people"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If this is about **you**, no need to justify anything — just tell us
+        what's right and we'll change it.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of change?
+      options:
+        - Add someone new
+        - Correct someone already listed
+        - Remove someone
+    validations:
+      required: true
+
+  - type: input
+    id: name
+    attributes:
+      label: Full name
+      placeholder: Jane Doe
+    validations:
+      required: true
+
+  - type: input
+    id: title
+    attributes:
+      label: Title and institution
+      placeholder: Associate Professor, Oregon State University
+    validations:
+      required: true
+
+  - type: input
+    id: focus
+    attributes:
+      label: Research focus
+      description: The short label above the name on the card — a few words.
+      placeholder: Mammals & Landscape Ecology
+    validations:
+      required: false
+
+  - type: input
+    id: url
+    attributes:
+      label: Lab website or profile URL
+      placeholder: https://example.oregonstate.edu/lab
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: pages
+    attributes:
+      label: Which pages should they appear on?
+      options:
+        - label: Homepage team section
+        - label: Genetics Lab
+        - label: AI Lab
+        - label: Analysis Lab
+
+  - type: textarea
+    id: photo
+    attributes:
+      label: Photo
+      description: |
+        Drag a photo into this box to attach it. Portrait orientation, head and
+        shoulders, at least 800 px wide. We'll resize it. Without a photo the
+        card shows initials instead.
+    validations:
+      required: false

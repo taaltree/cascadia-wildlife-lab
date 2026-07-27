@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Ask about working with the lab
+    url: mailto:info@cascadiawildlifelab.org
+    about: Project inquiries, collaborations, and services — not website issues.
+  - name: How to edit the site yourself
+    url: https://github.com/taaltree/cascadia-wildlife-lab/blob/main/CONTRIBUTING.md
+    about: A click-by-click guide. No coding or software installation required.

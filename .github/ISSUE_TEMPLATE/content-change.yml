@@ -1,0 +1,51 @@
+name: Content change
+description: Wording, descriptions, capabilities, or anything that reads wrong
+title: "[Content] "
+labels: ["content"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping keep the site accurate. The more specific you are,
+        the faster this gets fixed.
+
+  - type: dropdown
+    id: page
+    attributes:
+      label: Which page?
+      options:
+        - Homepage
+        - Genetics Lab
+        - AI Lab
+        - Analysis Lab
+        - More than one page
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: current
+    attributes:
+      label: What does it say now?
+      description: Copy and paste the text, or describe where on the page it is.
+      placeholder: |
+        On the AI Lab page, the "Acoustic Species Detection" card says
+        "…custom detectors for owls, bats, frogs, and songbirds"
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed
+    attributes:
+      label: What should it say instead?
+      description: Exact replacement wording is ideal, but a description works too.
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why?
+      description: Optional. Helpful for anything a reviewer couldn't verify on their own.
+    validations:
+      required: false

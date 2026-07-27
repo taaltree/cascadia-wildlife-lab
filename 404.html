@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found — Cascadia Wildlife Lab</title>
+  <meta name="robots" content="noindex">
+
+  <meta name="theme-color" content="#111b11">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <style>
+    .notfound {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 1.5rem;
+      background: var(--forest-dark);
+      color: #fff;
+    }
+    .notfound img { height: 96px; width: auto; margin-bottom: 2.5rem; filter: invert(1); mix-blend-mode: screen; opacity: 0.9; }
+    .notfound h1 { font-size: clamp(2.25rem, 6vw, 3.5rem); margin-bottom: 1rem; }
+    .notfound p { color: rgba(255,255,255,0.7); max-width: 46ch; margin: 0 auto 2.5rem; line-height: 1.75; }
+    .notfound-links { display: flex; flex-wrap: wrap; gap: 1.75rem; justify-content: center; font-size: 0.95rem; }
+    .notfound-links a { color: var(--gold); border-bottom: 1px solid rgba(200,169,81,0.4); padding-bottom: 2px; }
+    .notfound-links a:hover { color: var(--gold-light); border-color: var(--gold-light); }
+  </style>
+</head>
+<body>
+  <main class="notfound">
+    <img src="/assets/images/logos/Cascadia_Wildlife_Lab_LogoVectorOwl.png" alt="Cascadia Wildlife Lab">
+    <span class="eyebrow">Error 404</span>
+    <h1>This Track Went Cold</h1>
+    <p>
+      The page you were looking for isn't here. It may have moved, or the
+      link that brought you here may be out of date.
+    </p>
+    <div class="notfound-links">
+      <a href="/">Home</a>
+      <a href="/genetics/">Genetics Lab</a>
+      <a href="/ai/">AI Lab</a>
+      <a href="/analysis/">Analysis Lab</a>
+      <a href="/#contact">Contact</a>
+    </div>
+  </main>
+</body>
+</html>

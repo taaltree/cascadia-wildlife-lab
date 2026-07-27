@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Original, uncompressed media — keep these out of the repo.
+# Web-ready versions live in assets/. See CONTRIBUTING.md for how to add more.
+/originals/
+*.zip
+*.AVI
+*.MOV
+*.CR2
+*.heic

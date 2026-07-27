@@ -1,0 +1,38 @@
+name: Check site
+
+# Runs on every pull request and every push to main. Catches broken links,
+# missing images, duplicate ids, and images without alt text — the mistakes
+# that are easy to make when editing HTML by hand in the GitHub web editor.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check links, images, and anchors
+        run: python3 scripts/check-site.py
+
+      - name: Warn about oversized media
+        run: |
+          echo "Files over the size budget (images 400 KB, video 6 MB):"
+          over=0
+          while IFS= read -r f; do
+            size=$(stat -c%s "$f")
+            case "$f" in
+              *.mp4) limit=6291456  ;;
+              *)     limit=409600   ;;
+            esac
+            if [ "$size" -gt "$limit" ]; then
+              echo "  $(( size / 1024 )) KB  $f"
+              over=1
+            fi
+          done < <(find assets -type f \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' -o -name '*.webp' -o -name '*.mp4' \))
+          if [ "$over" -eq 0 ]; then echo "  none — all good"; fi
+          # Advisory only: a heavy file is worth a second look, not a blocked merge.
+          exit 0
