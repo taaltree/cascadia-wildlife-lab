@@ -159,6 +159,35 @@
   }
 
   /* --------------------------------------------------
+     VIDEO EMBEDS: click to load
+     The thumbnail is a plain image until someone presses
+     play, so no YouTube script or cookie reaches a visitor
+     who never watches anything. It also keeps three
+     embeds from costing three page-loads' worth of weight.
+     -------------------------------------------------- */
+  document.querySelectorAll('.video-thumb[data-video-id]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.videoId;
+      if (!id) return;
+
+      const frame = document.createElement('iframe');
+      frame.className = 'video-thumb-frame';
+      // youtube-nocookie.com would be the privacy-preferable host, but its
+      // player fails here with "Error 153 — Video Player Configuration Error".
+      // Since the embed only loads after an explicit click, the visitor has
+      // already chosen to load YouTube, so the practical difference is small.
+      frame.src = 'https://www.youtube.com/embed/' + encodeURIComponent(id) +
+                  '?autoplay=1&rel=0';
+      frame.title = btn.getAttribute('aria-label') || 'Video';
+      frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      frame.allowFullscreen = true;
+
+      btn.replaceWith(frame);
+      frame.focus({ preventScroll: true });
+    });
+  });
+
+  /* --------------------------------------------------
      FOOTER: keep the copyright year current
      -------------------------------------------------- */
   const year = document.getElementById('year');

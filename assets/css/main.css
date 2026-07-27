@@ -1617,3 +1617,203 @@ h1, h2, h3, h4 {
     scroll-behavior: auto !important;
   }
 }
+
+/* =====================================================
+   VIDEO GRID (impact page)
+   Thumbnails are static until clicked — no YouTube
+   scripts load unless someone actually plays something.
+   ===================================================== */
+.video-grid {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+}
+.video-card { display: flex; flex-direction: column; }
+
+.video-thumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  border: none;
+  background: var(--forest-dark);
+  cursor: pointer;
+  overflow: hidden;
+}
+.video-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow), opacity var(--transition);
+}
+.video-thumb:hover img,
+.video-thumb:focus-visible img { transform: scale(1.04); opacity: 0.85; }
+
+.video-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition);
+}
+.video-thumb:hover .video-play { transform: scale(1.1); }
+
+/* The iframe swapped in on click keeps the same box */
+.video-thumb-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  display: block;
+  background: var(--forest-dark);
+}
+
+.video-meta { padding: 1.25rem 0 0; }
+.video-meta h3 {
+  font-size: 1.12rem;
+  line-height: 1.3;
+  color: var(--forest-dark);
+  margin-bottom: 0.6rem;
+}
+.video-meta p {
+  color: var(--forest-green);
+  font-size: 0.93rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* =====================================================
+   COVERAGE (press cards)
+   ===================================================== */
+.coverage {
+  background: var(--forest-deep);
+  padding: var(--section-pad) 2rem;
+}
+.coverage-grid {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 1.5rem;
+}
+.coverage-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-left: 3px solid var(--sage);
+  padding: 1.75rem 1.75rem 1.5rem;
+  transition: background var(--transition), border-color var(--transition),
+              transform var(--transition);
+}
+.coverage-card:hover,
+.coverage-card:focus-visible {
+  background: rgba(255, 255, 255, 0.07);
+  border-left-color: var(--gold);
+  transform: translateY(-3px);
+}
+.coverage-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.65rem;
+  margin-bottom: 0.9rem;
+}
+.coverage-outlet {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.coverage-date {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.42);
+  letter-spacing: 0.04em;
+}
+.coverage-card h3 {
+  font-size: 1.2rem;
+  line-height: 1.28;
+  color: var(--white);
+  margin-bottom: 0.7rem;
+}
+.coverage-card p {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin: 0 0 1.1rem;
+}
+.coverage-credit {
+  display: block;
+  font-size: 0.78rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 1.1rem;
+}
+.coverage-go {
+  margin-top: auto;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--sage-light);
+  transition: color var(--transition);
+}
+.coverage-card:hover .coverage-go { color: var(--gold); }
+
+/* =====================================================
+   IMPACT TEASER (homepage strip)
+   ===================================================== */
+.impact-teaser {
+  background: var(--off-white);
+  padding: var(--section-pad) 2rem;
+}
+.impact-teaser-grid {
+  max-width: var(--max-width);
+  margin: 0 auto 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+.impact-item {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.impact-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 40px rgba(9, 15, 9, 0.1);
+}
+.impact-item-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--forest-dark);
+}
+.impact-item-media img { width: 100%; height: 100%; object-fit: cover; }
+.impact-item-body { padding: 1.35rem 1.5rem 1.6rem; }
+.impact-item-kicker {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--sage);
+  margin-bottom: 0.55rem;
+}
+.impact-item-body h3 {
+  font-size: 1.05rem;
+  line-height: 1.32;
+  color: var(--forest-dark);
+  margin: 0;
+}
+.impact-teaser-more { text-align: center; }
+
+@media (max-width: 860px) {
+  .video-grid, .coverage-grid { padding-left: 0; padding-right: 0; }
+  .coverage, .impact-teaser { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
