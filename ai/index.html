@@ -115,11 +115,19 @@
         </p>
         <p>
           Bioacoustics is a core pillar of the lab. Through our partnership
-          with the Pacific Northwest Bioacoustics Lab and co-led by Damon
-          Lesmeister of the USDA Forest Service, we offer integrated acoustic
-          monitoring for owls, bats, frogs, and songbirds — from hardware
-          deployment through custom neural network detectors and
-          occupancy-based population inference.
+          with the Pacific Northwest Bioacoustics Lab, led by Damon Lesmeister
+          of the USDA Forest Service, we train custom acoustic detectors for
+          owls, murrelets, and other forest birds — the species where
+          conventional survey effort is most expensive and least conclusive.
+        </p>
+        <p>
+          Detections are not the end of the work. Together with the Cascadia
+          Analysis Lab, we carry model output through to occupancy estimates,
+          distribution models, and population inference — with the detection
+          error and uncertainty of the classifier propagated rather than
+          ignored. That is what turns a pile of predictions into a defensible
+          scientific result, and into evidence a management or conservation
+          decision can actually rest on.
         </p>
         <a href="../index.html#contact" class="btn btn-primary">Work With Us</a>
       </div>
@@ -127,18 +135,16 @@
       <aside class="lab-intro-sidebar reveal reveal-d2">
         <h3>Core Capabilities</h3>
         <ul>
-          <li>Camera trap species classification (CNN / ViT)</li>
+          <li>Custom camera trap species classifiers</li>
+          <li>Custom acoustic detectors for target species</li>
+          <li>Model training, validation &amp; uncertainty quantification</li>
           <li>Multi-species detection &amp; object localization</li>
-          <li>Individual re-identification from natural markings</li>
-          <li>Behavior classification from image sequences</li>
           <li>Passive acoustic monitoring &amp; species detection</li>
-          <li>Owl, bat, frog &amp; songbird acoustic AI</li>
-          <li>Soundscape ecology &amp; acoustic index analysis</li>
-          <li>Custom model training, validation &amp; uncertainty quantification</li>
+          <li>Owl, murrelet &amp; forest bird acoustic AI</li>
           <li>Automated data pipelines &amp; cloud processing</li>
-          <li>Edge AI deployment (field hardware)</li>
           <li>Active learning &amp; annotation workflow design</li>
           <li>Integration with MegaDetector, BirdNET, Wildlife Insights</li>
+          <li>Detection data prepared for occupancy &amp; abundance modeling</li>
         </ul>
       </aside>
     </div>
@@ -156,50 +162,36 @@
     <div class="lab-services-grid">
 
       <div class="lab-service-item reveal reveal-d1">
-        <h3>Camera Trap Image Classification</h3>
-        <p>Custom species classifiers trained on your images and your target
-        taxa — optimized for your camera models, habitat types, and focal
-        species. We deliver calibrated confidence scores ready for occupancy
-        and abundance modeling.</p>
+        <h3>Custom Camera Trap Classifiers</h3>
+        <p>Species classifiers trained on your images and your target taxa,
+        rather than a generic model applied to data it has never seen —
+        tuned to your camera models, habitat types, and focal species. We
+        deliver calibrated confidence scores, not just labels.</p>
       </div>
 
       <div class="lab-service-item reveal reveal-d2">
-        <h3>Acoustic Species Detection</h3>
-        <p>Automated detection of focal species from AudioMoth, Swift, and
-        Song Meter recordings. We build custom detectors for owls, bats,
-        frogs, and songbirds that go beyond generic classifiers — tuned for
-        your soundscape and species of interest.</p>
+        <h3>Custom Acoustic Detectors</h3>
+        <p>Detectors trained for your focal species from AudioMoth, Swift,
+        and Song Meter recordings. Our bioacoustics work centers on owls,
+        murrelets, and other forest birds, where automated detection replaces
+        survey effort that is otherwise expensive and inconclusive.</p>
       </div>
 
       <div class="lab-service-item reveal reveal-d3">
-        <h3>Soundscape Ecology</h3>
-        <p>Quantify acoustic biodiversity, habitat quality, and anthropogenic
-        disturbance using soundscape indices and community-level acoustic
-        analysis. A powerful complement to point-count or camera trap data,
-        and well-suited for continuous long-term monitoring.</p>
+        <h3>Automated Monitoring Pipelines</h3>
+        <p>End-to-end workflows that ingest raw sensor output, apply
+        inference, filter detections, and produce structured databases ready
+        for downstream modeling — reducing manual review from months to
+        days.</p>
       </div>
 
       <div class="lab-service-item reveal reveal-d1">
-        <h3>Individual Re-identification</h3>
-        <p>Match individuals across camera stations using natural markings —
-        spots, stripes, coat patterns — enabling DNA-free mark-recapture
-        studies for felids, canids, and other distinctively marked species.</p>
-      </div>
-
-      <div class="lab-service-item reveal reveal-d2">
-        <h3>Automated Monitoring Pipelines</h3>
-        <p>End-to-end data workflows that ingest raw sensor output, apply
-        AI inference, filter detections, and produce structured databases
-        ready for downstream occupancy or abundance modeling — reducing
-        manual review from months to days.</p>
-      </div>
-
-      <div class="lab-service-item reveal reveal-d3">
-        <h3>Edge &amp; Field Deployment</h3>
-        <p>Deploy trained models on field hardware for real-time detection
-        without cloud connectivity. Enables triggered camera activation,
-        adaptive sampling, and smart sensor applications in remote
-        environments without data upload requirements.</p>
+        <h3>From Detections to Inference</h3>
+        <p>Model output is a means, not a result. With the Cascadia Analysis
+        Lab we take detections through to occupancy, distribution, and
+        population estimates — propagating classifier error rather than
+        treating predictions as truth, so the conclusions support publication
+        and evidence-based management.</p>
       </div>
 
     </div>
@@ -223,9 +215,9 @@
         <h3 style="font-family:var(--font-display);font-size:1.35rem;margin:0.5rem 0 0.75rem;">PNW-Cnet</h3>
         <p style="color:var(--forest-green);margin-bottom:1.25rem;">
           A convolutional neural network for automated species identification from
-          passive acoustic recorders. PNW-Cnet was trained on Pacific Northwest
-          soundscapes and provides high-accuracy detection of owls, bats, frogs,
-          and other taxa directly from AudioMoth and Swift recordings — enabling
+          passive acoustic recorders. Trained on Pacific Northwest forest
+          recordings, PNW-Cnet detects northern spotted owls and other forest
+          wildlife directly from AudioMoth and Swift audio — enabling
           survey-scale acoustic monitoring without manual review.
         </p>
         <a href="https://www.sciencedirect.com/science/article/pii/S1574954126000634"
@@ -385,14 +377,13 @@
         <span class="partner-badge">Partner Organization</span>
         <h3>Pacific Northwest Bioacoustics Lab</h3>
         <p>
-          A core partner of the Cascadia AI Lab and co-led with Damon
-          Lesmeister, the PNW Bioacoustics Lab provides deep expertise in
-          passive acoustic monitoring hardware, deployment protocol design,
-          and custom AI detection models for the full Pacific Northwest
-          acoustic community. Together we offer fully integrated acoustic
-          monitoring services — from AudioMoth and Swift recorder deployment
-          through detector training and occupancy-based population inference
-          for owls, bats, frogs, and songbirds.
+          A core partner of the Cascadia AI Lab, led by Damon Lesmeister, the
+          PNW Bioacoustics Lab brings deep expertise in passive acoustic
+          monitoring hardware, deployment protocol design, and custom AI
+          detection models. Together we offer integrated acoustic monitoring —
+          from AudioMoth and Swift recorder deployment through detector
+          training and occupancy-based population inference for owls,
+          murrelets, and other forest birds.
         </p>
         <a href="https://www.damonlesmeister.com/bioacoustics.html"
            class="partner-link" target="_blank" rel="noopener">
