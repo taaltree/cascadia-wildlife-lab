@@ -1831,3 +1831,21 @@ h1, h2, h3, h4 {
   .video-grid, .coverage-grid { padding-left: 0; padding-right: 0; }
   .coverage, .impact-teaser { padding-left: 1.5rem; padding-right: 1.5rem; }
 }
+
+/* =====================================================
+   INLINE PROSE LINK
+   The reset makes links inherit colour and drop underlines,
+   which is right for nav and cards but invisible inside a
+   paragraph. This is the style for links in running text.
+   ===================================================== */
+.text-link {
+  color: var(--sage);
+  border-bottom: 1px solid rgba(62, 107, 77, 0.4);
+  padding-bottom: 1px;
+  transition: color var(--transition), border-color var(--transition);
+}
+.text-link:hover,
+.text-link:focus-visible {
+  color: var(--forest-green);
+  border-color: var(--forest-green);
+}
