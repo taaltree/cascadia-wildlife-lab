@@ -98,3 +98,33 @@ GitHub Pages builds from the `main` branch, root directory.
 
 Push to `main` → live in ~1 minute. Check
 [Actions](../../actions) if a change doesn't appear.
+
+### Domain setup (one time)
+
+`cascadiawildlifelab.org` is registered at Cloudflare. These records point it
+at GitHub Pages — add them under **DNS → Records** in the Cloudflare dashboard.
+
+| Type | Name | Value | Proxy |
+|---|---|---|---|
+| A | `@` | `185.199.108.153` | DNS only |
+| A | `@` | `185.199.109.153` | DNS only |
+| A | `@` | `185.199.110.153` | DNS only |
+| A | `@` | `185.199.111.153` | DNS only |
+| AAAA | `@` | `2606:50c0:8000::153` | DNS only |
+| AAAA | `@` | `2606:50c0:8001::153` | DNS only |
+| AAAA | `@` | `2606:50c0:8002::153` | DNS only |
+| AAAA | `@` | `2606:50c0:8003::153` | DNS only |
+| CNAME | `www` | `taaltree.github.io` | DNS only |
+
+Two Cloudflare settings matter:
+
+- **Proxy status must be "DNS only"** (grey cloud, not orange). With the proxy
+  on, GitHub cannot issue the TLS certificate.
+- **SSL/TLS → Overview → encryption mode must be "Full"**, not "Flexible".
+  Flexible causes an infinite redirect loop with GitHub Pages.
+
+Then in **Settings → Pages**, tick **Enforce HTTPS** once the certificate is
+issued (a few minutes to a few hours after DNS propagates).
+
+The `CNAME` file in this repository is what tells GitHub the domain — deleting
+it takes the site off `cascadiawildlifelab.org`.
