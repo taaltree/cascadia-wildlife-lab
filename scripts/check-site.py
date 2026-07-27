@@ -10,7 +10,7 @@ from urllib.parse import urlparse, unquote
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 PAGES = ["index.html", "genetics/index.html", "ai/index.html",
-         "analysis/index.html", "404.html"]
+         "analysis/index.html", "impact/index.html", "404.html"]
 
 errors, warnings = [], []
 

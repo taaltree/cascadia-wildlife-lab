@@ -159,6 +159,32 @@
   }
 
   /* --------------------------------------------------
+     VIDEO EMBEDS: click to load
+     The thumbnail is a plain image until someone presses
+     play, so no YouTube script or cookie reaches a visitor
+     who never watches anything. It also keeps three
+     embeds from costing three page-loads' worth of weight.
+     -------------------------------------------------- */
+  document.querySelectorAll('.video-thumb[data-video-id]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.videoId;
+      if (!id) return;
+
+      const frame = document.createElement('iframe');
+      frame.className = 'video-thumb-frame';
+      frame.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) +
+                  '?autoplay=1&rel=0';
+      frame.title = btn.getAttribute('aria-label') || 'Video';
+      frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      frame.allowFullscreen = true;
+      frame.referrerPolicy = 'strict-origin-when-cross-origin';
+
+      btn.replaceWith(frame);
+      frame.focus({ preventScroll: true });
+    });
+  });
+
+  /* --------------------------------------------------
      FOOTER: keep the copyright year current
      -------------------------------------------------- */
   const year = document.getElementById('year');
