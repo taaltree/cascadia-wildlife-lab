@@ -172,12 +172,15 @@
 
       const frame = document.createElement('iframe');
       frame.className = 'video-thumb-frame';
-      frame.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id) +
+      // youtube-nocookie.com would be the privacy-preferable host, but its
+      // player fails here with "Error 153 — Video Player Configuration Error".
+      // Since the embed only loads after an explicit click, the visitor has
+      // already chosen to load YouTube, so the practical difference is small.
+      frame.src = 'https://www.youtube.com/embed/' + encodeURIComponent(id) +
                   '?autoplay=1&rel=0';
       frame.title = btn.getAttribute('aria-label') || 'Video';
       frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
       frame.allowFullscreen = true;
-      frame.referrerPolicy = 'strict-origin-when-cross-origin';
 
       btn.replaceWith(frame);
       frame.focus({ preventScroll: true });
