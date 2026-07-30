@@ -1629,13 +1629,21 @@ h1, h2, h3, h4 {
    Thumbnails are static until clicked — no YouTube
    scripts load unless someone actually plays something.
    ===================================================== */
+/* Fixed three columns rather than auto-fit, so the film grid does not
+   reflow to a different column count as the viewport changes. */
 .video-grid {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2.5rem;
+}
+@media (max-width: 1100px) {
+  .video-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+}
+@media (max-width: 700px) {
+  .video-grid { grid-template-columns: 1fr; }
 }
 .video-card { display: flex; flex-direction: column; }
 
