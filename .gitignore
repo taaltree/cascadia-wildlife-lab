@@ -13,6 +13,8 @@
 # Web-ready versions live in assets/. See CONTRIBUTING.md for how to add more.
 /originals/
 *.zip
+# Exception: CascadiaTools example datasets are small, generated downloads.
+!tools/data/*.zip
 *.AVI
 *.MOV
 *.CR2
