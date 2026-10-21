@@ -466,3 +466,24 @@ ol.steps { list-style: none; padding: 0; }
 .tools-wrap--narrow { max-width: 1100px; }
 .tools-wrap--narrow > * { max-width: 820px; }
 .fig--key { max-width: 760px; }
+
+/* ---------- Buttons inside prose ----------
+   `.prose a` above styles inline links: it sets a 1px bottom border and 1px
+   bottom padding, which flattens any .btn placed in a prose block into a
+   lopsided box. Restore the button geometry, and keep the outline variant
+   legible on the dark sections. */
+.prose a.btn,
+.tools-section--dark .prose a.btn {
+  padding: 0.75rem 1.625rem;
+  border-width: 2px;
+  border-style: solid;
+}
+.tools-section--dark .prose a.btn-outline {
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.55);
+}
+.tools-section--dark .prose a.btn-outline:hover,
+.tools-section--dark .prose a.btn-outline:focus-visible {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--white);
+}
