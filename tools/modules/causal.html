@@ -71,7 +71,7 @@
       <span class="eyebrow">Regression and causal inference</span>
       <h1>Causal effects from observational data (DAG + g-computation)</h1>
       <p class="lead"><em>What would happen to the outcome if we changed the exposure?</em> For example: "If riparian canopy cover increased by 10 percentage points at every reach, how many more juvenile trout would there be per 100 m?" The answer is an <strong>average causal effect</strong> on the scale the biologist measures (count, probability, mean), plus a ratio (rate or risk ratio) and the link-scale coefficient.</p>
-      <div class="badge-row"><span class="badge badge--domain">module id: causal</span><span class="badge badge--done">&#10003; Worked example: DONE</span></div>
+      <div class="badge-row"><span class="badge badge--domain">module id: causal</span><a class="badge-link" href="#validation"><span class="badge badge--done">&#10003; Example verdict: DONE</span></a></div>
     </div>
   </div>
   <section class="tools-section" aria-labelledby="fit-heading">
@@ -139,6 +139,7 @@
       it back? (<a href="../validation.html#gate">What the thresholds are</a>.)</p></div>
       <div class="callout callout--done">
         <span class="callout-title">Verdict for this example: <span class="badge badge--done">&#10003; DONE</span></span>
+        
         <p>Every quantity checked passed planted truth at this design.</p>
       </div>
       <p><strong>6 of 6 rows pass.</strong></p><div class='table-scroll' tabindex='0' role='region' aria-label='Planted-truth recovery table'><table class='tbl'><caption>Bias: average estimate minus truth, as a percentage of the truth. Coverage: share of 95% intervals that contained the true value (target 0.95). Quantity names are as they appear in the report.</caption><thead><tr><th scope='col'>Quantity</th><th scope='col'>True value</th><th scope='col'>Average estimate</th><th scope='col'>Bias</th><th scope='col'>Coverage</th><th scope='col'>Result</th></tr></thead><tbody><tr><td class='param'>ate_canopy_pct</td><td>1.95</td><td>1.99</td><td>+1.8%</td><td>0.95</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr><tr><td class='param'>rate_ratio_canopy_pct</td><td>1.29</td><td>1.3</td><td>+0.2%</td><td>0.94</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr><tr><td class='param'>beta_canopy_pct</td><td>0.0257</td><td>0.0257</td><td>-0.1%</td><td>0.94</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr><tr><td class='param'>direct_ate_canopy_pct</td><td>1.02</td><td>1.05</td><td>+2.6%</td><td>0.94</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr><tr><td class='param'>direct_rate_ratio_canopy_pct</td><td>1.15</td><td>1.16</td><td>+0.2%</td><td>0.95</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr><tr><td class='param'>direct_beta_canopy_pct</td><td>0.0143</td><td>0.0142</td><td>-0.3%</td><td>0.95</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr></tbody></table></div>

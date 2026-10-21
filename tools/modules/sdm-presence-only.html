@@ -71,7 +71,7 @@
       <span class="eyebrow">Distribution and community</span>
       <h1>Species distribution from presence-only records (point process, Maxent, integrated with surveys)</h1>
       <p class="lead">"Which habitat is the species associated with, and where in my region is it most likely to be?" when all you have are places where it <strong>was</strong> recorded.</p>
-      <div class="badge-row"><span class="badge badge--domain">module id: sdm-presence-only</span><span class="badge badge--done">&#10003; Worked example: DONE</span></div>
+      <div class="badge-row"><span class="badge badge--domain">module id: sdm-presence-only</span><a class="badge-link" href="#validation"><span class="badge badge--done">&#10003; Example verdict: DONE</span></a></div>
     </div>
   </div>
   <section class="tools-section" aria-labelledby="fit-heading">
@@ -139,6 +139,7 @@
       it back? (<a href="../validation.html#gate">What the thresholds are</a>.)</p></div>
       <div class="callout callout--done">
         <span class="callout-title">Verdict for this example: <span class="badge badge--done">&#10003; DONE</span></span>
+        
         <p>Every quantity checked passed planted truth at this design.</p>
       </div>
       <p><strong>3 of 3 rows pass.</strong></p><div class='table-scroll' tabindex='0' role='region' aria-label='Planted-truth recovery table'><table class='tbl'><caption>Bias: average estimate minus truth, as a percentage of the truth. Coverage: share of 95% intervals that contained the true value (target 0.95). Quantity names are as they appear in the report.</caption><thead><tr><th scope='col'>Quantity</th><th scope='col'>True value</th><th scope='col'>Average estimate</th><th scope='col'>Bias</th><th scope='col'>Coverage</th><th scope='col'>Result</th></tr></thead><tbody><tr><td class='param'>bias_beta_dist_road_km</td><td>-1.1</td><td>-1.09</td><td>+0.4%</td><td>0.97</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr><tr><td class='param'>intensity_beta_elevation_m</td><td>0.4</td><td>0.396</td><td>-1.0%</td><td>0.96</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr><tr><td class='param'>intensity_beta_forest_cover_pct</td><td>0.9</td><td>0.908</td><td>+0.9%</td><td>0.95</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr></tbody></table></div>

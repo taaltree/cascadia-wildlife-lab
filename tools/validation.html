@@ -215,6 +215,30 @@
     </div>
   </section>
 
+  <section class="tools-section tools-section--cream" id="done-open" aria-labelledby="done-open-heading">
+    <div class="tools-wrap tools-wrap--narrow">
+      <h2 id="done-open-heading">What DONE and OPEN mean</h2>
+      <div class="prose">
+        <p>Every worked example, and every analysis you run, ends with one of two verdicts.</p>
+        <p><strong>DONE</strong>: every quantity the report interprets passed the planted-truth check at that
+        design. Estimates were close to the truth on average, the intervals contained the truth about as
+        often as they claim, and the fits converged.</p>
+        <p><strong>OPEN</strong>: at least one quantity the report interprets did <em>not</em> pass at that
+        design, so CascadiaTools does not certify it. It does not mean the module is broken: all
+        29 modules pass at their default designs. And it does not mean everything is wrong: usually
+        most quantities pass and one falls short, often narrowly (for example, an interval that contains the
+        truth 90% of the time when it should be 95%). The module page shows exactly which quantity, by how
+        much, and why.</p>
+        <p><strong>If your own analysis comes back OPEN</strong>, CascadiaTools tells you what you can still
+        use and suggests what would help: more data (more sites, surveys, animals or years), a simpler
+        model, a different estimator, or reading that quantity with extra caution (for example, treating a
+        95% interval as roughly 90%).</p>
+        <p>10 of the 29 worked examples are OPEN at their example designs. We kept them that way
+        on purpose: they show the harness reporting a limit honestly, which is the point of checking.</p>
+      </div>
+    </div>
+  </section>
+
   <section class="tools-section" id="examples-table" aria-labelledby="ex-heading">
     <div class="tools-wrap">
       <h2 id="ex-heading">Every worked example, with its verdict</h2>
