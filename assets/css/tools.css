@@ -202,6 +202,10 @@
 }
 .badge--done { color: var(--tools-pass); background: #e6f2ea; }
 .badge--open { color: var(--tools-open); background: #fbeee4; }
+.badge--count { color: var(--tools-open); background: transparent; border: 1px solid currentColor; }
+.tools-header .badge--count { background: rgba(255,255,255,0.85); }
+.badge-link { text-decoration: none; display: inline-flex; gap: 0.4rem; flex-wrap: wrap; }
+.badge-link:hover .badge, .badge-link:focus-visible .badge { text-decoration: underline; }
 .badge--pass { color: var(--tools-pass); background: #e6f2ea; }
 .badge--fail { color: var(--tools-open); background: #fbeee4; }
 .badge--domain { color: var(--forest-green); background: var(--cream); border-color: transparent; }

@@ -71,7 +71,7 @@
       <span class="eyebrow">Abundance</span>
       <h1>N-mixture models for repeated counts (closed and open)</h1>
       <p class="lead">"How many animals are at my sites, how does abundance change with habitat, and how much do my counts underestimate it?" From repeated counts at many sites the binomial N-mixture model (Royle 2004) separates two things the raw counts mix together: the number of animals present at each site (abundance, N) and the chance that each animal is counted on a visit (detection, p).</p>
-      <div class="badge-row"><span class="badge badge--domain">module id: nmixture</span><span class="badge badge--done">&#10003; Worked example: DONE</span></div>
+      <div class="badge-row"><span class="badge badge--domain">module id: nmixture</span><a class="badge-link" href="#validation"><span class="badge badge--done">&#10003; Example verdict: DONE</span></a></div>
     </div>
   </div>
   <section class="tools-section" aria-labelledby="fit-heading">
@@ -139,6 +139,7 @@
       it back? (<a href="../validation.html#gate">What the thresholds are</a>.)</p></div>
       <div class="callout callout--done">
         <span class="callout-title">Verdict for this example: <span class="badge badge--done">&#10003; DONE</span></span>
+        
         <p>Every quantity checked passed planted truth at this design.</p>
       </div>
       <p><strong>8 of 8 rows pass.</strong></p><div class='table-scroll' tabindex='0' role='region' aria-label='Planted-truth recovery table'><table class='tbl'><caption>Bias: average estimate minus truth, as a percentage of the truth. Coverage: share of 95% intervals that contained the true value (target 0.95). Quantity names are as they appear in the report.</caption><thead><tr><th scope='col'>Quantity</th><th scope='col'>True value</th><th scope='col'>Average estimate</th><th scope='col'>Bias</th><th scope='col'>Coverage</th><th scope='col'>Result</th></tr></thead><tbody><tr><td class='param'>abundance_at_average_site</td><td>2.1</td><td>2.12</td><td>+0.8%</td><td>0.95</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr><tr><td class='param'>detection_prob</td><td>0.553</td><td>0.549</td><td>-0.7%</td><td>0.96</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr><tr><td class='param'>lambda_beta_forest</td><td>0.434</td><td>0.433</td><td>-0.3%</td><td>0.96</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr><tr><td class='param'>mean_abundance_per_site</td><td>2.31</td><td>2.35</td><td>+1.9%</td><td>0.98</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr><tr><td class='param'>odds_ratio_detection_wind</td><td>0.609</td><td>0.608</td><td>-0.1%</td><td>0.97</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr><tr><td class='param'>p_beta_wind</td><td>-0.496</td><td>-0.501</td><td>-1.0%</td><td>0.97</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr><tr><td class='param'>rate_ratio_forest</td><td>1.54</td><td>1.54</td><td>+0.1%</td><td>0.96</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr><tr><td class='param'>total_abundance</td><td>276.7</td><td>281.9</td><td>+1.9%</td><td>0.98</td><td><span class="badge badge--pass">&#10003; PASS</span></td></tr></tbody></table></div>
