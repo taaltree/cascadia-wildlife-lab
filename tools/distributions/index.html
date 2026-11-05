@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bird Distribution Maps — Cascadia Wildlife Lab</title>
+<meta name="description" content="Pilot maps of modeled distributions and regional population trends for 242 Pacific Northwest birds, 2002-2018.">
+<link rel="canonical" href="https://cascadiawildlifelab.org/tools/distributions/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cascadia Wildlife Lab">
+<meta property="og:title" content="Bird Distribution Maps">
+<meta property="og:description" content="Pilot maps of modeled habitat conditions and regional population trends for Pacific Northwest birds, 2002-2018.">
+<meta property="og:url" content="https://cascadiawildlifelab.org/tools/distributions/">
+<meta property="og:image" content="https://cascadiawildlifelab.org/assets/images/social-card.jpg">
+<meta property="og:image:alt" content="A wolf and a brown bear on a Pacific Northwest gravel bar">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#111b11">
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/main.css">
+<link rel="stylesheet" href="../../assets/css/tools.css">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<style>
+/* Site colors and type come from main.css and tools.css. Only what those do not cover is here. */
+:root{--ink:var(--text);--muted:var(--text-muted);--line:rgba(27,58,27,.14);--accent:var(--sage);--series:var(--sage);--band:#d3e2d6;--panel:var(--white)}
+[hidden]{display:none!important}
+.tools-page .tools-header.dm-head{padding:7.5rem 1.5rem 2.25rem}
+.dm-head h1{max-width:none}
+.dm-tabbar{background:var(--off-white);padding:1.25rem 1.5rem 0}
+.dm-tabbar>div{max-width:1280px;margin:auto;display:flex;flex-wrap:wrap;gap:.5rem}
+.dm-tabbar .tab-btn{padding:.55rem 1.1rem;font-size:.95rem}
+.dm-map{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:1rem;padding:1rem 1.5rem 2.5rem;max-width:calc(1280px + 3rem);margin:auto}
+.dm-mapcol{position:sticky;top:6rem;align-self:start}
+.controls{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:.65rem .9rem;align-items:flex-end}
+.dm-map label,.qctl label{display:flex;flex-direction:column;font-size:.82rem;font-weight:600;color:var(--forest-dark);gap:.2rem}
+.tools-page input[type=search],.tools-page .dm-select,.dm-map select,.qctl select{font:inherit;font-size:.97rem;color:var(--text);background:var(--white);border:1px solid rgba(27,58,27,.35);border-radius:3px;padding:.4rem .55rem;min-height:40px;max-width:100%}
+.dm-map select:focus-visible,.qctl select:focus-visible,.combo input:focus-visible{outline:3px solid var(--sage-light);outline-offset:1px}
+#map{height:600px;border:1px solid var(--line);border-radius:4px;background:var(--white)}
+.time{display:flex;gap:.65rem;align-items:center;margin-top:.5rem}
+.time input{flex:1;accent-color:var(--sage);min-width:0}
+#play{font:600 .9rem var(--font-body);color:var(--white);background:var(--forest-green);border:2px solid var(--forest-green);border-radius:3px;padding:.45rem 1.1rem;min-height:40px;cursor:pointer}
+#play:hover{background:var(--sage);border-color:var(--sage)}
+#frame{font-weight:600;min-width:9ch;text-align:right;font-variant-numeric:tabular-nums}
+.dm-card{background:var(--white);border:1px solid var(--line);border-radius:4px;padding:.9rem 1rem;margin-bottom:.75rem}
+.dm-card h2{font-size:1.1rem;color:var(--forest-dark);margin-bottom:.4rem}
+.note{background:#fffaf3;border-left:4px solid var(--tools-open);color:#3d3d3d;border-radius:2px;padding:.55rem .75rem;font-size:.92rem;line-height:1.5;margin:.5rem 0}
+.tools-page .small{font-size:.9rem;color:var(--text-muted);line-height:1.5}
+#snote a,.dm-doc a,.dm-credit a,.note a{color:var(--sage);border-bottom:1px solid rgba(62,107,77,.45)}
+#legend canvas{width:100%;height:14px;display:block;border-radius:2px}
+.ticks{display:flex;justify-content:space-between;font-size:.82rem;font-variant-numeric:tabular-nums}
+svg text{fill:var(--muted);font-size:12px;font-family:var(--font-body)}
+.tip{position:absolute;pointer-events:none;background:var(--forest-dark);color:var(--white);font-size:.82rem;padding:3px 7px;border-radius:3px;white-space:nowrap;display:none;z-index:3}
+.chart{position:relative}
+.dm-card .table-scroll{margin:.4rem 0 0}
+.dm-card table.tbl{font-size:.85rem}
+.dm-card table.tbl th,.dm-card table.tbl td{padding:.3rem .45rem}
+.combo{position:relative;display:flex;flex-direction:column;gap:.2rem;font-size:.82rem;font-weight:600;color:var(--forest-dark)}
+.combo input{font:inherit;font-size:.97rem;font-weight:400;color:var(--text);background:var(--white);border:1px solid rgba(27,58,27,.35);border-radius:3px;padding:.4rem .55rem;min-height:40px;width:260px}
+.combo ul{position:absolute;top:100%;left:0;z-index:20;width:100%;max-height:320px;overflow:auto;margin:2px 0 0;padding:.25rem 0;background:var(--white);color:var(--text);border:1px solid var(--line);border-radius:3px;box-shadow:0 10px 28px rgba(9,15,9,.14);font-size:.95rem;font-weight:400}
+.combo li{padding:.35rem .6rem;cursor:pointer}
+.combo li[aria-selected=true],.combo li:hover{background:var(--cream)}
+.combo li i{display:block;font-size:.82rem;color:var(--text-muted)}
+.combo li.none{cursor:default;color:var(--text-muted);background:none}
+.dm-doc .lead{font-size:1.1rem;color:var(--text-muted)}
+.dm-doc h3{scroll-margin-top:6rem}
+.toc{display:flex;flex-wrap:wrap;gap:.35rem .9rem;font-size:.95rem;padding:.6rem 0;border-bottom:1px solid var(--line)}
+.dm-doc .table-scroll{max-width:100%}
+.qt td,.qt th{white-space:nowrap}
+.qt th:first-child,.qt td:first-child{white-space:normal;min-width:170px}
+.qt tr.on td{background:var(--cream)}
+.qt th button{all:unset;cursor:pointer;font-weight:600}
+.qt th button:focus-visible{outline:2px solid var(--sage)}
+.qt tbody tr[data-t]{cursor:pointer}
+.qt tbody tr[data-t]:hover td{background:var(--cream)}
+.qctl{display:flex;flex-wrap:wrap;gap:.65rem .9rem;align-items:flex-end;margin:.65rem 0}
+#qall{max-height:520px;overflow:auto;border:1px solid var(--line);border-radius:4px;background:var(--white)}
+#qall .table-scroll{overflow:visible;border:0;margin:0}
+#qall th{white-space:normal;vertical-align:bottom;min-width:82px;position:sticky;top:0}
+#qall th:first-child{min-width:170px}
+dl.q dt{font-weight:600;margin-top:.5rem;color:var(--forest-dark)}
+dl.q dd{margin:0}
+.dm-credit{text-align:left}
+.dm-credit>div{max-width:1100px;margin:auto}
+.dm-credit p+p{margin-top:.75rem}
+.err{color:#b3261e;font-weight:600}
+@media (max-width:900px){.dm-mapcol{position:static}.dm-map{grid-template-columns:minmax(0,1fr);padding:1rem}.dm-tabbar{padding:1rem 1rem 0}#map{height:440px}.combo{flex:1 1 100%}.combo input{width:100%}.controls label{flex:1 1 44%}.controls select{width:100%}}
+</style>
+</head>
+<body class="tools-page">
+<a class="skip-link" href="#main">Skip to main content</a>
+<nav class="nav scrolled" id="nav">
+  <div class="nav-inner">
+    <div class="nav-left">
+      <a href="../../index.html" class="nav-logo"><img src="../../assets/images/logos/Cascadia_Wildlife_Lab_LogoVectorOwl.png" alt="Cascadia Wildlife Lab" class="nav-logo-img"></a>
+      <div class="nav-institution"><a href="https://oregonstate.edu" target="_blank" rel="noopener"><img src="../../assets/images/logos/osu-logo.webp" alt="Oregon State University" class="nav-osu-img"></a></div>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="../../index.html#labs">Our Labs</a></li>
+      <li><a href="../index.html">Tools</a></li>
+      <li><a href="index.html" aria-current="page">Bird Maps</a></li>
+      <li><a href="../../index.html#contact" class="nav-cta">Contact Us</a></li>
+    </ul>
+  </div>
+</nav>
+<main id="main">
+<div class="tools-header dm-head"><div class="tools-header-inner" style="max-width:1280px">
+<nav class="tools-crumbs" aria-label="Breadcrumb"><a href="../../index.html">Cascadia Wildlife Lab</a> &rsaquo; Bird Distribution Maps</nav>
+<span class="eyebrow">Pilot, not for decisions yet</span>
+<h1>Bird Distribution Maps</h1>
+<p class="lead">Modeled distributions of 242 birds at a standard eBird checklist, 2002-2018, in Oregon, Washington, Idaho and British Columbia. Population trends are shown separately.</p>
+</div></div>
+<div class="dm-tabbar"><div role="tablist" aria-label="Page sections"><button type="button" class="tab-btn" role="tab" id="tabMap" aria-selected="true" aria-controls="panelMap">Map</button><button type="button" class="tab-btn" role="tab" id="tabMethods" aria-selected="false" aria-controls="panelMethods">Methods</button><button type="button" class="tab-btn" role="tab" id="tabQuality" aria-selected="false" aria-controls="panelQuality">Model quality</button></div></div>
+<div id="panelMap" class="dm-map" role="tabpanel" aria-labelledby="tabMap">
+<div class="controls">
+  <label>Show<select id="mode"><option value="species">Species prediction</option><option value="cov">Covariate through time</option></select></label>
+  <div class="combo" id="spbox"><label for="species">Species</label><input id="species" role="combobox" aria-expanded="false" aria-controls="splist" aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="Type or pick a species"><ul id="splist" role="listbox" aria-label="Species" hidden></ul></div>
+  <label id="covbox" hidden>Covariate<select id="cov"></select></label>
+  <label>Region<select id="region"></select></label>
+  <label id="setbox">Model<select id="set"></select></label>
+  <label>View<select id="view"></select></label>
+</div>
+<section class="dm-mapcol">
+  <div id="map" role="img" aria-label="Map of the selected species and view"></div>
+  <div class="time" id="timebar"><button id="play" type="button">Play</button><input id="time" type="range" min="0" value="0" aria-label="Year"><span id="frame"></span></div>
+</section>
+<aside>
+  <div class="dm-card"><h2 id="vtitle"></h2><div id="legend"><canvas width="256" height="1"></canvas><div class="ticks" id="ticks"></div></div><p class="small" id="vread"></p><div id="snote"></div></div>
+  <div class="dm-card" id="bbscard"><h2>Population trend, BBS</h2><p class="small" id="bbsnote"></p><div class="chart" id="bbschart"></div><div id="bbstable"></div></div>
+  <div class="dm-card" id="ebcard" hidden><h2>eBird yearly index</h2><p class="small">Probability of detection at a standard checklist with habitat held at 2010. It cannot tell improving detection from a real rise.</p><div class="chart" id="ebchart"></div></div>
+  <div class="dm-card"><h2 id="habtitle">Modeled habitat, regional mean</h2><p class="small" id="habnote"></p><div class="chart" id="habchart"></div></div>
+</aside>
+</div>
+<section id="panelMethods" class="tools-section" role="tabpanel" aria-labelledby="tabMethods" hidden><div class="tools-wrap--narrow prose dm-doc" style="margin:auto">
+<h2>Methods</h2>
+<p class="lead">Pilot methods as of November 2026. Every setting was tested on simulated species with known answers before it was used on real species. Where a test failed, this page says so.</p>
+<nav class="toc" aria-label="On this page"><a href="#m-what">What is mapped</a><a href="#m-data">Data</a><a href="#m-cov">Covariates</a><a href="#m-models">The models</a><a href="#m-change">Change views</a><a href="#m-clip">Range clip</a><a href="#m-bbs">Population trends</a><a href="#m-valid">Validation</a><a href="#m-limits">Known limits</a></nav>
+
+<h3 id="m-what">What is mapped</h3>
+<p>The tool covers every bird in the region with at least 1,000 June-July detections, plus the pilot species: 242 in all. Each map shows the modeled probability that one standard checklist reports the species: 60 minutes, 1 km traveled, one observer, 7 am, July 1. It is calculated on a 1 km grid (1.59 million km², Oregon, Washington, Idaho and British Columbia) for each year from 2002 to 2018. It is not occupancy, abundance, or a count of birds.</p>
+
+<h3 id="m-data">Data</h3>
+<ul>
+<li><strong>Records:</strong> eBird complete checklists, so checklists without the species count as non-detections. Stationary or traveling, up to 5 hours, up to 5 km, up to 10 observers, June-July, 2002-2018, with shared checklists collapsed. That leaves 269,172 checklists. Records filed under an eBird form or intergrade of a species count for that species. Until about 2016 most American Coot records were filed as a form, so leaving these out created a false jump, which our quality checks caught. Only American Coot and Red Crossbill lost over 1% of their records, so only those two were refit; for the rest the difference is at most 0.4%.</li>
+<li><strong>Withheld records:</strong> eBird withholds some sensitive species, sometimes only by state or date. Treating those gaps as non-detections would create false absences, so affected regions are left unmapped. White-headed Woodpecker and American Barn Owl are fitted and mapped for the US only, because their BC records appear to be withheld (0 detections on 10,483 and 36,756 BC checklists inside their mapped ranges, where 92 and 149 were expected).</li>
+</ul>
+
+<h3 id="m-cov">Covariates</h3>
+<div class="table-scroll"><table class="tbl tbl--left"><thead><tr><th>Group</th><th>Variables</th><th>Source</th></tr></thead><tbody>
+<tr><td>Land cover</td><td>Share of 14 classes, within the 1 km cell and the surrounding 5 km</td><td>ESA CCI, annual</td></tr>
+<tr><td>Vegetation</td><td>NDVI and EVI (breeding season, annual), and 5 km breeding NDVI</td><td>MODIS, annual</td></tr>
+<tr><td>Terrain and water</td><td>Mean elevation, elevation variation, surface water occurrence</td><td>Static</td></tr>
+<tr><td>Climate</td><td>June-July maximum temperature, minimum temperature and precipitation</td><td>Daymet, TerraClimate, CHELSA: one product per model</td></tr>
+<tr><td>Survey effort</td><td>Duration, distance, observers, hour, day of year, stationary or traveling</td><td>Each checklist. Fixed at the standard checklist when mapping</td></tr>
+</tbody></table></div>
+<p>Choosing among overlapping climate products by out-of-sample prediction is itself a result of this project. The Show menu above the map displays most of these layers through time.</p>
+
+<h3 id="m-models">The models</h3>
+<p>All models are LightGBM binary classifiers: 400 trees, learning rate 0.05, 31 leaves, at least 50 checklists per leaf, 80% sampling of rows and covariates, L2 penalty 1. These settings are fixed, not tuned per species. 85% of checklists train the model. The other 15%, thinned to one checklist per 3 km cell, week and year, calibrate probabilities by Platt scaling. Apart from the experimental model, no model has a year term, so a map can change between years only through its covariates.</p>
+<div class="table-scroll"><table class="tbl tbl--left"><thead><tr><th>Model</th><th>How it is produced</th><th>Best used for</th></tr></thead><tbody>
+<tr><td>Average of three climate models</td><td>Equal-weight mean of the Daymet, TerraClimate and CHELSA models</td><td>Where conditions suit the species. Best on new places</td></tr>
+<tr><td>Base (land cover and terrain, no climate)</td><td>Land cover, vegetation and terrain only. Mean of three fits with different seeds</td><td>Change driven by land cover</td></tr>
+<tr><td>Base + Daymet, + TerraClimate, + CHELSA</td><td>Base covariates plus that product's three climate variables. One fit each</td><td>Comparing climate products. Single fits are noisier than the average</td></tr>
+<tr><td>Experimental: location + year</td><td>Base covariates plus grid location and year. Mean of three fits. <a href="#m-exp">Failed its test with known truth</a></td><td>Broad patterns of spread or decline in reporting, read with the warnings below</td></tr>
+</tbody></table></div>
+
+<h3 id="m-change">Change views</h3>
+<ul>
+<li><strong>Each year:</strong> the model applied to that year's covariates.</li>
+<li><strong>5-year running mean:</strong> the mean of a year and the two on each side.</li>
+<li><strong>Change:</strong> the 2014-2018 mean minus the 2002-2006 mean.</li>
+<li><strong>Yearly trend:</strong> the linear slope across 2002-2018, in probability per year.</li>
+<li><strong>25 km views:</strong> the mean over 25 km blocks.</li>
+</ul>
+
+<h3 id="m-clip">Range clip</h3>
+<p>The clip uses all extant BirdLife polygons, excluding vagrant ones, plus a 50 km buffer. Cells outside it are drawn faint: flagged, not removed. If under 95% of a species' June-July detections fall inside, the map is not clipped and says that the range map and the data disagree: 189 of 242 species are clipped. Some of the 53 unclipped species look like differences in taxonomy, where BirdLife splits what eBird treats as one species. Range maps do not feed into the models.</p>
+
+<h3 id="m-bbs">Population trends</h3>
+<p>Population trends come from a separate analysis of the North American Breeding Bird Survey, 1993-2025: a hierarchical first-difference negative binomial model with state by Bird Conservation Region strata, observer-by-route effects and a first-year effect. Definitions follow USGS (Link et al. 2020). Planted-truth recovery and comparison with USGS estimates were run before these fits, and all final fits had zero divergences. These trends measure population change and are a different quantity from the maps.</p>
+
+<h3 id="m-valid">Validation</h3>
+<p><strong>Simulated species with known truth.</strong> Run on the real checklists and covariates, with effort-dependent detection.</p>
+<div class="table-scroll"><table class="tbl tbl--left"><thead><tr><th>Test</th><th>Result</th><th>Reading</th></tr></thead><tbody>
+<tr><td>Map pattern, Spearman with truth, species on 5% and 12% of checklists</td><td>0.91-0.95</td><td>Passes the 0.8 gate</td></tr>
+<tr><td>Map pattern, species on 25% of checklists</td><td>Daymet 0.76, TerraClimate 0.88, no-climate truth 0.57</td><td>Fails for two of three: widespread species are less reliable</td></tr>
+<tr><td>Real vs false change, with the true climate product / the average</td><td>1 km: 2.0 / 2.5 times. 25 km: 5.0 / 6.6 times (5-year view)</td><td>Fine detail is often noise. These are best-case figures</td></tr>
+<tr><td>Weather-driven change, 25 km correlation with truth, average vs base</td><td>0.72 vs 0.12</td><td>Base barely sees weather</td></tr>
+<tr><td>Land-cover change, 25 km correlation with truth, base vs average</td><td>0.68 vs 0.64. Regional series 0.50-0.75 vs 0.32-0.41</td><td>Base gives the better read</td></tr>
+<tr><td>Steady shift unrelated to any covariate</td><td>Correlation −0.14 to 0.11</td><td><strong>Fails: the maps cannot see this</strong></td></tr>
+</tbody></table></div>
+<p><strong>Real species, held-out checklists.</strong> All 242 species, with full scores on the <a href="#quality" id="mquality">Model quality</a> tab. New places: five folds of 50 km blocks. Later years: trained on 2002-2014, tested on 2015-2018. American Barn Owl and White-headed Woodpecker are scored for the US only.</p>
+<div class="table-scroll"><table class="tbl tbl--left"><thead><tr><th>Average of three climate models</th><th>New places</th><th>Later years</th></tr></thead><tbody>
+<tr><td>AUC, median (range)</td><td>0.89 (0.71-0.99)</td><td>0.92 (0.68-0.99)</td></tr>
+<tr><td>PR-AUC, median (range)</td><td>0.25 (0.02-0.79)</td><td>0.35 (0.01-0.81)</td></tr>
+<tr><td>Deviance explained, median (range)</td><td>0.25 (0.05-0.62)</td><td>0.32 (0.03-0.64)</td></tr>
+<tr><td>Mean prediction / observed, median (range)</td><td>0.80 (0.39-1.01)</td><td>0.90 (0.38-1.41)</td></tr>
+<tr><td>Log loss improvement over one base fit, median across species (95% interval)</td><td>2.5% (2.2 to 2.8)</td><td>1.3% (1.1 to 1.5)</td></tr>
+</tbody></table></div>
+<p>Part of that improvement comes from averaging three fits rather than from climate. In the first 16 pilot species, compared fairly against three base fits, the gain was 2.2% (1.1 to 3.4) on new places and a tie on later years, 0.2% (&minus;0.6 to 1.1). So climate helps to map new places but has not been shown to help predict later years. Probabilities run low, especially for rare species, so read them as relative. These tests say nothing about whether change over time is right: that is what the tests with known truth and the BBS comparison are for.</p>
+
+<h3 id="m-limits">Known limits</h3>
+<ul>
+<li><strong>Why the maps change so little.</strong> Each model learns one pooled relationship with habitat from all years. A species that is expanding or declining for reasons the covariates do not capture looks nearly the same every year. Eurasian Collared-Dove stays near 0.05 from 2002 to 2018, while the BBS index rises from 0.002 to 9.4. The experimental model below can show this kind of change, but it has not passed its test.</li>
+<li><strong>The climate and base maps do not track population trends.</strong> Across 17 species, 2002-2018 change in the average model correlates 0.20 (−0.42 to 0.74) with BBS trends. A stable map does not mean a stable population.</li>
+<li><strong>eBird yearly index is not shown.</strong> It tracks BBS (rank correlation 0.83, interval 0.57 to 0.94), but failed its test with known truth: with no real trend it reported a rise of about 0.6%/yr for species on 2% of checklists, and it reached the wrong direction in BC where trends differed by region.</li>
+<li><strong>Covariates have their own errors.</strong> Temperature products disagree on trends, and the 2015-2016 ESA land cover version change was checked and looks acceptable, but cannot be ruled out as a source of small changes. Daymet temperature shows blocky changes of several °C in British Columbia that TerraClimate and CHELSA do not (16% of BC cells change over 2 °C in maximum temperature, against none). This appears to affect the species maps little: the Daymet model's 25 km change in BC correlates about 0.09 with that temperature change (median across species, ignoring sign), and the average's change map correlates 0.94 with an average that leaves Daymet out.</li>
+<li id="m-exp"><strong>Experimental location + year model.</strong> Shown because it is the only tested model that can show this kind of change, not because it passed. Base covariates plus grid location and year, as a mean of three fits, so year effects can differ by place. It is the only tested model that shows spread: Eurasian Collared-Dove rises from 0.001 in 2002 to 0.064 in 2018. Across all 242 species, a single fit beats one base fit by 3.3% in log loss on new places (2.9 to 3.8) and 2.8% on later years (2.3 to 3.3), and the average of three climate models by 0.8% (0.6 to 1.3) and 1.3% (1.1 to 1.7). Location may carry much of this, and the later-years test holds year at 2014, so it does not test the year effects. For the 17 species with BBS trends so far, its 2002-2018 regional trends correlate 0.73 (0.36 to 0.92) with BBS, against 0.20 for the average. <strong>It did not pass its test with known truth:</strong> real change was 2.4-2.7 times false change (limit 3), correlation for opposite regional trends was 0.39-0.44 (limit 0.7), and land-cover change was weakly recovered (0.43-0.55, against 0.82-0.85 for base). It runs about 1.8%/yr above BBS and can read changes in eBird reporting as real, so it is neither a habitat map nor a population trend.</li>
+<li><strong>BBS comparison.</strong> So far it covers 17 of the 242 species.</li>
+<li><strong>Season and area.</strong> The maps cover the June-July breeding season in the pilot region only.</li>
+</ul>
+</div></section>
+<section id="panelQuality" class="tools-section" role="tabpanel" aria-labelledby="tabQuality" hidden><div class="tools-wrap dm-doc">
+<h2 id="quality">Model quality</h2>
+<p class="lead">How well each model predicted eBird checklists it was not trained on. New places: five folds of 50 km blocks, each predicted by a model fitted to the other four. Later years: fitted to 2002-2014, tested on 2015-2018.</p>
+<div class="callout callout--warn"><strong>These scores test where a species gets reported, not whether a map's change over time is right.</strong> A model can score well here and still miss a real decline. For change, see <a href="#m-valid" id="qvalid">the tests with known truth</a> and the BBS comparison below. The later-years test of the location + year model holds year at 2014, so it does not test that model's year effects.</div>
+<div id="qbody"><p class="small">Loading scores…</p></div>
+<h3>What the scores mean</h3>
+<dl class="q prose">
+<dt>AUC</dt><dd>The chance a checklist that reported the species is ranked above one that did not. 0.5 is no skill, 1 is perfect. It looks good for rare species almost regardless, so read it with the next two.</dd>
+<dt>PR-AUC and PR-AUC ÷ prevalence</dt><dd>How precisely the model finds detections. Its baseline is the share of checklists reporting the species, so the ratio shows skill above that baseline: 1 is no skill.</dd>
+<dt>Deviance explained</dt><dd>Improvement in log loss over predicting one constant, the held-out reporting rate. 0 is no better than that constant and below 0 is worse. That constant uses the test data's own rate, so this score is slightly conservative.</dd>
+<dt>Prediction ÷ observed</dt><dd>Mean predicted probability over the observed reporting rate. 1 means no overall bias, below 1 means predictions run low.</dd>
+<dt>Calibration chart</dt><dd>Checklists grouped by predicted probability, with the share in each group that reported the species. Points on the diagonal mean a predicted 10% happened about 10% of the time. Groups with under 50 checklists are left out.</dd>
+</dl>
+<p class="small">Scores use actual checklist effort, while maps are drawn at a standard checklist. Base and location + year are scored as single fits, though their maps average three, so they slightly understate the mapped models. Scores are blank when a species has under 10 held-out detections in that region and test. <a href="data/model_quality.csv" download>Download all scores (CSV)</a>, shared under the same <a href="terms/ebird_terms_of_use.txt">eBird Terms of Use</a>.</p>
+</div></section>
+</main>
+<div class="tools-credit dm-credit"><div>
+<p><strong>How to read these maps.</strong> They show how suitable conditions were, learned from all years together. They do not show where a species occurred in a given year, so a colonizing species can appear years before it arrived. The experimental location + year model works differently and carries its own warning. Values are relative probabilities at one 60-minute, 1 km morning checklist on July 1, not occupancy or abundance. Maps do not capture changes unrelated to the covariates. A stable map does not mean a stable population. In tests with known truth, real change was about 2-3 times the false change at 1 km and about 4.5-7 times at 25 km, under favorable conditions: read small differences at 1 km with caution.</p>
+<p><strong>Data and credit.</strong> eBird Basic Dataset. Version: EBD_relSep-2026. Cornell Lab of Ornithology, Ithaca, New York. Sep 2026. These derived maps are shared under the <a href="terms/ebird_terms_of_use.txt">eBird Terms of Use</a>, not for commercial use; eBird and the Cornell Lab have not endorsed them. Range clip derived from BirdLife International and Handbook of the Birds of the World (2025) Bird species distribution maps of the world. Version 2025.2. Available at <a href="https://datazone.birdlife.org/species/requestdis">datazone.birdlife.org</a>; BirdLife has not endorsed these maps. Population trends: our model fitted to the North American Breeding Bird Survey (USGS). Covariates: ESA CCI Land Cover, MODIS (NASA), Daymet (ORNL DAAC), TerraClimate, CHELSA. Basemap © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.</p>
+</div></div>
+<div class="affiliation-bar"><span class="affiliation-label">Based at</span><div class="affiliation-divider"></div><a href="https://oregonstate.edu" target="_blank" rel="noopener"><img src="../../assets/images/logos/osu-logo.webp" alt="Oregon State University"></a></div>
+<footer class="footer" id="contact">
+  <div class="footer-inner">
+    <div class="footer-brand"><img src="../../assets/images/logos/Cascadia_Wildlife_Lab_LogoVectorOwl.png" alt="Cascadia Wildlife Lab" class="footer-logo"><p>Mobilizing technology for wildlife ecology and conservation in the Pacific Northwest and beyond.</p></div>
+    <div class="footer-col"><h2 class="footer-h">Our Labs</h2><ul><li><a href="../../genetics/index.html">Cascadia Genetics Laboratory</a></li><li><a href="../../ai/index.html">Cascadia AI Lab</a></li><li><a href="../../analysis/index.html">Cascadia Analysis Lab</a></li></ul></div>
+    <div class="footer-col"><h2 class="footer-h">Explore</h2><ul><li><a href="../../impact/index.html">Conservation Impact</a></li><li><a href="../index.html">CascadiaTools</a></li><li><a href="index.html">Bird Distribution Maps</a></li></ul></div>
+    <div class="footer-col footer-contact"><h2 class="footer-h">Contact</h2><p>Cascadia Wildlife Lab<br>Pacific Northwest, USA</p><a href="mailto:info@cascadiawildlifelab.org">info@cascadiawildlifelab.org</a></div>
+  </div>
+  <div class="footer-bottom"><p>&copy; <span id="year">2026</span> Cascadia Wildlife Lab. All rights reserved.</p></div>
+</footer>
+<script src="../../assets/js/main.js"></script>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
+<script>
+// Where the map files live. Local preview: ?tiles=/tiles. Production default is the R2 bucket.
+const TILES = new URLSearchParams(location.search).get("tiles") || "https://tiles.cascadiawildlifelab.org/distribution/v1";
+const REGIONS = {PNW:["All pilot region",[-139.5,41.8,-110.8,60.1]],OR:["Oregon",[-124.8,41.9,-116.4,46.4]],WA:["Washington",[-124.9,45.5,-116.9,49.1]],ID:["Idaho",[-117.3,41.9,-110.9,49.1]],BC:["British Columbia",[-139.2,48.2,-114,60.1]]};
+const SETS = {avg3:"Average of three climate models",base_seeds3:"Base (land cover and terrain, no climate)",base_daymet3:"Base + Daymet climate",base_tc3:"Base + TerraClimate",base_chelsa3:"Base + CHELSA",stxy3:"Experimental: location + year"};
+const YEARS = Array.from({length:17},(_,i)=>2002+i), MID = YEARS.slice(2,15);
+const VIEWS = {
+  mean5:{label:"5-year running mean",title:"Modeled habitat, 5-year mean",frames:MID.map(y=>({name:`mean5_${y}`,label:`${y-2}-${y+2}`})),kind:"p",read:"Default view: running means hide single-year weather swings."},
+  annual:{label:"Each year",title:"Modeled habitat, single year",frames:YEARS.map(y=>({name:`annual_${y}`,label:String(y)})),kind:"p",read:"Single years move with weather in the climate models."},
+  change25:{label:"Change, 25 km",title:"Change, 2002-2006 to 2014-2018, 25 km",frames:[{name:"change_25km",label:"25 km"}],kind:"d",read:"Difference between 5-year means. In tests the best-supported change view. Change in modeled habitat, not in population."},
+  change1:{label:"Change, 1 km",title:"Change, 2002-2006 to 2014-2018, 1 km",frames:[{name:"change_1km",label:"1 km"}],kind:"d",read:"Much of the fine detail may be noise: in tests real change was only about 2-3 times false change at this scale."},
+  slope25:{label:"Yearly trend, 25 km",title:"Linear change per year, 25 km",frames:[{name:"slope_25km",label:"25 km"}],kind:"s",read:"Continuous measure of change across all years. Change in modeled habitat, not in population."},
+  slope1:{label:"Yearly trend, 1 km",title:"Linear change per year, 1 km",frames:[{name:"slope_1km",label:"1 km"}],kind:"s",read:"Much of the fine detail may be noise at this scale."},
+};
+const SEQ = ["#f6fbc8","#d6efb3","#a5dbb7","#6bc4bc","#3aa7c1","#1f7fb6","#23509f","#1f2f7e","#081d58"];
+const DIV = ["#2d004b","#6b5aa5","#b2abd2","#e4e2ec","#f7f7f7","#fbdcb1","#f5a54a","#c8650f","#7f3b08"];
+const $ = id => document.getElementById(id);
+const fmt = (x,d=3) => Number(x).toFixed(d);
+const COVVIEWS = {annual:{label:"Each year",title:"",frames:YEARS.map(y=>({name:`annual_${y}`,label:String(y)})),kind:"c"},change25:{label:"Change, 25 km",frames:[{name:"change_25km",label:"25 km"}],kind:"cd"},change1:{label:"Change, 1 km",frames:[{name:"change_1km",label:"1 km"}],kind:"cd"}};
+let DATA, COVS = [], sp, frames = [], timer = null, loaded = new Set();
+const isCov = () => $("mode").value === "cov", covNow = () => COVS.find(c=>c.id===$("cov").value);
+const proto = new pmtiles.Protocol();
+maplibregl.addProtocol("pmtiles", proto.tile);
+const map = new maplibregl.Map({container:"map",attributionControl:{compact:true},bounds:REGIONS.PNW[1],maxZoom:11,
+  style:{version:8,sources:{osm:{type:"raster",tiles:["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],tileSize:256,maxzoom:11,attribution:"© OpenStreetMap contributors"}},layers:[{id:"osm",type:"raster",source:"osm",paint:{"raster-saturation":-1,"raster-opacity":0.55}}]}});
+map.addControl(new maplibregl.NavigationControl({showCompass:false}));
+
+function clearFrames(){ for(const id of loaded){ if(map.getLayer(id)) map.removeLayer(id); if(map.getSource(id)) map.removeSource(id);} loaded = new Set(); }
+function setFrames(){
+  stop(); clearFrames();
+  const cov = isCov(), v = (cov?COVVIEWS:VIEWS)[$("view").value], st = $("set").value;
+  const base = cov ? `${TILES}/covariates/${$("cov").value}` : `${TILES}/${sp.tag}/${st}`;
+  frames = v.frames;
+  frames.forEach((f,i)=>{
+    const id = `f${i}`;
+    map.addSource(id,{type:"raster",url:`pmtiles://${base}/${f.name}.pmtiles`,tileSize:256,maxzoom:7});
+    map.addLayer({id,type:"raster",source:id,paint:{"raster-opacity":0,"raster-fade-duration":0,"raster-resampling":"nearest"}});
+    loaded.add(id);
+  });
+  $("time").max = frames.length-1; $("time").value = frames.length-1;
+  $("timebar").style.visibility = frames.length>1 ? "visible" : "hidden";
+  showFrame(frames.length-1); legend(v);
+}
+function showFrame(i){ frames.forEach((f,k)=>{ if(map.getLayer(`f${k}`)) map.setPaintProperty(`f${k}`,"raster-opacity",k===i?0.88:0); }); $("frame").textContent = frames[i].label; $("time").value = i; }
+function stop(){ if(timer){clearInterval(timer); timer=null; $("play").textContent="Play";} }
+function legend(v){
+  const c = document.querySelector("#legend canvas").getContext("2d"), cols = (v.kind==="p"||v.kind==="c")?SEQ:DIV, g = c.createLinearGradient(0,0,256,0);
+  cols.forEach((x,i)=>g.addColorStop(i/(cols.length-1),x)); c.fillStyle=g; c.fillRect(0,0,256,1);
+  if(isCov()){
+    const k=covNow(), dp=Math.abs(k.hi-k.lo)<5?2:1, dd=k.dmax<1?3:1;
+    $("ticks").innerHTML = v.kind==="c" ? `<span>${fmt(k.lo,dp)}</span><span>${k.unit}</span><span>${fmt(k.hi,dp)}</span>` : `<span>−${fmt(k.dmax,dd)}</span><span>0 (${k.unit})</span><span>+${fmt(k.dmax,dd)}</span>`;
+    $("vtitle").textContent = `${k.label}, ${k.source}`+(v.kind==="c"?"":", change 2002-2006 to 2014-2018");
+    $("vread").textContent = v.kind==="c" ? "Input to the models, not a prediction. Colors run from the 1st to 99th percentile over all years." : "Input to the models, not a prediction. Purple is a decrease, orange an increase.";
+    return;
+  }
+  const s = $("set").value==="stxy3" ? sp.scale_stxy3 : sp.scale;
+  $("ticks").innerHTML = v.kind==="p" ? `<span>0</span><span>${fmt(s.pmax/2,2)}</span><span>${fmt(s.pmax,2)}+</span>` :
+    v.kind==="d" ? `<span>−${fmt(s.dmax)} decrease</span><span>0</span><span>+${fmt(s.dmax)} increase</span>` : `<span>−${fmt(s.smax,4)}/yr</span><span>0</span><span>+${fmt(s.smax,4)}/yr</span>`;
+  const ex=$("set").value==="stxy3";
+  $("vtitle").textContent = ex ? v.title.replace("Modeled habitat","Modeled reporting rate") : v.title; $("vread").textContent = (ex ? v.read.replace("In tests the best-supported change view. ","").replace("Change in modeled habitat, not in population.","Change in modeled reporting rate, not in population or habitat.").replace("Single years move with weather in the climate models.","Single years move with the year term and with land cover and vegetation.").replace("Default view: running means hide single-year weather swings.","Default view: running means smooth single-year swings.") : v.read) + (v.kind==="p"?" Scale: relative probability of detection at the standard checklist; colors are per species and per model type.":"");
+}
+function speciesNotes(){
+  if(isCov()){ const k=covNow(); $("snote").innerHTML = k.source==="Daymet" ? '<div class="note">In British Columbia, Daymet temperature shows blocky changes of several °C that TerraClimate and CHELSA do not show. These look like artifacts of the product rather than real climate change.</div>' : k.group==="Climate" ? '<div class="note">Climate products disagree on trends, so compare them before reading a change here as real.</div>' : k.group==="Land cover" ? '<div class="note">Annual land cover products change slowly and have known errors. ESA forest loss in 2019-2020, after these maps end, is mostly unconfirmed by MODIS.</div>' : ""; return; }
+  const n = [`<div class="note">${sp.clip.note}</div>`];
+  if($("set").value==="stxy3") n.unshift('<div class="note"><strong>Experimental.</strong> This model did not pass its test with known truth. It shows modeled reporting rate through time, which mixes real change in the species with changes in eBird reporting, and it is not a population trend. Read broad patterns only.</div>');
+  if(sp.prevalence>=.2) n.push(`<div class="note">Widespread species: reported on ${Math.round(sp.prevalence*100)}% of checklists. In tests, map patterns were less reliable for very common species.</div>`);
+  if(sp.heldout.spatial===null) n.push(`<div class="note">Not yet checked on held-out checklists with the current training method.</div>`);
+  else if(sp.heldout.temporal<.6||sp.heldout.spatial<.6) n.push(`<div class="note">Predictions ran low on held-out checklists (mean prediction / observed: ${sp.heldout.spatial} for new places, ${sp.heldout.temporal} for later years). Treat values as relative.</div>`);
+  else n.push(`<p class="small">Held-out mean prediction / observed: ${sp.heldout.spatial} new places, ${sp.heldout.temporal} later years. 1 means no bias.</p>`);
+  const bt=sp.bbs.PNW&&sp.bbs.PNW.trends.find(t=>t.period==="2002-2025");
+  if($("set").value!=="stxy3"&&bt&&(bt.lo>=5||bt.hi<=-5)) n.push(`<div class="note">BBS shows a large change for this species (${bt.trend}%/yr, 2002-2025). These maps cannot show changes like this: read the population panel, not the animation.</div>`);
+  n.push(`<p class="small"><a href="#quality" data-q="1">See this species' model quality</a></p>`);
+  $("snote").innerHTML = n.join("");
+}
+// Model quality tab. Scores load on first open.
+let Q=null, qLoading=false, qSort={k:"common",d:1}, qSet="avg3", qRegion="PNW", qCv="spatial";
+const CVS={spatial:"New places",temporal:"Later years"}, NA="–";
+const q3=(x,d=2)=>x===null||x===undefined?NA:Number(x).toFixed(d);
+const qRow=(tag,st,cv,g)=>{ const q=Q.species[tag]; if(!q) return null; const r=q.m.find(a=>a[0]===st&&a[1]===cv&&a[2]===g); return r?Object.fromEntries(Q.fields.map((f,i)=>[f,r[i]])):null; };
+function calChart(pts){
+  const w=340,h=300,m={l:46,r:12,t:12,b:40},mx=Math.max(...pts.flatMap(p=>[p[0],p[1]]))*1.08||1,S=v=>Math.sqrt(v/mx),X=v=>m.l+S(v)*(w-m.l-m.r),Y=v=>h-m.b-S(v)*(h-m.t-m.b);
+  const ticks=[0,.01,.05,.1,.2,.4,.7,1].filter(t=>t<=mx);
+  const tx=ticks.map(t=>`<line x1="${X(t)}" x2="${X(t)}" y1="${Y(0)}" y2="${Y(0)+4}" stroke="var(--line)"/><line x1="${m.l-4}" x2="${m.l}" y1="${Y(t)}" y2="${Y(t)}" stroke="var(--line)"/><text x="${X(t)}" y="${Y(0)+16}" text-anchor="middle">${t}</text><text x="${m.l-7}" y="${Y(t)+4}" text-anchor="end">${t}</text>`).join("");
+  return `<svg viewBox="0 0 ${w} ${h}" style="max-width:420px;width:100%" role="img" aria-label="Predicted probability against the observed reporting rate; the table below lists the values"><line x1="${m.l}" x2="${w-m.r}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--line)"/><line x1="${m.l}" x2="${m.l}" y1="${Y(0)}" y2="${m.t}" stroke="var(--line)"/><line x1="${X(0)}" y1="${Y(0)}" x2="${X(mx)}" y2="${Y(mx)}" stroke="var(--muted)" stroke-dasharray="4 4"/>${tx}<path d="M${pts.map(p=>`${X(p[0])},${Y(p[1])}`).join("L")}" fill="none" stroke="var(--series)" stroke-width="2"/>${pts.map((p,i)=>`<g data-i="${i}"><circle cx="${X(p[0])}" cy="${Y(p[1])}" r="12" fill="transparent"/><circle cx="${X(p[0])}" cy="${Y(p[1])}" r="4.5" fill="var(--series)" stroke="var(--panel)" stroke-width="2"/></g>`).join("")}<text x="${m.l+(w-m.l-m.r)/2}" y="${h-6}" text-anchor="middle">Mean predicted probability (square-root scale)</text><text transform="translate(12 ${m.t+(h-m.t-m.b)/2}) rotate(-90)" text-anchor="middle">Observed reporting rate</text></svg><div class="tip"></div><p class="small">Dashed line: perfect calibration.</p>`;
+}
+function renderQuality(){
+  if(!Q||!sp) return;
+  const tag=sp.tag, sets=sp.sets, qs=Q.species[tag], rg=REGIONS[qRegion][0];
+  const stab=cv=>`<h3>${CVS[cv]}</h3><div class="table-scroll"><table class="tbl qt"><thead><tr><th>Model</th><th>AUC</th><th>PR-AUC</th><th>PR-AUC ÷ prevalence</th><th>Deviance explained</th><th>Prediction ÷ observed</th><th>Held-out detections</th></tr></thead><tbody>${sets.map(st=>{const r=qRow(tag,st,cv,qRegion); return `<tr><td>${SETS[st]}</td><td>${r?q3(r.auc):NA}${r&&r.auc_min!==null&&qRegion==="PNW"?` <span class="small">(${q3(r.auc_min)}-${q3(r.auc_max)})</span>`:""}</td><td>${r?q3(r.prauc):NA}</td><td>${r?q3(r.lift,1):NA}</td><td>${r?q3(r.d2):NA}</td><td>${r?q3(r.ratio):NA}</td><td>${r?r.detections.toLocaleString():NA}</td></tr>`;}).join("")}</tbody></table></div>`;
+  const A=qRow(tag,qSet,qCv,"PNW"), flags=[];
+  if(sp.us_only) flags.push("Fitted and scored for the US only, because BC records appear to be withheld.");
+  const a0=qRow(tag,"avg3","spatial","PNW");
+  if(a0&&a0.detections<100) flags.push(`Only ${a0.detections} held-out detections, so these scores are imprecise.`);
+  if(a0&&a0.d2!==null&&a0.d2<=0) flags.push("The average model does no better on new places than a single constant rate.");
+  const pts=qs&&qs.cal[`${qSet}|${qCv}`]||[];
+  const bb=qs?qs.bbs:[];
+  const R=Object.entries(Q.species).map(([t,_])=>{ const d=DATA.species.find(s=>s.tag===t); const a=qRow(t,qSet,"spatial","PNW"),b=qRow(t,qSet,"temporal","PNW"); return d&&a?{tag:t,common:d.common,prev:d.prevalence,det:a.detections,auc:a.auc,d2:a.d2,ratio:a.ratio,aucT:b&&b.auc,d2T:b&&b.d2,ratioT:b&&b.ratio}:null; }).filter(Boolean);
+  const v=x=>x===null||x===undefined?-Infinity:x;
+  R.sort((a,b)=>qSort.k==="common"?qSort.d*a.common.localeCompare(b.common):qSort.d*(v(a[qSort.k])-v(b[qSort.k])));
+  const COL=[["common","Species"],["prev","% of checklists"],["det","Held-out detections"],["auc","AUC, new places"],["d2","Deviance explained, new places"],["ratio","Prediction ÷ observed, new places"],["aucT","AUC, later years"],["d2T","Deviance explained, later years"],["ratioT","Prediction ÷ observed, later years"]];
+  const sum=Q.summary.filter(r=>sets.includes(r.set)||r.set==="stxy3").sort((a,b)=>Object.keys(SETS).indexOf(a.set)-Object.keys(SETS).indexOf(b.set)||a.cv.localeCompare(b.cv));
+  const rng=(r,k,d=2)=>`${q3(r[k],d)} <span class="small">(${q3(r[k+"_q1"],d)}-${q3(r[k+"_q3"],d)})</span>`;
+  $("qbody").innerHTML=`
+  <div class="qctl"><label>Species<select id="qsp">${DATA.species.map(s=>`<option value="${s.tag}"${s.tag===tag?" selected":""}>${s.common}</option>`).join("")}</select></label><label>Region<select id="qreg">${Object.entries(REGIONS).map(([k,[l]])=>`<option value="${k}"${k===qRegion?" selected":""}>${l}</option>`).join("")}</select></label></div>
+  ${flags.map(f=>`<div class="note">${f}</div>`).join("")}
+  ${qs?stab("spatial")+stab("temporal"):'<div class="note">No held-out scores are available for this species yet.</div>'}
+  ${qRegion==="PNW"?'<p class="small">Numbers in brackets: lowest and highest AUC across the five folds.</p>':`<p class="small">Region shown: ${rg}.</p>`}
+  <h3>Calibration, all regions</h3>
+  <div class="qctl"><label>Model<select id="qset">${sets.map(st=>`<option value="${st}"${st===qSet?" selected":""}>${SETS[st]}</option>`).join("")}</select></label><label>Test<select id="qcv">${Object.entries(CVS).map(([k,l])=>`<option value="${k}"${k===qCv?" selected":""}>${l}</option>`).join("")}</select></label></div>
+  <div class="chart" id="qcal">${pts.length>1?calChart(pts):'<p class="small">Too few scored groups to draw.</p>'}</div>
+  ${pts.length?`<details><summary>Calibration values</summary><div class="table-scroll"><table class="tbl qt"><thead><tr><th>Mean predicted</th><th>Observed</th><th>Checklists</th></tr></thead><tbody>${pts.map(p=>`<tr><td>${q3(p[0],3)}</td><td>${q3(p[1],3)}</td><td>${p[2].toLocaleString()}</td></tr>`).join("")}</tbody></table></div></details>`:""}
+  <h3>Compared with BBS, 2002-2018</h3>
+  ${bb.length?`<p class="small">Percent per year. The BBS column is a population trend; the model columns are change in modeled probability and are different quantities, so agreement supports a model but does not make it a population trend.</p><div class="table-scroll"><table class="tbl qt"><thead><tr><th>Region</th><th>BBS (95% interval)</th><th>Average of three climate models</th><th>Experimental: location + year</th></tr></thead><tbody>${bb.map(b=>`<tr><td>${(REGIONS[b.group]||[b.group])[0]}</td><td>${q3(b.bbs,1)} (${q3(b.lo,1)} to ${q3(b.hi,1)})</td><td>${q3(b.avg3,1)}</td><td>${q3(b.stxy3,1)}</td></tr>`).join("")}</tbody></table></div>`:'<p class="small">No BBS comparison for this species yet.</p>'}
+  <h3>All species, summary</h3>
+  <p class="small">Median across species, with the middle 50% in brackets. All regions together. “Below constant” counts species with deviance explained under 0.</p>
+  <div class="table-scroll"><table class="tbl qt"><thead><tr><th>Model</th><th>Test</th><th>Species</th><th>AUC</th><th>PR-AUC ÷ prevalence</th><th>Deviance explained</th><th>Prediction ÷ observed</th><th>Below constant</th></tr></thead><tbody>${sum.map(r=>`<tr><td>${SETS[r.set]}</td><td>${CVS[r.cv]}</td><td>${r.species}</td><td>${rng(r,"auc")}</td><td>${rng(r,"lift",1)}</td><td>${rng(r,"d2")}</td><td>${rng(r,"ratio")}</td><td>${r.below_null}</td></tr>`).join("")}</tbody></table></div>
+  <h3>All species, one model</h3>
+  <p class="small">${SETS[qSet]}. Select a column heading to sort, or a row to open that species above.</p>
+  <div id="qall"><div class="table-scroll"><table class="tbl qt"><thead><tr>${COL.map(([k,l])=>`<th aria-sort="${qSort.k===k?(qSort.d>0?"ascending":"descending"):"none"}"><button type="button" data-k="${k}">${l}${qSort.k===k?(qSort.d>0?" ▲":" ▼"):""}</button></th>`).join("")}</tr></thead><tbody>${R.map(r=>`<tr data-t="${r.tag}"${r.tag===tag?' class="on"':""}><td>${r.common}</td><td>${q3(r.prev*100,1)}</td><td>${r.det.toLocaleString()}</td><td>${q3(r.auc)}</td><td>${q3(r.d2)}</td><td>${q3(r.ratio)}</td><td>${q3(r.aucT)}</td><td>${q3(r.d2T)}</td><td>${q3(r.ratioT)}</td></tr>`).join("")}</tbody></table></div></div>`;
+  $("qsp").onchange=e=>qChoose(e.target.value);
+  $("qreg").onchange=e=>{qRegion=e.target.value;renderQuality();};
+  $("qset").onchange=e=>{qSet=e.target.value;renderQuality();};
+  $("qcv").onchange=e=>{qCv=e.target.value;renderQuality();};
+  document.querySelectorAll("#qall th button").forEach(b=>b.onclick=()=>{const k=b.dataset.k; qSort=qSort.k===k?{k,d:-qSort.d}:{k,d:k==="common"?1:-1}; renderQuality();});
+  document.querySelectorAll("#qall tr[data-t]").forEach(t=>t.onclick=()=>{qChoose(t.dataset.t); $("qbody").scrollIntoView();});
+  const el=$("qcal"),svg=el.querySelector("svg"),tip=el.querySelector(".tip");
+  if(svg) svg.querySelectorAll("g[data-i]").forEach(g=>{ const p=pts[+g.dataset.i]; g.onmousemove=e=>{const b=el.getBoundingClientRect(); tip.style.display="block"; tip.textContent=`Predicted ${q3(p[0],3)}, observed ${q3(p[1],3)}, ${p[2].toLocaleString()} checklists`; tip.style.left=Math.max(0,Math.min(b.width-240,e.clientX-b.left+10))+"px"; tip.style.top=(e.clientY-b.top-30)+"px";}; g.onmouseleave=()=>tip.style.display="none"; });
+}
+function qChoose(t){ const r=DATA.species.find(s=>s.tag===t); if(r){ if(!r.sets.includes(qSet)) qSet="avg3"; chooseSpecies(r.common); renderQuality(); } }
+async function openQuality(){
+  if(Q){renderQuality();return;} if(qLoading) return; qLoading=true;
+  try{ const r=await fetch("data/quality.json"); if(!r.ok) throw 0; Q=await r.json(); renderQuality(); }
+  catch(e){ $("qbody").innerHTML='<p class="err">Could not load the scores.</p>'; }
+  qLoading=false;
+}
+function line(el,xs,ys,lo,hi,fmtY,w=340,h=130){
+  const m={l:40,r:8,t:8,b:20},ok=ys.map((y,i)=>[xs[i],y,lo?lo[i]:y,hi?hi[i]:y]);
+  const x0=xs[0],x1=xs[xs.length-1],ymax=Math.max(...ok.map(r=>r[3]))*1.05||1;
+  const X=x=>m.l+(x-x0)/(x1-x0)*(w-m.l-m.r),Y=y=>h-m.b-(y/ymax)*(h-m.t-m.b);
+  const band=lo?`<path d="M${ok.map(r=>`${X(r[0])},${Y(r[3])}`).join("L")}L${ok.slice().reverse().map(r=>`${X(r[0])},${Y(r[2])}`).join("L")}Z" fill="var(--band)"/>`:"";
+  const ticks=[[x0,"start"],[Math.round((x0+x1)/2),"middle"],[x1,"end"]].map(([t,an])=>`<text x="${X(t)}" y="${h-5}" text-anchor="${an}">${t}</text>`).join("");
+  el.innerHTML=`<svg viewBox="0 0 ${w} ${h}" width="100%" role="img" aria-label="Line chart by year"><line x1="${m.l}" x2="${w-m.r}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--line)"/>${band}<path d="M${ok.map(r=>`${X(r[0])},${Y(r[1])}`).join("L")}" fill="none" stroke="var(--series)" stroke-width="2"/><text x="${m.l-4}" y="${Y(ymax/1.05)+4}" text-anchor="end">${fmtY(ymax/1.05)}</text><text x="${m.l-4}" y="${Y(0)+4}" text-anchor="end">0</text>${ticks}<circle r="4" fill="var(--series)" style="display:none"/></svg><div class="tip"></div>`;
+  const svg=el.querySelector("svg"),tip=el.querySelector(".tip"),dot=el.querySelector("circle");
+  svg.onmousemove=e=>{const b=svg.getBoundingClientRect(),px=(e.clientX-b.left)/b.width*w,i=Math.max(0,Math.min(xs.length-1,Math.round((px-m.l)/(w-m.l-m.r)*(xs.length-1)))),r=ok[i];
+    dot.style.display="";dot.setAttribute("cx",X(r[0]));dot.setAttribute("cy",Y(r[1]));tip.style.display="block";tip.textContent=`${r[0]}: ${fmtY(r[1])}`+(lo?` (${fmtY(r[2])} to ${fmtY(r[3])})`:"");
+    tip.style.left=Math.min(b.width-150,X(r[0])/w*b.width)+"px";tip.style.top="0";};
+  svg.onmouseleave=()=>{tip.style.display="none";dot.style.display="none";};
+}
+function panels(){
+  $("bbscard").hidden = isCov();
+  if(isCov()){ const k=covNow(); $("ebcard").hidden=true; $("habtitle").textContent="Regional mean"; $("habnote").textContent=`Whole pilot region, ${k.unit}. The Region menu moves the map only.`; lineRange($("habchart"),YEARS,k.region_mean,k); return; }
+  $("habtitle").textContent=$("set").value==="stxy3"?"Modeled reporting rate, regional mean":"Modeled habitat, regional mean"; $("habnote").textContent=$("set").value==="stxy3" ? "Regional mean of the experimental model. Not a population trend: it mixes species change with changes in eBird reporting." : "Not a population trend. This stayed nearly flat for Eurasian Collared-Dove while the species spread across the region.";
+  const g=$("region").value,b=sp.bbs[g];
+  if(!b||!b.q50){ $("bbschart").innerHTML=""; $("bbstable").innerHTML=""; $("bbsnote").textContent="No BBS estimate for this species here."; }
+  else{
+    const k=b.years.map((y,i)=>i).filter(i=>b.years[i]>=2002);
+    $("bbsnote").textContent=(b.low_routes?`Only ${b.routes} routes: fewer than the 14 USGS flags as a concern. `:`${b.routes} routes. `)+"Relative abundance index with 95% interval, a different quantity from the map.";
+    line($("bbschart"),k.map(i=>b.years[i]),k.map(i=>b.q50[i]),k.map(i=>b.lo[i]),k.map(i=>b.hi[i]),x=>fmt(x,2));
+    $("bbstable").innerHTML=`<div class="table-scroll"><table class="tbl"><thead><tr><th>Period</th><th>%/yr</th><th>95% interval</th></tr></thead><tbody>${b.trends.map(t=>`<tr><td>${t.period}</td><td>${t.trend}</td><td>${t.lo} to ${t.hi}</td></tr>`).join("")}</tbody></table></div>`;
+  }
+  const h=sp.habitat[g]; if(h) line($("habchart"),YEARS,h[$("set").value],null,null,x=>fmt(x,3)); else $("habchart").innerHTML='<p class="small">Not mapped in this region: eBird records appear to be withheld or absent here, so zeros cannot be trusted.</p>';
+  if(DATA.ebird_index_shown&&sp.ebird_index&&sp.ebird_index[g]){ $("ebcard").hidden=false; line($("ebchart"),YEARS,sp.ebird_index[g],null,null,x=>fmt(x,3)); } else $("ebcard").hidden=true;
+}
+function lineRange(el,xs,ys,k){ // covariates: axis fitted to the series, labeled, because many do not start near zero
+  const w=340,h=130,m={l:44,r:8,t:8,b:20},lo=Math.min(...ys),hi=Math.max(...ys),pad=(hi-lo||1)*.1,a=lo-pad,b=hi+pad,X=x=>m.l+(x-xs[0])/(xs[xs.length-1]-xs[0])*(w-m.l-m.r),Y=y=>h-m.b-(y-a)/(b-a)*(h-m.t-m.b),d=Math.abs(hi-lo)<1?3:1;
+  el.innerHTML=`<svg viewBox="0 0 ${w} ${h}" width="100%" role="img" aria-label="Regional mean by year"><path d="M${xs.map((x,i)=>`${X(x)},${Y(ys[i])}`).join("L")}" fill="none" stroke="var(--series)" stroke-width="2"/><text x="${m.l-4}" y="${Y(hi)+4}" text-anchor="end">${fmt(hi,d)}</text><text x="${m.l-4}" y="${Y(lo)+4}" text-anchor="end">${fmt(lo,d)}</text><text x="${X(xs[0])}" y="${h-5}">${xs[0]}</text><text x="${X(xs[xs.length-1])}" y="${h-5}" text-anchor="end">${xs[xs.length-1]}</text></svg>`;
+}
+function fillViews(){ const src=isCov()?COVVIEWS:VIEWS, sel=$("view"), keep=sel.value; sel.innerHTML=""; for(const [k,v] of Object.entries(src)) sel.add(new Option(v.label,k)); if(src[keep]) sel.value=keep; }
+function setMode(){
+  const cov=isCov(); $("spbox").hidden=cov; $("spbox").style.display=cov?"none":""; $("setbox").hidden=cov; $("covbox").hidden=!cov;
+  fillViews(); speciesNotes(); setFrames(); panels();
+}
+// Species box: focusing shows the full list whatever is selected; typing filters it.
+let comboActive=-1, comboItems=[];
+function comboRender(q){
+  const ul=$("splist"), t=(q||"").trim().toLowerCase();
+  comboItems=DATA.species.filter(s=>!t||s.common.toLowerCase().includes(t)||(s.sci||"").toLowerCase().includes(t));
+  comboActive=-1;
+  ul.innerHTML=comboItems.length?comboItems.map((s,i)=>`<li role="option" id="op${i}" data-i="${i}" aria-selected="false">${s.common}<i>${s.sci||""}</i></li>`).join(""):'<li class="none">No match</li>';
+  ul.hidden=false; $("species").setAttribute("aria-expanded","true");
+}
+function comboClose(){ $("splist").hidden=true; $("species").setAttribute("aria-expanded","false"); $("species").removeAttribute("aria-activedescendant"); if(sp) $("species").value=sp.common; }
+function comboMove(d){ if(!comboItems.length) return; const li=$("splist").children; if(comboActive>=0) li[comboActive].setAttribute("aria-selected","false"); comboActive=(comboActive+d+comboItems.length)%comboItems.length; li[comboActive].setAttribute("aria-selected","true"); li[comboActive].scrollIntoView({block:"nearest"}); $("species").setAttribute("aria-activedescendant",`op${comboActive}`); }
+function chooseSpecies(name){
+  const r=DATA.species.find(s=>s.common.toLowerCase()===name.trim().toLowerCase()); if(!r) return;
+  sp=r; const o=$("set").querySelector('[value=stxy3]'); if(o){o.hidden=!r.scale_stxy3; o.disabled=!r.scale_stxy3; if(!r.scale_stxy3&&$("set").value==="stxy3") $("set").value="avg3";} comboClose(); speciesNotes(); setFrames(); panels();
+  try{history.replaceState(null,"",`?${new URLSearchParams({...Object.fromEntries(new URLSearchParams(location.search)),sp:r.tag})}`)}catch(e){}
+}
+async function init(){
+  for(const [k,[lab]] of Object.entries(REGIONS)) $("region").add(new Option(lab,k));
+  for(const [k,lab] of Object.entries(SETS)) $("set").add(new Option(lab,k));
+  fillViews();
+  try{ DATA=await (await fetch("data/species.json")).json(); }
+  catch(e){ $("snote").innerHTML='<p class="err">Could not load the species list.</p>'; return; }
+  try{ const r=await fetch("data/covariates.json"); if(r.ok) COVS=await r.json(); }catch(e){}
+  if(COVS.length){ const gs={}; for(const k of COVS)(gs[k.group]=gs[k.group]||[]).push(k); for(const [g,items] of Object.entries(gs)){ const o=document.createElement("optgroup"); o.label=g; for(const k of items) o.append(new Option(k.group==="Climate"?`${k.label}, ${k.source}`:k.label,k.id)); $("cov").append(o);} } else $("mode").querySelector('[value=cov]').disabled=true;
+  const q=new URLSearchParams(location.search).get("sp"), first=DATA.species.find(s=>s.tag===q)||DATA.species[0];
+  const start=()=>{ map.resize(); map.fitBounds(REGIONS.PNW[1],{padding:10,animate:false}); chooseSpecies(first.common); };
+  map.loaded()?start():map.once("load",start);
+  const box=$("species");
+  box.addEventListener("focus",()=>{ box.select(); comboRender(""); });
+  box.addEventListener("click",()=>{ if($("splist").hidden) comboRender(""); });
+  box.addEventListener("input",()=>comboRender(box.value));
+  box.addEventListener("blur",()=>setTimeout(comboClose,120));
+  box.addEventListener("keydown",e=>{
+    if(e.key==="ArrowDown"){e.preventDefault(); if($("splist").hidden) comboRender(""); comboMove(1);}
+    else if(e.key==="ArrowUp"){e.preventDefault(); comboMove(-1);}
+    else if(e.key==="Enter"){e.preventDefault(); const r=comboItems[comboActive<0?0:comboActive]; if(r){chooseSpecies(r.common); box.blur();}}
+    else if(e.key==="Escape"){comboClose(); box.blur();}
+  });
+  $("splist").addEventListener("mousedown",e=>{ const li=e.target.closest("li[data-i]"); if(li){ e.preventDefault(); chooseSpecies(comboItems[+li.dataset.i].common); box.blur(); } });
+  $("mode").addEventListener("change",setMode);
+  $("cov").addEventListener("change",()=>{speciesNotes();setFrames();panels();});
+  const tab=(which,keepHash)=>{ const P={map:"Map",methods:"Methods",quality:"Quality"}; for(const [k,n] of Object.entries(P)){ const on=k===which; $("panel"+n).hidden=!on; $("panel"+n).style.display=on?"":"none"; $("tab"+n).setAttribute("aria-selected",String(on)); } if(which==="map") map.resize(); if(which==="quality") openQuality(); if(!keepHash) try{history.replaceState(null,"",which==="map"?location.pathname+location.search:"#"+which)}catch(e){} };
+  $("tabMap").addEventListener("click",()=>tab("map")); $("tabMethods").addEventListener("click",()=>tab("methods")); $("tabQuality").addEventListener("click",()=>tab("quality"));
+  if(location.hash==="#methods"||location.hash.startsWith("#m-")) tab("methods",true);
+  if(location.hash==="#quality") tab("quality",true);
+  document.addEventListener("click",e=>{ const a=e.target.closest("a"); if(!a) return; if(a.dataset.q||a.id==="mquality"){e.preventDefault();tab("quality");scrollTo(0,0);} else if(a.id==="qvalid"){e.preventDefault();tab("methods");document.getElementById("m-valid").scrollIntoView();} });
+  $("set").addEventListener("change",()=>{ if($("set").value==="stxy3"&&!sp.scale_stxy3){$("set").value="avg3";} speciesNotes();setFrames();panels();});
+  $("view").addEventListener("change",setFrames);
+  $("region").addEventListener("change",e=>{map.fitBounds(REGIONS[e.target.value][1],{padding:10,animate:false});panels();});
+  $("time").addEventListener("input",e=>{stop();showFrame(+e.target.value);});
+  $("play").addEventListener("click",()=>{ if(timer){stop();return;} $("play").textContent="Pause"; let i=+$("time").value; timer=setInterval(()=>{i=(i+1)%frames.length;showFrame(i);},700); });
+}
+init();
+</script>
+</body>
+</html>
