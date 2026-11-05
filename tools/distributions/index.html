@@ -271,7 +271,8 @@ let DATA, COVS = [], sp, frames = [], timer = null, loaded = new Set();
 const isCov = () => $("mode").value === "cov", covNow = () => COVS.find(c=>c.id===$("cov").value);
 const proto = new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles", proto.tile);
-const map = new maplibregl.Map({container:"map",attributionControl:{compact:true},bounds:REGIONS.PNW[1],maxZoom:11,
+const COOPERATIVE_GESTURES = true; // true: Ctrl/Cmd+scroll zooms and touch needs two fingers, so page scrolling never gets stuck in the map. false: plain scroll-zoom.
+const map = new maplibregl.Map({container:"map",cooperativeGestures:COOPERATIVE_GESTURES,attributionControl:{compact:true},bounds:REGIONS.PNW[1],maxZoom:11,
   style:{version:8,sources:{osm:{type:"raster",tiles:["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],tileSize:256,maxzoom:11,attribution:"© OpenStreetMap contributors"}},layers:[{id:"osm",type:"raster",source:"osm",paint:{"raster-saturation":-1,"raster-opacity":0.55}}]}});
 map.addControl(new maplibregl.NavigationControl({showCompass:false}));
 
