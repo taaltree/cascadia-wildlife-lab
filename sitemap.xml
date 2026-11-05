@@ -168,4 +168,8 @@
     <loc>https://cascadiawildlifelab.org/tools/appendix-s1/</loc>
     <priority>0.4</priority>
   </url>
+  <url>
+    <loc>https://cascadiawildlifelab.org/tools/distributions/</loc>
+    <priority>0.6</priority>
+  </url>
 </urlset>
