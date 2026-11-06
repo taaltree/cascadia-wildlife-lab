@@ -78,11 +78,12 @@
       <h2 id="before-heading">Before you start</h2>
       <div class="prose">
         <p>This takes about 30 minutes, once. Most of that time is waiting for downloads and
-        installs. You do not need to know how to program. You will install three things:</p>
+        installs. You do not need to know how to program. You will install these:</p>
         <ol>
           <li><strong>R</strong>, the free statistics program that runs the analyses on your computer;</li>
           <li><strong>a compiler</strong> (Rtools on Windows, Apple's command-line tools on a Mac), which
           the Bayesian modules need to turn models into fast code;</li>
+          <li><strong>Git for Windows</strong> (Windows only), which gives Claude the shell that runs the analyses;</li>
           <li><strong>Claude Code</strong>, the AI assistant that talks to you and runs CascadiaTools.</li>
         </ol>
         <p>Then you add CascadiaTools to Claude Code with two short commands, and ask Claude to finish
@@ -125,6 +126,12 @@
               with the default options.</p>
               <p class="small muted">Rtools is needed for the Bayesian (Nimble) modules. Most other modules
               work without it, but install it now so nothing stops you later.</p>
+            </li>
+            <li class="step">
+              <h4>Install Git for Windows</h4>
+              <p>Go to <a class="tools-link" href="https://git-scm.com/downloads/win">git-scm.com/downloads/win</a>,
+              download the installer and run it with the default options. You won't need to use Git yourself.
+              CascadiaTools uses the Bash shell that comes with it to run analyses.</p>
             </li>
             <li class="step">
               <h4>Install Claude Code</h4>
@@ -257,6 +264,8 @@
     <div class="tools-wrap tools-wrap--narrow">
       <h2 id="first-heading">Your first analysis</h2>
       <div class="prose">
+        <p>New to Claude? The <a href="course/index.html">interactive course</a> teaches everything from the
+        start, with hands-on examples.</p>
         <p>When setup has finished, try one of these in Claude Code:</p>
         <ul>
           <li>&ldquo;Show me what CascadiaTools can do&rdquo;</li>
@@ -324,8 +333,8 @@
           <p>Install R 4.5 or newer (step 1), then <strong>close and reopen</strong> the Claude app, open
           your project folder again and type &ldquo;Set up CascadiaTools&rdquo;. Programs started before R
           was installed can't see it.</p>
-          <p>If it still can't find R, tell Claude where R is installed. On Windows this is usually a
-          folder like <code>C:\Program Files\R\R-4.5.x</code>; on a Mac, R is installed under
+          <p>CascadiaTools looks in the usual install folders. If it still can't find R, tell Claude where R
+          is installed. On Windows this is usually a folder like <code>C:\Program Files\R\R-4.5.x</code>; on a Mac, R is installed under
           <code>/Library/Frameworks/R.framework</code>.</p>
         </div>
       </details>
@@ -354,6 +363,13 @@
           seconds, and then samples. Likelihood modules finish in minutes; Bayesian ones take longer.
           The planted-truth check fits 100 or more simulated data sets, so on a laptop it can take
           from minutes to hours depending on the module. The agent tells you what it is running.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Windows: errors mentioning <code>bash</code>, or Claude says it has no Bash tool</summary>
+        <div class="prose">
+          <p>Install <a class="tools-link" href="https://git-scm.com/downloads/win">Git for Windows</a> with the
+          default options, then close and reopen the Claude app.</p>
         </div>
       </details>
       <details>
