@@ -23,7 +23,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/css/main.css">
 <link rel="stylesheet" href="../../assets/css/tools.css">
-<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<!-- Vendored, pinned: maplibre-gl 4.7.1, pmtiles 3.2.1. See assets/vendor/README.md before upgrading. -->
+<link rel="stylesheet" href="../../assets/vendor/maplibre-gl-4.7.1/maplibre-gl.css">
 <style>
 /* Site colors and type come from main.css and tools.css. Only what those do not cover is here. */
 :root{--ink:var(--text);--muted:var(--text-muted);--line:rgba(27,58,27,.14);--accent:var(--sage);--series:var(--sage);--band:#d3e2d6;--panel:var(--white)}
@@ -245,8 +246,8 @@ dl.q dd{margin:0}
   <div class="footer-bottom"><p>&copy; <span id="year">2026</span> Cascadia Wildlife Lab. All rights reserved.</p></div>
 </footer>
 <script src="../../assets/js/main.js"></script>
-<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-<script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
+<script src="../../assets/vendor/maplibre-gl-4.7.1/maplibre-gl.js"></script>
+<script src="../../assets/vendor/pmtiles-3.2.1/pmtiles.js"></script>
 <script>
 // Where the map files live. Local preview: ?tiles=/tiles. Production default is the R2 bucket.
 const TILES = new URLSearchParams(location.search).get("tiles") || "https://tiles.cascadiawildlifelab.org/distribution/v1";
@@ -270,7 +271,8 @@ let DATA, COVS = [], sp, frames = [], timer = null, loaded = new Set();
 const isCov = () => $("mode").value === "cov", covNow = () => COVS.find(c=>c.id===$("cov").value);
 const proto = new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles", proto.tile);
-const map = new maplibregl.Map({container:"map",attributionControl:{compact:true},bounds:REGIONS.PNW[1],maxZoom:11,
+const COOPERATIVE_GESTURES = true; // true: Ctrl/Cmd+scroll zooms and touch needs two fingers, so page scrolling never gets stuck in the map. false: plain scroll-zoom.
+const map = new maplibregl.Map({container:"map",cooperativeGestures:COOPERATIVE_GESTURES,attributionControl:{compact:true},bounds:REGIONS.PNW[1],maxZoom:11,
   style:{version:8,sources:{osm:{type:"raster",tiles:["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],tileSize:256,maxzoom:11,attribution:"© OpenStreetMap contributors"}},layers:[{id:"osm",type:"raster",source:"osm",paint:{"raster-saturation":-1,"raster-opacity":0.55}}]}});
 map.addControl(new maplibregl.NavigationControl({showCompass:false}));
 
@@ -398,7 +400,7 @@ function line(el,xs,ys,lo,hi,fmtY,w=340,h=130){
 function panels(){
   $("bbscard").hidden = isCov();
   if(isCov()){ const k=covNow(); $("ebcard").hidden=true; $("habtitle").textContent="Regional mean"; $("habnote").textContent=`Whole pilot region, ${k.unit}. The Region menu moves the map only.`; lineRange($("habchart"),YEARS,k.region_mean,k); return; }
-  $("habtitle").textContent=$("set").value==="stxy3"?"Modeled reporting rate, regional mean":"Modeled habitat, regional mean"; $("habnote").textContent=$("set").value==="stxy3" ? "Regional mean of the experimental model. Not a population trend: it mixes species change with changes in eBird reporting." : "Not a population trend. This stayed nearly flat for Eurasian Collared-Dove while the species spread across the region.";
+  $("habtitle").textContent=$("set").value==="stxy3"?"Modeled reporting rate, regional mean":"Modeled habitat, regional mean"; $("habnote").textContent=$("set").value==="stxy3" ? "Regional mean of the experimental model. Not a population trend: it mixes species change with changes in eBird reporting." : sp.common==="Eurasian Collared-Dove" ? "Not a population trend. This line stayed nearly flat while Eurasian Collared-Dove spread across the region." : "Not a population trend. For example, the same line for Eurasian Collared-Dove stayed nearly flat while that species spread across the region.";
   const g=$("region").value,b=sp.bbs[g];
   if(!b||!b.q50){ $("bbschart").innerHTML=""; $("bbstable").innerHTML=""; $("bbsnote").textContent="No BBS estimate for this species here."; }
   else{
@@ -432,7 +434,8 @@ function comboClose(){ $("splist").hidden=true; $("species").setAttribute("aria-
 function comboMove(d){ if(!comboItems.length) return; const li=$("splist").children; if(comboActive>=0) li[comboActive].setAttribute("aria-selected","false"); comboActive=(comboActive+d+comboItems.length)%comboItems.length; li[comboActive].setAttribute("aria-selected","true"); li[comboActive].scrollIntoView({block:"nearest"}); $("species").setAttribute("aria-activedescendant",`op${comboActive}`); }
 function chooseSpecies(name){
   const r=DATA.species.find(s=>s.common.toLowerCase()===name.trim().toLowerCase()); if(!r) return;
-  sp=r; const o=$("set").querySelector('[value=stxy3]'); if(o){o.hidden=!r.scale_stxy3; o.disabled=!r.scale_stxy3; if(!r.scale_stxy3&&$("set").value==="stxy3") $("set").value="avg3";} comboClose(); speciesNotes(); setFrames(); panels();
+  sp=r; const o=$("set").querySelector('[value=stxy3]'); if(o){o.hidden=!r.scale_stxy3; o.disabled=!r.scale_stxy3; if(!r.scale_stxy3&&$("set").value==="stxy3") $("set").value="avg3";} for(const o of $("region").options) o.text=REGIONS[o.value][0]+(r.habitat[o.value]?"":" (not mapped)");
+  comboClose(); speciesNotes(); setFrames(); panels();
   try{history.replaceState(null,"",`?${new URLSearchParams({...Object.fromEntries(new URLSearchParams(location.search)),sp:r.tag})}`)}catch(e){}
 }
 async function init(){
