@@ -133,6 +133,7 @@ dl.q dd{margin:0}
 <aside>
   <div class="dm-card"><h2 id="vtitle"></h2><div id="legend"><canvas width="256" height="1"></canvas><div class="ticks" id="ticks"></div></div><p class="small" id="vread"></p><div id="snote"></div></div>
   <div class="dm-card" id="bbscard"><h2>Population trend, BBS</h2><p class="small" id="bbsnote"></p><div class="chart" id="bbschart"></div><div id="bbstable"></div></div>
+  <div class="dm-card" id="bhcard" hidden><h2>Map vs BBS counts</h2><p class="small" id="bhnote"></p><div id="bhbody"></div></div>
   <div class="dm-card" id="ebcard" hidden><h2>eBird yearly index</h2><p class="small">Probability of detection at a standard checklist with habitat held at 2010. It cannot tell improving detection from a real rise.</p><div class="chart" id="ebchart"></div></div>
   <div class="dm-card"><h2 id="habtitle">Modeled habitat, regional mean</h2><label class="small hab-measure" id="habmbox">Measure<select id="habm"><option value="mean">Mean probability</option><option value="exp">Expected area: sum of probabilities</option><option value="thr">Area above a threshold</option></select></label><p class="small" id="habnote"></p><div class="chart" id="habchart"></div><p class="small" id="habchange"></p></div>
 </aside>
@@ -140,7 +141,7 @@ dl.q dd{margin:0}
 <section id="panelMethods" class="tools-section" role="tabpanel" aria-labelledby="tabMethods" hidden><div class="tools-wrap--narrow prose dm-doc" style="margin:auto">
 <h2>Methods</h2>
 <p class="lead">Pilot methods as of November 2026. Every setting was tested on simulated species with known answers before it was used on real species. Where a test failed, this page says so.</p>
-<nav class="toc" aria-label="On this page"><a href="#m-what">What is mapped</a><a href="#m-data">Data</a><a href="#m-cov">Covariates</a><a href="#m-models">The models</a><a href="#m-change">Change views</a><a href="#m-clip">Range clip</a><a href="#m-bbs">Population trends</a><a href="#m-valid">Validation</a><a href="#m-limits">Known limits</a></nav>
+<nav class="toc" aria-label="On this page"><a href="#m-what">What is mapped</a><a href="#m-data">Data</a><a href="#m-cov">Covariates</a><a href="#m-models">The models</a><a href="#m-change">Change views</a><a href="#m-clip">Range clip</a><a href="#m-bbs">Population trends</a><a href="#m-valid">Validation</a><a href="#m-bbshab">Check against BBS counts</a><a href="#m-limits">Known limits</a></nav>
 
 <h3 id="m-what">What is mapped</h3>
 <p>The tool covers every bird in the region with at least 1,000 June-July detections, plus the pilot species: 242 in all. Each map shows the modeled probability that one standard checklist reports the species: 60 minutes, 1 km traveled, one observer, 7 am, July 1. It is calculated on a 1 km grid (1.59 million km², Oregon, Washington, Idaho and British Columbia) for each year from 2002 to 2018. It is not occupancy, abundance, or a count of birds.</p>
@@ -205,6 +206,17 @@ dl.q dd{margin:0}
 <tr><td>Log loss improvement over one base fit, median across species (95% interval)</td><td>2.5% (2.2 to 2.8)</td><td>1.3% (1.1 to 1.5)</td></tr>
 </tbody></table></div>
 <p>Part of that improvement comes from averaging three fits rather than from climate. In the first 16 pilot species, compared fairly against three base fits, the gain was 2.2% (1.1 to 3.4) on new places and a tie on later years, 0.2% (&minus;0.6 to 1.1). So climate helps to map new places but has not been shown to help predict later years. Probabilities run low, especially for rare species, so read them as relative. These tests say nothing about whether change over time is right: that is what the tests with known truth and the BBS comparison are for.</p>
+
+<h3 id="m-bbshab">Independent check against BBS counts</h3>
+<p>The North American Breeding Bird Survey is a standardized roadside count that does not feed the maps, so it is an independent test of them. For each species and model, a Bayesian hierarchical model relates BBS counts on each route and year, 2002-2018, to the mean mapped probability within 100 m of the route path. It separates two questions:</p>
+<ul>
+<li><strong>Between routes:</strong> do routes with more mapped habitat have more birds?</li>
+<li><strong>Within routes:</strong> in years when the map shows more habitat along a route than that route's own average, are counts higher? This is the test of mapped <em>change</em>.</li>
+</ul>
+<p>Both are elasticities: 1 means counts rise in proportion to mapped habitat, 0 means no relation. The model also has route effects, each route's own trend, year effects shared by all routes (weather, detectability, regional population swings), observer-by-route effects and a first-year-observer effect, with negative binomial counts. Route paths: USGS National Atlas lines for Oregon, Washington and Idaho, and lines traced from Environment and Climate Change Canada's route maps for British Columbia; 351 of 392 routes.</p>
+<p><strong>Tested first with simulated counts</strong> on real route designs (50 to 227 routes): effects recovered with bias under 0.15 and 90-100% interval coverage; false positives 0-10% when there was no effect. Two limits: on a species with very sparse counts (about 0.4 birds per route) the sampler got stuck, so fits that do not converge are not shown; and when the yearly maps are noisy versions of the habitat birds respond to, the within-route effect shrinks to about 0.35-0.5 of its true size, so within-route values here are understated.</p>
+<div id="bhsummary"><p class="small">Loading…</p></div>
+<p><strong>Results, 211 species.</strong> Where birds are: every model passes clearly. Routes with more mapped habitat have about proportionally more BBS birds (mean elasticity 0.92 to 0.96), with a clear positive relation for about 90% of species and a negative one for none. Change: year-to-year habitat change along a route predicts BBS change only weakly for the habitat models (about 0.1, clear for 7-14% of species). Because noisy yearly maps understate this, the true link is likely larger, but still small. Read mapped change as change in habitat conditions, not as a forecast of local counts. The experimental location + year model follows BBS change much more closely (0.46), but its year and location terms mean that is not a pure habitat signal.</p>
 
 <h3 id="m-limits">Known limits</h3>
 <ul>
@@ -400,7 +412,7 @@ function line(el,xs,ys,lo,hi,fmtY,w=340,h=130){
   svg.onmouseleave=()=>{tip.style.display="none";dot.style.display="none";};
 }
 function panels(){
-  $("bbscard").hidden = isCov();
+  $("bbscard").hidden = isCov(); bbsHabPanel();
   if(isCov()){ const k=covNow(); $("ebcard").hidden=true; $("habmbox").hidden=true; $("habchange").textContent=""; $("habtitle").textContent="Regional mean"; $("habnote").textContent=`Whole pilot region, ${k.unit}. The Region menu moves the map only.`; lineRange($("habchart"),YEARS,k.region_mean,k); return; }
   const hm=sp.area?$("habm").value:"mean"; $("habtitle").textContent=$("set").value==="stxy3"?(hm==="mean"?"Modeled reporting rate, regional mean":"Modeled reporting-rate area"):(hm==="mean"?"Modeled habitat, regional mean":hm==="exp"?"Modeled habitat area, expected":"Modeled habitat area, above threshold"); $("habnote").textContent=$("set").value==="stxy3" ? "Regional mean of the experimental model. Not a population trend: it mixes species change with changes in eBird reporting." : sp.common==="Eurasian Collared-Dove" ? "Not a population trend. This line stayed nearly flat while Eurasian Collared-Dove spread across the region." : "Not a population trend. For example, the same line for Eurasian Collared-Dove stayed nearly flat while that species spread across the region.";
   const g=$("region").value,b=sp.bbs[g];
@@ -413,6 +425,24 @@ function panels(){
   }
   habitatPanel(g);
   if(DATA.ebird_index_shown&&sp.ebird_index&&sp.ebird_index[g]){ $("ebcard").hidden=false; line($("ebchart"),YEARS,sp.ebird_index[g],null,null,x=>fmt(x,3)); } else $("ebcard").hidden=true;
+}
+let BH=null;
+const bhWord=(v,pos,neg,none)=>v[1]>0?pos:v[2]<0?neg:none;
+function bbsHabPanel(){
+  const c=$("bhcard"); if(isCov()||!BH){ c.hidden=true; return; } c.hidden=false;
+  const st=$("set").value, r=BH.species[sp.tag], f=r&&r[st], lab=SETS[st]||st;
+  if(!f||!f.bB){ $("bhnote").textContent=""; $("bhbody").innerHTML=`<p class="small">Not tested for this model: fewer than 14 BBS routes with this species, or the fit did not converge.</p>`; return; }
+  const ci=v=>`${v[0].toFixed(2)} (${v[1].toFixed(2)} to ${v[2].toFixed(2)})`;
+  $("bhnote").textContent=`${lab}, ${r.routes} BBS routes, 2002-2018. Elasticity: 1 = counts rise in proportion to mapped habitat, 0 = no relation. BBS counts are independent of the eBird data behind the map.`;
+  $("bhbody").innerHTML=`<p class="small"><strong>Between routes:</strong> ${ci(f.bB)}. ${bhWord(f.bB,"Routes with more mapped habitat have more birds.","Routes with more mapped habitat have fewer birds.","No clear relation.")}</p>
+<p class="small"><strong>Within routes (change):</strong> ${ci(f.bW)}. ${bhWord(f.bW,"Counts rise in years the map shows more habitat.","Counts fall in years the map shows more habitat.","No clear relation.")} Noisy yearly maps make this value smaller than the true link.</p>`;
+}
+function bbsHabSummary(){
+  const el=$("bhsummary"); if(!el) return; if(!BH){ el.innerHTML='<p class="small">Results not available.</p>'; return; }
+  const rows=Object.keys(SETS).map(st=>{ const b=BH.summary.find(x=>x.set===st&&x.param==="bB"), w=BH.summary.find(x=>x.set===st&&x.param==="bW"); if(!b||!w) return "";
+    const f=x=>`${x.mean.toFixed(2)} (${x.lo.toFixed(2)} to ${x.hi.toFixed(2)})`, pc=x=>Math.round(100*x)+"%";
+    return `<tr><td>${SETS[st]}</td><td>${b.species}</td><td>${f(b)}</td><td>${pc(b.share_pos)} / ${pc(b.share_neg)}</td><td>${f(w)}</td><td>${pc(w.share_pos)} / ${pc(w.share_neg)}</td></tr>`; }).join("");
+  el.innerHTML=`<div class="table-scroll"><table class="tbl"><thead><tr><th>Model</th><th>Species</th><th>Between routes (95% interval)</th><th>Above / below 0</th><th>Within routes (95% interval)</th><th>Above / below 0</th></tr></thead><tbody>${rows}</tbody></table></div><p class="small">Means across species are random-effects averages of each species' posterior median. "Above 0" counts species whose own 95% interval is above zero. Per-species results are in the side panel of the map.</p>`;
 }
 const AREA={};
 const km=x=>x>=1e6?(x/1e6).toFixed(2)+"M":x>=1e4?Math.round(x/1e3)+"k":x>=1e3?(x/1e3).toFixed(1)+"k":String(Math.round(x));
@@ -468,6 +498,8 @@ async function init(){
   try{ DATA=await (await fetch("data/species.json")).json(); }
   catch(e){ $("snote").innerHTML='<p class="err">Could not load the species list.</p>'; return; }
   try{ const r=await fetch("data/covariates.json"); if(r.ok) COVS=await r.json(); }catch(e){}
+  try{ const r=await fetch("data/bbs_habitat.json"); if(r.ok) BH=await r.json(); }catch(e){}
+  bbsHabSummary();
   if(COVS.length){ const gs={}; for(const k of COVS)(gs[k.group]=gs[k.group]||[]).push(k); for(const [g,items] of Object.entries(gs)){ const o=document.createElement("optgroup"); o.label=g; for(const k of items) o.append(new Option(k.group==="Climate"?`${k.label}, ${k.source}`:k.label,k.id)); $("cov").append(o);} } else $("mode").querySelector('[value=cov]').disabled=true;
   const q=new URLSearchParams(location.search).get("sp"), first=DATA.species.find(s=>s.tag===q)||DATA.species[0];
   const start=()=>{ map.resize(); map.fitBounds(REGIONS.PNW[1],{padding:10,animate:false}); chooseSpecies(first.common); };
