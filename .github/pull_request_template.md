@@ -8,7 +8,7 @@
      perfect — they're reminders, not requirements. -->
 
 - [ ] If this content is repeated across pages (team members, footer,
-      navigation), I updated **all four** HTML files
+      menu), I updated **every page** that carries it
 - [ ] Any new image is under 400 KB and any new video is under 6 MB
       (see [CONTRIBUTING.md](../CONTRIBUTING.md#adding-images-and-video))
 - [ ] New images have an `alt` description

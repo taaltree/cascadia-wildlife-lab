@@ -25,13 +25,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/main.css?v=2026-11-12">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
 
   <!-- NAV -->
-  <nav class="nav scrolled" id="nav">
+  <nav class="nav nav--site scrolled" id="nav" aria-label="Main">
     <div class="nav-inner">
       <div class="nav-left">
         <a href="../index.html" class="nav-logo">
@@ -51,10 +51,28 @@
         <span></span><span></span><span></span>
       </button>
       <ul class="nav-links" id="nav-links">
-        <li><a href="../index.html#labs">Our Labs</a></li>
-        <li><a href="#focus">Focus Areas</a></li>
-        <li><a href="#taxa">Taxa</a></li>
-        <li><a href="#team">Team</a></li>
+        <li class="nav-item has-menu">
+          <button class="nav-menu-btn" type="button" aria-expanded="false"
+                  aria-controls="nav-menu-labs">Our Labs</button>
+          <ul class="nav-menu" id="nav-menu-labs">
+            <li><a href="../genetics/index.html">Genetics Laboratory</a></li>
+            <li><a href="../ai/index.html">AI Lab</a></li>
+            <li><a href="../analysis/index.html" aria-current="page">Analysis Lab</a></li>
+            <li class="nav-menu-sep"><a href="../work-with-us/index.html">Work With Us</a></li>
+          </ul>
+        </li>
+        <li class="nav-item has-menu">
+          <button class="nav-menu-btn" type="button" aria-expanded="false"
+                  aria-controls="nav-menu-tools">Data &amp; Tools</button>
+          <ul class="nav-menu" id="nav-menu-tools">
+            <li><a href="../tools/distributions/index.html">Bird Distribution Maps <span class="nav-tag">Beta</span></a></li>
+            <li><a href="../tools/index.html">CascadiaTools</a></li>
+            <li><a href="../tools/course/index.html">Field Course</a></li>
+          </ul>
+        </li>
+        <li><a href="../impact/index.html">Impact</a></li>
+        <li><a href="../index.html#team">Team</a></li>
+        <li><a href="../support/index.html">Support</a></li>
         <li><a href="../index.html#contact" class="nav-cta">Contact Us</a></li>
       </ul>
     </div>
@@ -63,13 +81,20 @@
   <main id="main">
 
   <!-- BACK -->
-  <div class="lab-back" style="padding-top:5rem;">
+  <div class="lab-back">
     <a href="../index.html">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
         <polyline points="10,3 5,8 10,13"/>
       </svg>
       Back to Cascadia Wildlife Lab
     </a>
+    <nav class="page-jump" aria-label="On this page">
+      <span class="page-jump-label">On this page</span>
+      <a href="#cascadiatools">Open Tools</a>
+      <a href="#focus">Focus Areas</a>
+      <a href="#taxa">Taxa</a>
+      <a href="#team">Team</a>
+    </nav>
   </div>
 
   <!-- HERO -->
@@ -125,7 +150,7 @@
           Bayesian frameworks, and all outputs are documented to publication
           and regulatory standards.
         </p>
-        <a href="../index.html#contact" class="btn btn-primary">Work With Us</a>
+        <a href="../work-with-us/index.html" class="btn btn-primary">Work With Us</a>
       </div>
 
       <aside class="lab-intro-sidebar reveal reveal-d2">
@@ -173,13 +198,14 @@
         <a href="../tools/index.html" class="btn btn-ghost-dark">Explore CascadiaTools &rarr;</a>
       </div>
       <div class="partner-card reveal" style="background:var(--white);margin-top:1.25rem;">
-        <span class="partner-badge" style="color:#6e5414;border-color:rgba(110,84,20,0.5);">Pilot &middot; 242 Species</span>
+        <span class="partner-badge" style="color:#6e5414;border-color:rgba(110,84,20,0.5);">Beta &middot; 610 Species</span>
         <h3 style="font-family:var(--font-display);font-size:1.35rem;margin:0.5rem 0 0.75rem;color:var(--forest-dark);">Bird Distribution Maps</h3>
         <p style="color:var(--forest-green);margin-bottom:1.25rem;">
-          Animated maps of modeled bird distributions in the Pacific Northwest, 2002-2018, built from
-          eBird and remote sensing, with population trends from the Breeding Bird Survey shown separately.
-          Every model's cross-validation scores are published alongside the maps, along with the
-          tests it did not pass. This is a pilot and is not yet for decisions.
+          Animated maps of modeled bird distributions, built from eBird and remote sensing: 610 species
+          across North America at 3 km, and 242 across the Pacific Northwest at 1 km. Population trends
+          from the Breeding Bird Survey are shown separately. Every model's cross-validation scores are
+          published alongside the maps, along with the tests it did not pass. The maps are in beta and
+          are not yet for decisions.
         </p>
         <a href="../tools/distributions/index.html" class="btn btn-ghost-dark">Explore the maps &rarr;</a>
       </div>
@@ -199,7 +225,7 @@
     <div class="focus-grid">
 
       <div class="focus-item reveal reveal-d1">
-        <div class="focus-item-number">01</div>
+        <div class="focus-item-number" aria-hidden="true">01</div>
         <h3>Density Estimation &amp; Spatial Capture-Recapture</h3>
         <p>
           Classical mark-recapture estimates detection probability but not
@@ -226,7 +252,7 @@
       </div>
 
       <div class="focus-item reveal reveal-d2">
-        <div class="focus-item-number">02</div>
+        <div class="focus-item-number" aria-hidden="true">02</div>
         <h3>Spatial Ecology &amp; Animal Movement</h3>
         <p>
           Where animals go, and why, reveals the functional landscape they
@@ -251,7 +277,7 @@
       </div>
 
       <div class="focus-item reveal reveal-d3">
-        <div class="focus-item-number">03</div>
+        <div class="focus-item-number" aria-hidden="true">03</div>
         <h3>Species Distribution Models</h3>
         <p>
           Where a species occurs, and why, is a different question from how many
@@ -505,23 +531,24 @@
   </main>
 
   <!-- AFFILIATION BAR -->
-  <div class="affiliation-bar">
+  <aside class="affiliation-bar" aria-label="Affiliation">
     <span class="affiliation-label">Based at</span>
     <div class="affiliation-divider"></div>
     <a href="https://oregonstate.edu" target="_blank" rel="noopener">
       <img src="../assets/images/logos/osu-logo.webp"
            alt="Oregon State University">
     </a>
-  </div>
+  </aside>
 
   <!-- FOOTER -->
   <footer class="footer" id="contact">
-    <div class="footer-inner">
+    <div class="footer-inner footer-inner--site">
       <div class="footer-brand">
         <img src="../assets/images/logos/Cascadia_Wildlife_Lab_LogoVectorOwl.png"
              alt="Cascadia Wildlife Lab" class="footer-logo">
-        <p>Mobilizing technology for wildlife ecology and conservation
-        in the Pacific Northwest and beyond.</p>
+        <p class="footer-tagline">Better data. Better decisions.</p>
+        <p>Wildlife science with DNA, sound, cameras and statistics, based at
+        Oregon State University.</p>
       </div>
       <div class="footer-col">
         <h4>Our Labs</h4>
@@ -529,23 +556,30 @@
           <li><a href="../genetics/index.html">Cascadia Genetics Laboratory</a></li>
           <li><a href="../ai/index.html">Cascadia AI Lab</a></li>
           <li><a href="../analysis/index.html">Cascadia Analysis Lab</a></li>
+          <li><a href="../work-with-us/index.html">Work With Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Data &amp; Tools</h4>
+        <ul>
+          <li><a href="../tools/distributions/index.html">Bird Distribution Maps</a></li>
+          <li><a href="../tools/index.html">CascadiaTools</a></li>
+          <li><a href="../tools/course/index.html">Field Course</a></li>
+          <li><a href="../ai/index.html#tools">AI Models &amp; Software</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Explore</h4>
         <ul>
-          <li><a href="../index.html#methods">Capabilities</a></li>
           <li><a href="../impact/index.html">Conservation Impact</a></li>
-          <li><a href="../ai/index.html#tools">Tools &amp; Software</a></li>
-          <li><a href="../tools/index.html">CascadiaTools</a></li>
-          <li><a href="../tools/distributions/index.html">Bird Distribution Maps</a></li>
           <li><a href="../index.html#team">Our Team</a></li>
+          <li><a href="../support/index.html">Support the Work</a></li>
           <li><a href="../index.html#contact">Contact</a></li>
         </ul>
       </div>
       <div class="footer-col footer-contact">
         <h4>Contact</h4>
-        <p>Cascadia Wildlife Lab<br>Pacific Northwest, USA</p>
+        <p>Cascadia Wildlife Lab<br>Oregon State University<br>Corvallis, Oregon</p>
         <a href="mailto:info@cascadiawildlifelab.org">info@cascadiawildlifelab.org</a>
       </div>
     </div>
@@ -554,6 +588,6 @@
     </div>
   </footer>
 
-  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/main.js?v=2026-11-12"></script>
 </body>
 </html>
