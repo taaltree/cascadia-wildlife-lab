@@ -60,6 +60,57 @@
   }
 
   /* --------------------------------------------------
+     NAV: dropdown groups
+     A desktop pointer opens them on hover (CSS). The button
+     makes them work by tap and by keyboard, and is the only
+     way to open them inside the mobile panel.
+     -------------------------------------------------- */
+  const menuButtons = document.querySelectorAll('.nav-menu-btn');
+
+  if (menuButtons.length) {
+    const closeMenus = except => {
+      menuButtons.forEach(b => {
+        if (b !== except) b.setAttribute('aria-expanded', 'false');
+      });
+    };
+
+    menuButtons.forEach(btn => {
+      const group = btn.parentElement;
+
+      btn.addEventListener('click', () => {
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        closeMenus(btn);
+        btn.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      // Tabbing out of a group closes it. The check waits a moment and only
+      // acts when focus has really landed elsewhere, because a tap on a link
+      // blurs the button before the click that follows it.
+      group.addEventListener('focusout', () => {
+        setTimeout(() => {
+          const active = document.activeElement;
+          if (active && active !== document.body && !group.contains(active)) {
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        }, 150);
+      });
+    });
+
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.has-menu')) closeMenus();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      const open = document.querySelector('.nav-menu-btn[aria-expanded="true"]');
+      if (open) {
+        open.setAttribute('aria-expanded', 'false');
+        open.focus();
+      }
+    });
+  }
+
+  /* --------------------------------------------------
      SMOOTH SCROLL for anchor links on the same page
      -------------------------------------------------- */
   document.querySelectorAll('a[href^="#"]').forEach(a => {

@@ -42,10 +42,13 @@ off, you'll get a comment rather than a silent rejection.
 
 | To change… | Edit |
 |---|---|
-| Homepage: mission, lab summaries, capabilities, team, contact | `index.html` |
+| Homepage: mission, numbers, lab summaries, data and tools, team, contact | `index.html` |
 | Genetics Lab page | `genetics/index.html` |
 | AI Lab page | `ai/index.html` |
 | Analysis Lab page | `analysis/index.html` |
+| Films and press coverage | `impact/index.html` |
+| Support page | `support/index.html` |
+| Capabilities and project inquiries | `work-with-us/index.html` |
 | Colors, fonts, spacing, layout | `assets/css/main.css` |
 
 ### Finding your text in the file
@@ -70,10 +73,13 @@ Change the words. Leave the `<p>`, `</p>`, `<h3>` bits alone.
 **Special characters.** In HTML, write `&amp;` instead of `&`. Em dashes (—) and
 accented letters can be typed normally.
 
-**The same content appears on more than one page.** The team members, the footer,
-and the navigation are repeated in each of the four HTML files. If you change a
-person's title, search for their name in all four and update each one. The
-checklist in the pull request template reminds you.
+**The same content appears on more than one page.** Team members appear on the
+homepage and on their lab's page: if you change a person's title, search for
+their name in every page and update each one. The menu and the footer are
+repeated on all seven hand-written pages (the homepage, the three lab pages,
+Impact, Support and Work With Us) and must stay identical. The automatic check
+on your pull request will tell you if one page's menu or footer has drifted
+from the homepage's.
 
 ---
 
@@ -139,7 +145,7 @@ Worth a look after any change:
 
 - Does it read correctly on a narrow window (phone width)?
 - Do the links go where they should?
-- Did you update all four pages if the content is repeated?
+- Did you update every page if the content is repeated?
 
 ---
 
