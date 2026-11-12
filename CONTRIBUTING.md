@@ -70,6 +70,10 @@ Change the words. Leave the `<p>`, `</p>`, `<h3>` bits alone.
 
 ### Two things to know
 
+**Changing the stylesheet or script.** Pages load `main.css?v=DATE` and `main.js?v=DATE`.
+If you edit either file, change that date on every page so returning visitors get the new
+copy straight away instead of up to ten minutes later.
+
 **Special characters.** In HTML, write `&amp;` instead of `&`. Em dashes (—) and
 accented letters can be typed normally.
 
