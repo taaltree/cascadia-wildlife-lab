@@ -288,6 +288,7 @@ maplibregl.addProtocol("pmtiles", proto.tile);
 const COOPERATIVE_GESTURES = true; // true: Ctrl/Cmd+scroll zooms and touch needs two fingers, so page scrolling never gets stuck in the map. false: plain scroll-zoom.
 const map = new maplibregl.Map({container:"map",cooperativeGestures:COOPERATIVE_GESTURES,attributionControl:{compact:true},bounds:REGIONS.PNW[1],maxZoom:11,
   style:{version:8,sources:{osm:{type:"raster",tiles:["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],tileSize:256,maxzoom:11,attribution:"© OpenStreetMap contributors"}},layers:[{id:"osm",type:"raster",source:"osm",paint:{"raster-saturation":-1,"raster-opacity":0.55}}]}});
+let mapReady = false; map.once("load", () => { mapReady = true; }); // "load" fires only once, and map.loaded() turns false again whenever tiles are loading, so init() checks this flag instead.
 map.addControl(new maplibregl.NavigationControl({showCompass:false}));
 
 function clearFrames(){ for(const id of loaded){ if(map.getLayer(id)) map.removeLayer(id); if(map.getSource(id)) map.removeSource(id);} loaded = new Set(); }
@@ -503,7 +504,7 @@ async function init(){
   if(COVS.length){ const gs={}; for(const k of COVS)(gs[k.group]=gs[k.group]||[]).push(k); for(const [g,items] of Object.entries(gs)){ const o=document.createElement("optgroup"); o.label=g; for(const k of items) o.append(new Option(k.group==="Climate"?`${k.label}, ${k.source}`:k.label,k.id)); $("cov").append(o);} } else $("mode").querySelector('[value=cov]').disabled=true;
   const q=new URLSearchParams(location.search).get("sp"), first=DATA.species.find(s=>s.tag===q)||DATA.species[0];
   const start=()=>{ map.resize(); map.fitBounds(REGIONS.PNW[1],{padding:10,animate:false}); chooseSpecies(first.common); };
-  map.loaded()?start():map.once("load",start);
+  mapReady?start():map.once("load",start);
   const box=$("species");
   box.addEventListener("focus",()=>{ box.select(); comboRender(""); });
   box.addEventListener("click",()=>{ if($("splist").hidden) comboRender(""); });
