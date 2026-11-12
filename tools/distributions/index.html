@@ -39,6 +39,8 @@
 .controls{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:.65rem .9rem;align-items:flex-end}
 .dm-map label,.qctl label{display:flex;flex-direction:column;font-size:.82rem;font-weight:600;color:var(--forest-dark);gap:.2rem}
 .tools-page input[type=search],.tools-page .dm-select,.dm-map select,.qctl select{font:inherit;font-size:.97rem;color:var(--text);background:var(--white);border:1px solid rgba(27,58,27,.35);border-radius:3px;padding:.4rem .55rem;min-height:40px;max-width:100%}
+html[data-extent="na"] .only-pnw{display:none!important}html:not([data-extent="na"]) .only-na{display:none!important}
+.dm-extent{margin:.4rem 0 0;font-size:.92rem}.dm-extent a{font-weight:600}.dm-extent a[aria-current]{text-decoration:none;color:inherit;cursor:default}
 .hab-measure{display:flex;flex-direction:column;gap:.2rem;margin:.1rem 0 .5rem;font-weight:600;color:var(--forest-dark)}.hab-measure select{width:100%}.hab-measure[hidden]{display:none}
 .dm-map select:focus-visible,.qctl select:focus-visible,.combo input:focus-visible{outline:3px solid var(--sage-light);outline-offset:1px}
 #map{height:600px;border:1px solid var(--line);border-radius:4px;background:var(--white)}
@@ -112,9 +114,11 @@ dl.q dd{margin:0}
 <main id="main">
 <div class="tools-header dm-head"><div class="tools-header-inner" style="max-width:1280px">
 <nav class="tools-crumbs" aria-label="Breadcrumb"><a href="../../index.html">Cascadia Wildlife Lab</a> &rsaquo; Bird Distribution Maps</nav>
-<span class="eyebrow">Pilot, not for decisions yet</span>
+<span class="eyebrow only-pnw">Pilot, not for decisions yet</span><span class="eyebrow only-na">Beta, not for decisions yet</span>
 <h1>Bird Distribution Maps</h1>
-<p class="lead">Modeled distributions of 242 birds at a standard eBird checklist, 2002-2018, in Oregon, Washington, Idaho and British Columbia. Population trends are shown separately.</p>
+<p class="lead only-pnw">Modeled distributions of 242 birds at a standard eBird checklist, 2002-2018, in Oregon, Washington, Idaho and British Columbia. Population trends are shown separately.</p>
+<p class="lead only-na">Modeled distributions of 610 birds at a standard eBird checklist across the United States, Canada and Mexico, at 3 km: 2002-2018, and 2017-2024 with AlphaEarth satellite embeddings.</p>
+<p class="dm-extent">Map extent: <a href="index.html" class="only-pnw" aria-current="page">Pacific Northwest, 1 km</a><a href="../index.html" class="only-na">Pacific Northwest, 1 km</a> · <a href="na/index.html" class="only-pnw">North America, 3 km</a><a href="index.html" class="only-na" aria-current="page">North America, 3 km</a></p>
 </div></div>
 <div class="dm-tabbar"><div role="tablist" aria-label="Page sections"><button type="button" class="tab-btn" role="tab" id="tabMap" aria-selected="true" aria-controls="panelMap">Map</button><button type="button" class="tab-btn" role="tab" id="tabMethods" aria-selected="false" aria-controls="panelMethods">Methods</button><button type="button" class="tab-btn" role="tab" id="tabQuality" aria-selected="false" aria-controls="panelQuality">Model quality</button></div></div>
 <div id="panelMap" class="dm-map" role="tabpanel" aria-labelledby="tabMap">
@@ -140,6 +144,7 @@ dl.q dd{margin:0}
 </div>
 <section id="panelMethods" class="tools-section" role="tabpanel" aria-labelledby="tabMethods" hidden><div class="tools-wrap--narrow prose dm-doc" style="margin:auto">
 <h2>Methods</h2>
+<div class="only-pnw">
 <p class="lead">Pilot methods as of November 2026. Every setting was tested on simulated species with known answers before it was used on real species. Where a test failed, this page says so.</p>
 <nav class="toc" aria-label="On this page"><a href="#m-what">What is mapped</a><a href="#m-data">Data</a><a href="#m-cov">Covariates</a><a href="#m-models">The models</a><a href="#m-change">Change views</a><a href="#m-clip">Range clip</a><a href="#m-bbs">Population trends</a><a href="#m-valid">Validation</a><a href="#m-bbshab">Check against BBS counts</a><a href="#m-limits">Known limits</a></nav>
 
@@ -228,6 +233,69 @@ dl.q dd{margin:0}
 <li><strong>BBS comparison.</strong> So far it covers 17 of the 242 species.</li>
 <li><strong>Season and area.</strong> The maps cover the June-July breeding season in the pilot region only.</li>
 </ul>
+</div>
+<div class="only-na">
+<p class="lead">North America methods as of November 2026, beta. The models are the pilot's, rebuilt on a 3 km grid for the continent; the pilot page has the full description of each setting. Every setting was tested on simulated species with known answers; where a test failed, this page says so.</p>
+<nav class="toc" aria-label="On this page"><a href="#n-what">What is mapped</a><a href="#n-data">Data and withheld records</a><a href="#n-models">Models and covariates</a><a href="#n-tests">Tests with known truth</a><a href="#n-aef">AlphaEarth era: reliability</a><a href="#n-heldout">Held-out checklists</a><a href="#n-limits">Known limits</a></nav>
+<h3 id="n-what">What is mapped</h3>
+<p>610 birds: every species with at least 1,000 June-July detections on complete eBird checklists in 2002-2020, spread over at least 10 separate 50 km blocks. Each map shows the modeled probability that one standard checklist (60 minutes, 1 km, one observer, 7 am, early July) reports the species, in 3 km cells across the United States (without Hawaii), Canada and Mexico. The western Aleutians, which cross 180 degrees, are left out.</p>
+<h3 id="n-data">Data and withheld records</h3>
+<ul>
+<li><strong>Records:</strong> 9.1 million complete June-July checklists, 2002-2025, with the pilot's filters (stationary or traveling, up to 5 hours and 5 km, up to 10 observers; shared checklists counted once). Early years are thin: about 25,000 checklists in 2002 against 1.1 million in 2024.</li>
+<li><strong>Withheld records:</strong> eBird hides some sensitive species in some states, so their absence there is not a real absence. A state is left out of a species' training, and drawn faint and marked "not mapped", when the species is on eBird's Sensitive Species list for that state with dates overlapping June-July (list as of May 2026): 92 species-state pairs in 21 species. Check: of 60 listed pairs inside the species' mapped breeding range, 54 have no detections at all and 6 have 1 to 13, where hundreds would be expected. An earlier screen based on zero detections alone removed natural absences too and was replaced.</li>
+</ul>
+<h3 id="n-models">Models and covariates</h3>
+<div class="table-scroll"><table class="tbl tbl--left"><thead><tr><th>Model</th><th>Years</th><th>Covariates</th></tr></thead><tbody>
+<tr><td>Average of three climate models</td><td>2002-2018</td><td>ESA CCI land cover, MODIS NDVI and EVI, terrain (Copernicus 90 m DEM), surface water, plus Daymet, TerraClimate or CHELSA June-July climate; equal-weight mean of the three</td></tr>
+<tr><td>Base</td><td>2002-2018</td><td>Land cover, vegetation, terrain and water, no climate; mean of three fits</td></tr>
+<tr><td>AlphaEarth era</td><td>2017-2024</td><td>AlphaEarth Foundations satellite embeddings (64 annual bands, averaged to 3 km) plus Daymet V4R1 June-July climate; mean of three fits</td></tr>
+</tbody></table></div>
+<p>The 5 km neighbourhood layers of the pilot become 9 km (3 x 3 cells); cross-validation blocks are 51 km; the coarse change views are 24 km. The single-climate models are shown on the pilot page only. Land cover ends in 2020 and ESA's 2019-2020 forest loss is mostly unconfirmed, so the main models stop in 2018. Range clip: BirdLife extant range plus 50 km, as on the pilot.</p>
+<h3 id="n-tests">Tests with known truth, 3 km</h3>
+<p>18 simulated species driven by Daymet or TerraClimate climate or by terrain only, at 5%, 12% and 25% of checklists, on the real continental checklists and covariates.</p>
+<div class="table-scroll"><table class="tbl tbl--left"><thead><tr><th>Test</th><th>Result</th><th>Reading</th></tr></thead><tbody>
+<tr><td>Map pattern, Spearman with truth (Daymet model)</td><td>0.96, 0.98, 0.96 at 5%, 12%, 25%</td><td>Passes the 0.8 gate, including widespread species (which failed on the pilot)</td></tr>
+<tr><td>Real vs false change, 5-year view, about 25 km</td><td>Average 4.3 times; Daymet model 4.5; base 2.9</td><td>Average and climate models pass the 3 times gate; base sits just below it</td></tr>
+<tr><td>Weather-driven change, correlation with truth, 25 km</td><td>Average 0.80, base 0.26</td><td>As on the pilot, base barely sees weather</td></tr>
+</tbody></table></div>
+<h3 id="n-aef">AlphaEarth era: reliability</h3>
+<p>AlphaEarth embeddings summarize each year of satellite imagery as 64 numbers per location. They cover 2017 onward, so they are kept in their own model and years rather than mixed into the 2002-2018 series. Two tests with simulated species asked whether they show where species are, whether they follow real change, and whether they invent change.</p>
+<ul>
+<li><strong>Pilot region, 2017-2020</strong> (18 species, truth from land cover, vegetation, climate or terrain): embeddings + Daymet passed: pattern 0.89 (base + Daymet 0.92); false change 1.4 times that of base + Daymet (limit 1.5); real-change correlation 0.76 (0.82). Embeddings alone failed: they barely follow weather-driven change (0.44).</li>
+<li><strong>North America, 2017-2024</strong> (12 species): truth from terrain only, so nothing truly changes, or from Daymet climate plus terrain; embeddings + Daymet compared with a model of climate, terrain and water only.</li>
+</ul>
+<div class="table-scroll"><table class="tbl tbl--left"><thead><tr><th>Test (median across species)</th><th>Embeddings + Daymet</th><th>Without embeddings</th><th>Gate</th><th>Result</th></tr></thead><tbody>
+<tr><td>Drift of the regional mean where nothing changed</td><td>-0.19 %/yr (worst 0.5)</td><td>0.01 %/yr</td><td>within 1 %/yr</td><td>Passes</td></tr>
+<tr><td>Map pattern, Spearman with truth</td><td>0.94</td><td>0.99</td><td>0.8</td><td>Passes</td></tr>
+<tr><td>Real climate-driven change followed, 27 km</td><td>0.90</td><td>0.91</td><td>within 0.1</td><td>Passes</td></tr>
+<tr><td>Change shown where nothing changed, 27 km, 2021-24 vs 2017-20</td><td>4.2 times the model without embeddings</td><td>1</td><td>at most 1.5 times</td><td><strong>Fails</strong></td></tr>
+<tr><td>Real change relative to that false change</td><td>2.1 times</td><td>9 times</td><td>3 times on the other maps</td><td><strong>Below standard</strong></td></tr>
+</tbody></table></div>
+<p><strong>Why it fails.</strong> Each year's embeddings are computed afresh from that year's imagery. Differences in cloud cover, the number and timing of images, the satellites available and the embedding model itself shift the 64 numbers even where the land has not changed. The species model reads those shifts as changes in habitat. Over large regions they cancel, which is why the regional mean does not drift; in any one place they do not.</p>
+<p><strong>What to use.</strong> The AlphaEarth maps show where species are about as well as the other models, and regional series are sound. The multi-year change views (2017-2020 against 2021-2024) are shown as requested, labeled as failing this test: read only large, consistent patterns, and confirm them with the 2002-2018 models or other data. Year-to-year change in this model is mostly noise. Embeddings cannot say why a species changed. Not yet tested: averaging embeddings over two or three years before fitting, which may reduce the noise.</p>
+<h3 id="n-heldout">Held-out checklists</h3>
+<div id="na-heldout"><p>All 610 species, scored on checklists left out of fitting: new places (five folds of 51 km blocks) and later years (2002-2018 models: trained to 2014, tested 2015-2018; AlphaEarth model: trained to 2021, tested 2022-2024). Medians across species, with the middle half in brackets; per-species scores are on the Model quality tab.</p>
+<div class="table-scroll"><table class="tbl"><thead><tr><th>Model</th><th>Test</th><th>AUC</th><th>PR-AUC</th><th>Deviance explained</th><th>Mean prediction / observed</th></tr></thead><tbody>
+<tr><td>Average of three climate models</td><td>New places</td><td>0.97 (0.94-0.99)</td><td>0.25</td><td>0.41 (0.32-0.51)</td><td>0.82 (0.70-0.91)</td></tr>
+<tr><td></td><td>Later years</td><td>0.98 (0.95-0.99)</td><td>0.34</td><td>0.47 (0.37-0.57)</td><td>0.91 (0.80-0.98)</td></tr>
+<tr><td>Base</td><td>New places</td><td>0.96 (0.92-0.98)</td><td>0.20</td><td>0.34 (0.26-0.42)</td><td>0.77 (0.65-0.88)</td></tr>
+<tr><td></td><td>Later years</td><td>0.97 (0.94-0.99)</td><td>0.31</td><td>0.44 (0.34-0.53)</td><td>0.90 (0.78-0.99)</td></tr>
+<tr><td>AlphaEarth era</td><td>New places</td><td>0.97 (0.93-0.99)</td><td>0.22</td><td>0.39 (0.30-0.47)</td><td>0.94 (0.87-0.98)</td></tr>
+<tr><td></td><td>Later years</td><td>0.98 (0.94-0.99)</td><td>0.26</td><td>0.44 (0.35-0.52)</td><td>0.90 (0.81-0.97)</td></tr>
+</tbody></table></div>
+<ul>
+<li><strong>By country</strong> (average of three climate models, new places): United States AUC 0.97, deviance explained 0.39; Canada 0.93 and 0.28; Mexico 0.89 and 0.16, where checklists are far fewer.</li>
+<li><strong>Not shown:</strong> a model is hidden for a species when it predicts held-out checklists in new places worse than a flat average: seven species-model pairs in six localized or introduced species: Northern Red Bishop (climate average); Rosy-faced Lovebird and Red-masked Parakeet (base); Arizona Woodpecker, King Eider, Rosy-faced Lovebird and Southern House Wren (AlphaEarth). Each species keeps its other models.</li>
+<li><strong>Low predictions:</strong> for about one species in six, predictions run below 0.6 of what was observed in one of the tests; their maps say so and should be read as relative.</li>
+</ul></div>
+<h3 id="n-limits">Known limits</h3>
+<ul>
+<li><strong>Uneven data.</strong> eBird coverage is far denser in the United States and southern Canada than in the north and in Mexico, and far denser after 2010 than before. Maps are least reliable where checklists are scarce: held-out scores in Mexico are clearly lower (above).</li>
+<li><strong>Habitat change is not population trend.</strong> Change views show change in modeled habitat conditions. On the pilot, independent BBS counts confirmed where birds are (elasticity about 0.94) but tracked year-to-year habitat change only weakly.</li>
+<li><strong>Climate after 2024.</strong> Daymet ends in 2024, so the AlphaEarth era stops there. MODIS vegetation is missing for 2024 in part of the continent; the AlphaEarth model does not use it.</li>
+</ul>
+<p class="small">AlphaEarth Foundations Satellite Embedding dataset produced by Google and Google DeepMind (CC-BY 4.0). Daymet V4R1: ORNL DAAC.</p>
+</div>
 </div></section>
 <section id="panelQuality" class="tools-section" role="tabpanel" aria-labelledby="tabQuality" hidden><div class="tools-wrap dm-doc">
 <h2 id="quality">Model quality</h2>
@@ -264,10 +332,12 @@ dl.q dd{margin:0}
 <script src="../../assets/vendor/pmtiles-3.2.1/pmtiles.js"></script>
 <script>
 // Where the map files live. Local preview: ?tiles=/tiles. Production default is the R2 bucket.
-const TILES = new URLSearchParams(location.search).get("tiles") || "https://tiles.cascadiawildlifelab.org/distribution/v1";
-const REGIONS = {PNW:["All pilot region",[-139.5,41.8,-110.8,60.1]],OR:["Oregon",[-124.8,41.9,-116.4,46.4]],WA:["Washington",[-124.9,45.5,-116.9,49.1]],ID:["Idaho",[-117.3,41.9,-110.9,49.1]],BC:["British Columbia",[-139.2,48.2,-114,60.1]]};
-const SETS = {avg3:"Average of three climate models",base_seeds3:"Base (land cover and terrain, no climate)",base_daymet3:"Base + Daymet climate",base_tc3:"Base + TerraClimate",base_chelsa3:"Base + CHELSA",stxy3:"Experimental: location + year"};
-const YEARS = Array.from({length:17},(_,i)=>2002+i), MID = YEARS.slice(2,15);
+const EXT = document.documentElement.dataset.extent === "na" ? "na" : "pnw", NAX = EXT === "na", HOME = NAX ? "NA" : "PNW";  // two pages from this source: pilot (1 km) and North America (3 km, na/index.html)
+const TILES = new URLSearchParams(location.search).get("tiles") || ("https://tiles.cascadiawildlifelab.org/distribution/" + (NAX ? "na_v1" : "v1"));
+const REGIONS = NAX ? {NA:["North America",[-168,14,-52,72]],US:["United States",[-125,24,-66.9,49.5]],CA:["Canada",[-141,41.7,-52.6,70]],MX:["Mexico",[-117.2,14.5,-86.7,32.7]]} : {PNW:["All pilot region",[-139.5,41.8,-110.8,60.1]],OR:["Oregon",[-124.8,41.9,-116.4,46.4]],WA:["Washington",[-124.9,45.5,-116.9,49.1]],ID:["Idaho",[-117.3,41.9,-110.9,49.1]],BC:["British Columbia",[-139.2,48.2,-114,60.1]]};
+const SETS = NAX ? {avg3:"Average of three climate models, 2002-2018",base_seeds3:"Base (land cover and terrain, no climate), 2002-2018",aef_daymet3:"AlphaEarth era: embeddings + Daymet, 2017-2024"} : {avg3:"Average of three climate models",base_seeds3:"Base (land cover and terrain, no climate)",base_daymet3:"Base + Daymet climate",base_tc3:"Base + TerraClimate",base_chelsa3:"Base + CHELSA",stxy3:"Experimental: location + year"};
+const YEARS = Array.from({length:17},(_,i)=>2002+i), MID = YEARS.slice(2,15), AEFY = Array.from({length:8},(_,i)=>2017+i);
+const yearsFor = st => st==="aef_daymet3" ? AEFY : YEARS;
 const VIEWS = {
   mean5:{label:"5-year running mean",title:"Modeled habitat, 5-year mean",frames:MID.map(y=>({name:`mean5_${y}`,label:`${y-2}-${y+2}`})),kind:"p",read:"Default view: running means hide single-year weather swings."},
   annual:{label:"Each year",title:"Modeled habitat, single year",frames:YEARS.map(y=>({name:`annual_${y}`,label:String(y)})),kind:"p",read:"Single years move with weather in the climate models."},
@@ -276,6 +346,14 @@ const VIEWS = {
   slope25:{label:"Yearly trend, 25 km",title:"Linear change per year, 25 km",frames:[{name:"slope_25km",label:"25 km"}],kind:"s",read:"Continuous measure of change across all years. Change in modeled habitat, not in population."},
   slope1:{label:"Yearly trend, 1 km",title:"Linear change per year, 1 km",frames:[{name:"slope_1km",label:"1 km"}],kind:"s",read:"Much of the fine detail may be noise at this scale."},
 };
+const KM = NAX ? {fine:"3 km",coarse:"24 km",f:"3km",c:"24km"} : {fine:"1 km",coarse:"25 km",f:"1km",c:"25km"};
+if(NAX){ for(const [k,f] of [["change25","change_24km"],["change1","change_3km"],["slope25","slope_24km"],["slope1","slope_3km"]]){ const v=VIEWS[k]; v.frames=[{name:f,label:f.endsWith("24km")?"24 km":"3 km"}]; v.label=v.label.replace("25 km","24 km").replace("1 km","3 km"); v.title=v.title.replace("25 km","24 km").replace("1 km","3 km"); } }
+const AEFVIEWS = {
+  annual:{label:"Each year",title:"AlphaEarth era, single year",frames:AEFY.map(y=>({name:`annual_${y}`,label:String(y)})),kind:"p",read:"Where the species is likely, year by year. Single years of embeddings are noisy: see Methods."},
+  change24:{label:"Change, 24 km",title:"Change, 2017-2020 to 2021-2024, 24 km",frames:[{name:"change4_24km",label:"24 km"}],kind:"d",read:"Failed its test with known truth: where nothing truly changed, the embeddings still produced about half as much apparent change as real change did. Read only large, consistent patterns. See Methods."},
+  change3:{label:"Change, 3 km",title:"Change, 2017-2020 to 2021-2024, 3 km",frames:[{name:"change4_3km",label:"3 km"}],kind:"d",read:"Failed its test with known truth, and noisier than the 24 km view. See Methods."},
+};
+const viewsFor = st => st==="aef_daymet3" ? AEFVIEWS : VIEWS;
 const SEQ = ["#f6fbc8","#d6efb3","#a5dbb7","#6bc4bc","#3aa7c1","#1f7fb6","#23509f","#1f2f7e","#081d58"];
 const DIV = ["#2d004b","#6b5aa5","#b2abd2","#e4e2ec","#f7f7f7","#fbdcb1","#f5a54a","#c8650f","#7f3b08"];
 const $ = id => document.getElementById(id);
@@ -286,20 +364,20 @@ const isCov = () => $("mode").value === "cov", covNow = () => COVS.find(c=>c.id=
 const proto = new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles", proto.tile);
 const COOPERATIVE_GESTURES = true; // true: Ctrl/Cmd+scroll zooms and touch needs two fingers, so page scrolling never gets stuck in the map. false: plain scroll-zoom.
-const map = new maplibregl.Map({container:"map",cooperativeGestures:COOPERATIVE_GESTURES,attributionControl:{compact:true},bounds:REGIONS.PNW[1],maxZoom:11,
+const map = new maplibregl.Map({container:"map",cooperativeGestures:COOPERATIVE_GESTURES,attributionControl:{compact:true},bounds:REGIONS[HOME][1],maxZoom:11,
   style:{version:8,sources:{osm:{type:"raster",tiles:["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],tileSize:256,maxzoom:11,attribution:"© OpenStreetMap contributors"}},layers:[{id:"osm",type:"raster",source:"osm",paint:{"raster-saturation":-1,"raster-opacity":0.55}}]}});
-let mapReady = false; map.once("load", () => { mapReady = true; }); // "load" fires only once, and map.loaded() turns false again whenever tiles are loading, so init() checks this flag instead.
+let mapReady = false; map.once("load", () => { mapReady = true; }); // "load" fires only once; init() reads this flag to know whether it already has.
 map.addControl(new maplibregl.NavigationControl({showCompass:false}));
 
 function clearFrames(){ for(const id of loaded){ if(map.getLayer(id)) map.removeLayer(id); if(map.getSource(id)) map.removeSource(id);} loaded = new Set(); }
 function setFrames(){
   stop(); clearFrames();
-  const cov = isCov(), v = (cov?COVVIEWS:VIEWS)[$("view").value], st = $("set").value;
+  const cov = isCov(), st = $("set").value, v = (cov?COVVIEWS:viewsFor(st))[$("view").value];
   const base = cov ? `${TILES}/covariates/${$("cov").value}` : `${TILES}/${sp.tag}/${st}`;
   frames = v.frames;
   frames.forEach((f,i)=>{
     const id = `f${i}`;
-    map.addSource(id,{type:"raster",url:`pmtiles://${base}/${f.name}.pmtiles`,tileSize:256,maxzoom:7});
+    map.addSource(id,{type:"raster",url:`pmtiles://${base}/${f.name}.pmtiles`,tileSize:256,maxzoom:NAX?6:7});
     map.addLayer({id,type:"raster",source:id,paint:{"raster-opacity":0,"raster-fade-duration":0,"raster-resampling":"nearest"}});
     loaded.add(id);
   });
@@ -319,7 +397,7 @@ function legend(v){
     $("vread").textContent = v.kind==="c" ? "Input to the models, not a prediction. Colors run from the 1st to 99th percentile over all years." : "Input to the models, not a prediction. Purple is a decrease, orange an increase.";
     return;
   }
-  const s = $("set").value==="stxy3" ? sp.scale_stxy3 : sp.scale;
+  const s = $("set").value==="stxy3" ? sp.scale_stxy3 : $("set").value==="aef_daymet3" ? (sp.scale_aef||sp.scale) : sp.scale;
   $("ticks").innerHTML = v.kind==="p" ? `<span>0</span><span>${fmt(s.pmax/2,2)}</span><span>${fmt(s.pmax,2)}+</span>` :
     v.kind==="d" ? `<span>−${fmt(s.dmax)} decrease</span><span>0</span><span>+${fmt(s.dmax)} increase</span>` : `<span>−${fmt(s.smax,4)}/yr</span><span>0</span><span>+${fmt(s.smax,4)}/yr</span>`;
   const ex=$("set").value==="stxy3";
@@ -328,18 +406,20 @@ function legend(v){
 function speciesNotes(){
   if(isCov()){ const k=covNow(); $("snote").innerHTML = k.source==="Daymet" ? '<div class="note">In British Columbia, Daymet temperature shows blocky changes of several °C that TerraClimate and CHELSA do not show. These look like artifacts of the product rather than real climate change.</div>' : k.group==="Climate" ? '<div class="note">Climate products disagree on trends, so compare them before reading a change here as real.</div>' : k.group==="Land cover" ? '<div class="note">Annual land cover products change slowly and have known errors. ESA forest loss in 2019-2020, after these maps end, is mostly unconfirmed by MODIS.</div>' : ""; return; }
   const n = [`<div class="note">${sp.clip.note}</div>`];
+  if(NAX&&(sp.dropped_sets||[]).length) n.push(`<div class="note">Not shown for this species: ${sp.dropped_sets.map(k=>SETS[k]||k).join("; ")}. It did worse than a flat average on held-out checklists in new places.</div>`);
   if($("set").value==="stxy3") n.unshift('<div class="note"><strong>Experimental.</strong> This model did not pass its test with known truth. It shows modeled reporting rate through time, which mixes real change in the species with changes in eBird reporting, and it is not a population trend. Read broad patterns only.</div>');
   if(sp.prevalence>=.2) n.push(`<div class="note">Widespread species: reported on ${Math.round(sp.prevalence*100)}% of checklists. In tests, map patterns were less reliable for very common species.</div>`);
-  if(sp.heldout.spatial===null) n.push(`<div class="note">Not yet checked on held-out checklists with the current training method.</div>`);
+  if(NAX&&$("set").value==="aef_daymet3"&&sp.heldout_aef&&sp.heldout_aef.spatial!==null){ const h=sp.heldout_aef; n.push(h.spatial<.6||h.temporal<.6?`<div class="note">AlphaEarth model: predictions ran low on held-out checklists (mean prediction / observed: ${h.spatial} new places, ${h.temporal} later years). Treat values as relative.</div>`:`<p class="small">AlphaEarth model, held-out mean prediction / observed: ${h.spatial} new places, ${h.temporal} later years (2022-2024). 1 means no bias.</p>`); }
+  else if(sp.heldout.spatial===null) n.push(`<div class="note">Not yet checked on held-out checklists with the current training method.</div>`);
   else if(sp.heldout.temporal<.6||sp.heldout.spatial<.6) n.push(`<div class="note">Predictions ran low on held-out checklists (mean prediction / observed: ${sp.heldout.spatial} for new places, ${sp.heldout.temporal} for later years). Treat values as relative.</div>`);
   else n.push(`<p class="small">Held-out mean prediction / observed: ${sp.heldout.spatial} new places, ${sp.heldout.temporal} later years. 1 means no bias.</p>`);
-  const bt=sp.bbs.PNW&&sp.bbs.PNW.trends.find(t=>t.period==="2002-2025");
+  const bt=sp.bbs[HOME]&&sp.bbs[HOME].trends.find(t=>t.period==="2002-2025");
   if($("set").value!=="stxy3"&&bt&&(bt.lo>=5||bt.hi<=-5)) n.push(`<div class="note">BBS shows a large change for this species (${bt.trend}%/yr, 2002-2025). These maps cannot show changes like this: read the population panel, not the animation.</div>`);
   n.push(`<p class="small"><a href="#quality" data-q="1">See this species' model quality</a></p>`);
   $("snote").innerHTML = n.join("");
 }
 // Model quality tab. Scores load on first open.
-let Q=null, qLoading=false, qSort={k:"common",d:1}, qSet="avg3", qRegion="PNW", qCv="spatial";
+let Q=null, qLoading=false, qSort={k:"common",d:1}, qSet="avg3", qRegion=HOME, qCv="spatial";
 const CVS={spatial:"New places",temporal:"Later years"}, NA="–";
 const q3=(x,d=2)=>x===null||x===undefined?NA:Number(x).toFixed(d);
 const qRow=(tag,st,cv,g)=>{ const q=Q.species[tag]; if(!q) return null; const r=q.m.find(a=>a[0]===st&&a[1]===cv&&a[2]===g); return r?Object.fromEntries(Q.fields.map((f,i)=>[f,r[i]])):null; };
@@ -353,24 +433,24 @@ function renderQuality(){
   if(!Q||!sp) return;
   const tag=sp.tag, sets=sp.sets, qs=Q.species[tag], rg=REGIONS[qRegion][0];
   const stab=cv=>`<h3>${CVS[cv]}</h3><div class="table-scroll"><table class="tbl qt"><thead><tr><th>Model</th><th>AUC</th><th>PR-AUC</th><th>PR-AUC ÷ prevalence</th><th>Deviance explained</th><th>Prediction ÷ observed</th><th>Held-out detections</th></tr></thead><tbody>${sets.map(st=>{const r=qRow(tag,st,cv,qRegion); return `<tr><td>${SETS[st]}</td><td>${r?q3(r.auc):NA}${r&&r.auc_min!==null&&qRegion==="PNW"?` <span class="small">(${q3(r.auc_min)}-${q3(r.auc_max)})</span>`:""}</td><td>${r?q3(r.prauc):NA}</td><td>${r?q3(r.lift,1):NA}</td><td>${r?q3(r.d2):NA}</td><td>${r?q3(r.ratio):NA}</td><td>${r?r.detections.toLocaleString():NA}</td></tr>`;}).join("")}</tbody></table></div>`;
-  const A=qRow(tag,qSet,qCv,"PNW"), flags=[];
+  const A=qRow(tag,qSet,qCv,HOME), flags=[];
   if(sp.us_only) flags.push("Fitted and scored for the US only, because BC records appear to be withheld.");
-  const a0=qRow(tag,"avg3","spatial","PNW");
+  const a0=qRow(tag,"avg3","spatial",HOME);
   if(a0&&a0.detections<100) flags.push(`Only ${a0.detections} held-out detections, so these scores are imprecise.`);
   if(a0&&a0.d2!==null&&a0.d2<=0) flags.push("The average model does no better on new places than a single constant rate.");
   const pts=qs&&qs.cal[`${qSet}|${qCv}`]||[];
   const bb=qs?qs.bbs:[];
-  const R=Object.entries(Q.species).map(([t,_])=>{ const d=DATA.species.find(s=>s.tag===t); const a=qRow(t,qSet,"spatial","PNW"),b=qRow(t,qSet,"temporal","PNW"); return d&&a?{tag:t,common:d.common,prev:d.prevalence,det:a.detections,auc:a.auc,d2:a.d2,ratio:a.ratio,aucT:b&&b.auc,d2T:b&&b.d2,ratioT:b&&b.ratio}:null; }).filter(Boolean);
+  const R=Object.entries(Q.species).map(([t,_])=>{ const d=DATA.species.find(s=>s.tag===t); const a=qRow(t,qSet,"spatial",HOME),b=qRow(t,qSet,"temporal",HOME); return d&&a?{tag:t,common:d.common,prev:d.prevalence,det:a.detections,auc:a.auc,d2:a.d2,ratio:a.ratio,aucT:b&&b.auc,d2T:b&&b.d2,ratioT:b&&b.ratio}:null; }).filter(Boolean);
   const v=x=>x===null||x===undefined?-Infinity:x;
   R.sort((a,b)=>qSort.k==="common"?qSort.d*a.common.localeCompare(b.common):qSort.d*(v(a[qSort.k])-v(b[qSort.k])));
   const COL=[["common","Species"],["prev","% of checklists"],["det","Held-out detections"],["auc","AUC, new places"],["d2","Deviance explained, new places"],["ratio","Prediction ÷ observed, new places"],["aucT","AUC, later years"],["d2T","Deviance explained, later years"],["ratioT","Prediction ÷ observed, later years"]];
   const sum=Q.summary.filter(r=>sets.includes(r.set)||r.set==="stxy3").sort((a,b)=>Object.keys(SETS).indexOf(a.set)-Object.keys(SETS).indexOf(b.set)||a.cv.localeCompare(b.cv));
   const rng=(r,k,d=2)=>`${q3(r[k],d)} <span class="small">(${q3(r[k+"_q1"],d)}-${q3(r[k+"_q3"],d)})</span>`;
   $("qbody").innerHTML=`
-  <div class="qctl"><label>Species<select id="qsp">${DATA.species.map(s=>`<option value="${s.tag}"${s.tag===tag?" selected":""}>${s.common}</option>`).join("")}</select></label><label>Region<select id="qreg">${Object.entries(REGIONS).map(([k,[l]])=>`<option value="${k}"${k===qRegion?" selected":""}>${l}</option>`).join("")}</select></label></div>
+  <div class="qctl"><label>Species<select id="qsp">${DATA.species.map(s=>`<option value="${s.tag}"${s.tag===tag?" selected":""}>${s.common}</option>`).join("")}</select></label><label>Region<select id="qreg">${Object.entries(REGIONS).filter(([k])=>!NAX||["NA","US","CA","MX"].includes(k)).map(([k,[l]])=>`<option value="${k}"${k===qRegion?" selected":""}>${l}</option>`).join("")}</select></label></div>
   ${flags.map(f=>`<div class="note">${f}</div>`).join("")}
   ${qs?stab("spatial")+stab("temporal"):'<div class="note">No held-out scores are available for this species yet.</div>'}
-  ${qRegion==="PNW"?'<p class="small">Numbers in brackets: lowest and highest AUC across the five folds.</p>':`<p class="small">Region shown: ${rg}.</p>`}
+  ${qRegion===HOME?'<p class="small">Numbers in brackets: lowest and highest AUC across the five folds.</p>':`<p class="small">Region shown: ${rg}.</p>`}
   <h3>Calibration, all regions</h3>
   <div class="qctl"><label>Model<select id="qset">${sets.map(st=>`<option value="${st}"${st===qSet?" selected":""}>${SETS[st]}</option>`).join("")}</select></label><label>Test<select id="qcv">${Object.entries(CVS).map(([k,l])=>`<option value="${k}"${k===qCv?" selected":""}>${l}</option>`).join("")}</select></label></div>
   <div class="chart" id="qcal">${pts.length>1?calChart(pts):'<p class="small">Too few scored groups to draw.</p>'}</div>
@@ -413,9 +493,9 @@ function line(el,xs,ys,lo,hi,fmtY,w=340,h=130){
   svg.onmouseleave=()=>{tip.style.display="none";dot.style.display="none";};
 }
 function panels(){
-  $("bbscard").hidden = isCov(); bbsHabPanel();
+  $("bbscard").hidden = isCov() || NAX; bbsHabPanel();  // BBS trends exist for the pilot species only
   if(isCov()){ const k=covNow(); $("ebcard").hidden=true; $("habmbox").hidden=true; $("habchange").textContent=""; $("habtitle").textContent="Regional mean"; $("habnote").textContent=`Whole pilot region, ${k.unit}. The Region menu moves the map only.`; lineRange($("habchart"),YEARS,k.region_mean,k); return; }
-  const hm=sp.area?$("habm").value:"mean"; $("habtitle").textContent=$("set").value==="stxy3"?(hm==="mean"?"Modeled reporting rate, regional mean":"Modeled reporting-rate area"):(hm==="mean"?"Modeled habitat, regional mean":hm==="exp"?"Modeled habitat area, expected":"Modeled habitat area, above threshold"); $("habnote").textContent=$("set").value==="stxy3" ? "Regional mean of the experimental model. Not a population trend: it mixes species change with changes in eBird reporting." : sp.common==="Eurasian Collared-Dove" ? "Not a population trend. This line stayed nearly flat while Eurasian Collared-Dove spread across the region." : "Not a population trend. For example, the same line for Eurasian Collared-Dove stayed nearly flat while that species spread across the region.";
+  const hm=sp.area?$("habm").value:"mean"; $("habtitle").textContent=$("set").value==="stxy3"?(hm==="mean"?"Modeled reporting rate, regional mean":"Modeled reporting-rate area"):(hm==="mean"?"Modeled habitat, regional mean":hm==="exp"?"Modeled habitat area, expected":"Modeled habitat area, above threshold"); $("habnote").textContent=$("set").value==="stxy3" ? "Regional mean of the experimental model. Not a population trend: it mixes species change with changes in eBird reporting." : NAX ? ($("set").value==="aef_daymet3" ? "Not a population trend. Regional means of the AlphaEarth model did not drift in tests; year-to-year wiggles are partly embedding noise." : "Not a population trend: change in modeled habitat conditions, which on the pilot did not follow spreading or declining species.") : sp.common==="Eurasian Collared-Dove" ? "Not a population trend. This line stayed nearly flat while Eurasian Collared-Dove spread across the region." : "Not a population trend. For example, the same line for Eurasian Collared-Dove stayed nearly flat while that species spread across the region.";
   const g=$("region").value,b=sp.bbs[g];
   if(!b||!b.q50){ $("bbschart").innerHTML=""; $("bbstable").innerHTML=""; $("bbsnote").textContent="No BBS estimate for this species here."; }
   else{
@@ -448,12 +528,16 @@ function bbsHabSummary(){
 const AREA={};
 const km=x=>x>=1e6?(x/1e6).toFixed(2)+"M":x>=1e4?Math.round(x/1e3)+"k":x>=1e3?(x/1e3).toFixed(1)+"k":String(Math.round(x));
 const km2=x=>Math.round(x).toLocaleString()+" km²";
-function changeLine(ys){ const a=ys.slice(0,5),b=ys.slice(-5); if(a.some(v=>v==null)||b.some(v=>v==null)) return ""; const m0=a.reduce((x,y)=>x+y,0)/5,m1=b.reduce((x,y)=>x+y,0)/5; if(!m0) return ""; const d=100*(m1/m0-1); return `2014-2018 mean vs 2002-2006 mean: ${d>=0?"+":""}${d.toFixed(1)}%.`; }
+function changeLine(ys,st){ const k=st==="aef_daymet3"?4:5, yy=yearsFor(st), a=ys.slice(0,k),b=ys.slice(-k); if(a.some(v=>v==null)||b.some(v=>v==null)) return ""; const m0=a.reduce((x,y)=>x+y,0)/k,m1=b.reduce((x,y)=>x+y,0)/k; if(!m0) return ""; const d=100*(m1/m0-1); return `${yy[yy.length-k]}-${yy[yy.length-1]} mean vs ${yy[0]}-${yy[k-1]} mean: ${d>=0?"+":""}${d.toFixed(1)}%.`; }
+const SERIES={};
 async function habitatPanel(g){
-  const h=sp.habitat[g],el=$("habchart"),st=$("set").value,mode=$("habm").value,tag=sp.tag;
+  let h=sp.habitat[g]; const el=$("habchart"),st=$("set").value,mode=$("habm").value,tag=sp.tag;
   $("habmbox").hidden=!sp.area; $("habchange").textContent="";
+  if(NAX&&(sp.withheld||[]).includes(g)) h=null;
+  else if(!h&&NAX){ if(!SERIES[tag]){ el.innerHTML='<p class="small">Loading…</p>'; try{ const r=await fetch(`data/series/${tag}.json`); if(!r.ok) throw 0; SERIES[tag]=await r.json(); }catch(e){ el.innerHTML='<p class="err">Could not load the regional series.</p>'; return; } if(sp.tag!==tag||$("region").value!==g) return; } h=SERIES[tag][g]; }
+  if(h&&!h[st]){ el.innerHTML='<p class="small">No series for this model here.</p>'; return; }
   if(!h){ el.innerHTML='<p class="small">Not mapped in this region: eBird records appear to be withheld or absent here, so zeros cannot be trusted.</p>'; return; }
-  if(mode==="mean"||!sp.area){ line(el,YEARS,h[st],null,null,x=>fmt(x,3)); $("habchange").textContent=changeLine(h[st]); return; }
+  if(mode==="mean"||!sp.area){ line(el,yearsFor(st),h[st],null,null,x=>fmt(x,3)); $("habchange").textContent=changeLine(h[st],st); return; }
   if(!AREA[tag]){ el.innerHTML='<p class="small">Loading…</p>'; try{ const r=await fetch(`data/area/${tag}.json`); if(!r.ok) throw 0; AREA[tag]=await r.json(); }catch(e){ el.innerHTML='<p class="err">Could not load the area series.</p>'; return; } if(sp.tag!==tag||$("region").value!==g) return; }
   const A=AREA[tag],s=A.g[g]&&A.g[g][st];
   if(!s){ el.innerHTML='<p class="small">No area series for this model here.</p>'; return; }
@@ -464,13 +548,13 @@ async function habitatPanel(g){
   const ts=A.tss[st]; $("habnote").textContent = mode==="exp"
     ? `Sum of the mapped probabilities over 1 km cells ${where}, in km². A smooth index of habitat amount: a broad rise in low probabilities counts as much as a rise in the core. Not a population trend.`
     : `Area of 1 km cells ${where} where the probability is at least ${A.thr[st]}, in km². The threshold makes the sum of false-negative and false-positive rates smallest on held-out checklists (sensitivity ${ts[0].toFixed(2)}, specificity ${ts[1].toFixed(2)}). Low thresholds make this area generous. Failed its test with known truth: it misses much of the real change, so prefer expected area for change. Not a population trend.`;
-  $("habchange").textContent=changeLine(ys);
+  $("habchange").textContent=changeLine(ys,st);
 }
 function lineRange(el,xs,ys,k){ // covariates: axis fitted to the series, labeled, because many do not start near zero
   const w=340,h=130,m={l:44,r:8,t:8,b:20},lo=Math.min(...ys),hi=Math.max(...ys),pad=(hi-lo||1)*.1,a=lo-pad,b=hi+pad,X=x=>m.l+(x-xs[0])/(xs[xs.length-1]-xs[0])*(w-m.l-m.r),Y=y=>h-m.b-(y-a)/(b-a)*(h-m.t-m.b),d=Math.abs(hi-lo)<1?3:1;
   el.innerHTML=`<svg viewBox="0 0 ${w} ${h}" width="100%" role="img" aria-label="Regional mean by year"><path d="M${xs.map((x,i)=>`${X(x)},${Y(ys[i])}`).join("L")}" fill="none" stroke="var(--series)" stroke-width="2"/><text x="${m.l-4}" y="${Y(hi)+4}" text-anchor="end">${fmt(hi,d)}</text><text x="${m.l-4}" y="${Y(lo)+4}" text-anchor="end">${fmt(lo,d)}</text><text x="${X(xs[0])}" y="${h-5}">${xs[0]}</text><text x="${X(xs[xs.length-1])}" y="${h-5}" text-anchor="end">${xs[xs.length-1]}</text></svg>`;
 }
-function fillViews(){ const src=isCov()?COVVIEWS:VIEWS, sel=$("view"), keep=sel.value; sel.innerHTML=""; for(const [k,v] of Object.entries(src)) sel.add(new Option(v.label,k)); if(src[keep]) sel.value=keep; }
+function fillViews(){ const src=isCov()?COVVIEWS:viewsFor($("set").value), sel=$("view"), keep=sel.value; sel.innerHTML=""; for(const [k,v] of Object.entries(src)) sel.add(new Option(v.label,k)); if(src[keep]) sel.value=keep; }
 function setMode(){
   const cov=isCov(); $("spbox").hidden=cov; $("spbox").style.display=cov?"none":""; $("setbox").hidden=cov; $("covbox").hidden=!cov;
   fillViews(); speciesNotes(); setFrames(); panels();
@@ -488,23 +572,28 @@ function comboClose(){ $("splist").hidden=true; $("species").setAttribute("aria-
 function comboMove(d){ if(!comboItems.length) return; const li=$("splist").children; if(comboActive>=0) li[comboActive].setAttribute("aria-selected","false"); comboActive=(comboActive+d+comboItems.length)%comboItems.length; li[comboActive].setAttribute("aria-selected","true"); li[comboActive].scrollIntoView({block:"nearest"}); $("species").setAttribute("aria-activedescendant",`op${comboActive}`); }
 function chooseSpecies(name){
   const r=DATA.species.find(s=>s.common.toLowerCase()===name.trim().toLowerCase()); if(!r) return;
-  sp=r; const o=$("set").querySelector('[value=stxy3]'); if(o){o.hidden=!r.scale_stxy3; o.disabled=!r.scale_stxy3; if(!r.scale_stxy3&&$("set").value==="stxy3") $("set").value="avg3";} for(const o of $("region").options) o.text=REGIONS[o.value][0]+(r.habitat[o.value]?"":" (not mapped)");
+  sp=r; const o=$("set").querySelector('[value=stxy3]'); if(o){o.hidden=!r.scale_stxy3; o.disabled=!r.scale_stxy3; if(!r.scale_stxy3&&$("set").value==="stxy3") $("set").value="avg3";}
+  for(const op of $("set").options){ if(NAX){ op.hidden=!r.sets.includes(op.value); op.disabled=op.hidden; } }
+  if(NAX&&!r.sets.includes($("set").value)){ $("set").value=r.sets[0]; fillViews(); }
+  const oa=$("set").querySelector('[value=aef_daymet3]'); if(oa){oa.hidden=!r.sets.includes("aef_daymet3"); oa.disabled=oa.hidden; if(oa.hidden&&$("set").value==="aef_daymet3"){$("set").value="avg3"; fillViews();}} for(const o of $("region").options) o.text=REGIONS[o.value][0]+((NAX?(r.withheld||[]).includes(o.value):!r.habitat[o.value])?" (not mapped)":"");
   comboClose(); speciesNotes(); setFrames(); panels();
   try{history.replaceState(null,"",`?${new URLSearchParams({...Object.fromEntries(new URLSearchParams(location.search)),sp:r.tag})}`)}catch(e){}
 }
 async function init(){
+  if(NAX){ try{ const r=await fetch("data/regions.json"); if(r.ok) Object.assign(REGIONS, await r.json()); }catch(e){} }
   for(const [k,[lab]] of Object.entries(REGIONS)) $("region").add(new Option(lab,k));
   for(const [k,lab] of Object.entries(SETS)) $("set").add(new Option(lab,k));
   fillViews();
   try{ DATA=await (await fetch("data/species.json")).json(); }
   catch(e){ $("snote").innerHTML='<p class="err">Could not load the species list.</p>'; return; }
-  try{ const r=await fetch("data/covariates.json"); if(r.ok) COVS=await r.json(); }catch(e){}
-  try{ const r=await fetch("data/bbs_habitat.json"); if(r.ok) BH=await r.json(); }catch(e){}
+  if(!NAX){ try{ const r=await fetch("data/covariates.json"); if(r.ok) COVS=await r.json(); }catch(e){} }
+  if(!COVS.length) $("mode").closest("label").hidden=true;
+  if(!NAX){ try{ const r=await fetch("data/bbs_habitat.json"); if(r.ok) BH=await r.json(); }catch(e){} }
   bbsHabSummary();
   if(COVS.length){ const gs={}; for(const k of COVS)(gs[k.group]=gs[k.group]||[]).push(k); for(const [g,items] of Object.entries(gs)){ const o=document.createElement("optgroup"); o.label=g; for(const k of items) o.append(new Option(k.group==="Climate"?`${k.label}, ${k.source}`:k.label,k.id)); $("cov").append(o);} } else $("mode").querySelector('[value=cov]').disabled=true;
   const q=new URLSearchParams(location.search).get("sp"), first=DATA.species.find(s=>s.tag===q)||DATA.species[0];
-  const start=()=>{ map.resize(); map.fitBounds(REGIONS.PNW[1],{padding:10,animate:false}); chooseSpecies(first.common); };
-  mapReady?start():map.once("load",start);
+  const start=()=>{ map.resize(); map.fitBounds(REGIONS[HOME][1],{padding:10,animate:false}); chooseSpecies(first.common); };
+  mapReady?start():map.once("load",start);  // not map.loaded() or map.isStyleLoaded(): both are false while tiles load, after "load" has already fired: the species then never loaded
   const box=$("species");
   box.addEventListener("focus",()=>{ box.select(); comboRender(""); });
   box.addEventListener("click",()=>{ if($("splist").hidden) comboRender(""); });
@@ -524,7 +613,7 @@ async function init(){
   if(location.hash==="#methods"||location.hash.startsWith("#m-")) tab("methods",true);
   if(location.hash==="#quality") tab("quality",true);
   document.addEventListener("click",e=>{ const a=e.target.closest("a"); if(!a) return; if(a.dataset.q||a.id==="mquality"){e.preventDefault();tab("quality");scrollTo(0,0);} else if(a.id==="qvalid"){e.preventDefault();tab("methods");document.getElementById("m-valid").scrollIntoView();} });
-  $("set").addEventListener("change",()=>{ if($("set").value==="stxy3"&&!sp.scale_stxy3){$("set").value="avg3";} speciesNotes();setFrames();panels();});
+  $("set").addEventListener("change",()=>{ if($("set").value==="stxy3"&&!sp.scale_stxy3){$("set").value="avg3";} if(!sp.sets.includes($("set").value)){$("set").value="avg3";} fillViews(); speciesNotes();setFrames();panels();});
   $("view").addEventListener("change",setFrames);
   $("habm").addEventListener("change",()=>{ try{localStorage.setItem("dm-habm",$("habm").value);}catch(e){} panels(); });
   try{ const v=localStorage.getItem("dm-habm"); if(v&&$("habm").querySelector(`[value="${v}"]`)) $("habm").value=v; }catch(e){}

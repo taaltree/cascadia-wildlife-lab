@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cascadia Wildlife Lab — Technology for Wildlife Ecology &amp; Conservation</title>
-  <meta name="description" content="The Cascadia Wildlife Lab is a collaborative research group mobilizing genomics, artificial intelligence, modeling, and field ecology to advance wildlife science and evidence-based conservation.">
+  <title>Cascadia Wildlife Lab — Measuring wildlife with DNA, sound and AI</title>
+  <meta name="description" content="The Cascadia Wildlife Lab is a research collaborative based at Oregon State University that measures wildlife with DNA, acoustic AI, cameras and statistics, and shares its tools openly.">
   <link rel="canonical" href="https://cascadiawildlifelab.org/">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Cascadia Wildlife Lab">
   <meta property="og:url" content="https://cascadiawildlifelab.org/">
   <meta property="og:title" content="Cascadia Wildlife Lab">
-  <meta property="og:description" content="Mobilizing genomics, AI, modeling, and field ecology for wildlife science and evidence-based conservation.">
+  <meta property="og:description" content="Every animal leaves evidence. We find and read it with DNA, sound, cameras and statistics: better data, and better decisions for wildlife.">
   <meta property="og:image" content="https://cascadiawildlifelab.org/assets/images/social-card.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -22,19 +22,56 @@
   <link rel="icon" href="/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ResearchOrganization",
+        "@id": "https://cascadiawildlifelab.org/#organization",
+        "name": "Cascadia Wildlife Lab",
+        "url": "https://cascadiawildlifelab.org/",
+        "logo": "https://cascadiawildlifelab.org/assets/images/logos/icon-512.png",
+        "image": "https://cascadiawildlifelab.org/assets/images/social-card.jpg",
+        "slogan": "Better data. Better decisions.",
+        "description": "A research collaborative based at Oregon State University that measures wildlife with DNA, acoustic AI, cameras and statistics, and shares its tools openly.",
+        "email": "info@cascadiawildlifelab.org",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Corvallis",
+          "addressRegion": "OR",
+          "addressCountry": "US"
+        },
+        "knowsAbout": [
+          "Wildlife ecology", "Conservation genetics", "Environmental DNA",
+          "DNA metabarcoding", "Bioacoustics", "Camera trapping",
+          "Spatial capture-recapture", "Species distribution modeling"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://cascadiawildlifelab.org/#website",
+        "url": "https://cascadiawildlifelab.org/",
+        "name": "Cascadia Wildlife Lab",
+        "publisher": { "@id": "https://cascadiawildlifelab.org/#organization" }
+      }
+    ]
+  }
+  </script>
+
   <!-- Marks that JS is available; scroll-reveal only hides content when it can unhide it -->
   <script>document.documentElement.classList.add('js');</script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/main.css?v=2026-11-12">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
 
   <!-- NAVIGATION -->
-  <nav class="nav" id="nav">
+  <nav class="nav nav--site" id="nav" aria-label="Main">
     <div class="nav-inner">
       <div class="nav-left">
         <a href="index.html" class="nav-logo">
@@ -54,12 +91,29 @@
         <span></span><span></span><span></span>
       </button>
       <ul class="nav-links" id="nav-links">
-        <li><a href="#labs">Our Labs</a></li>
-        <li><a href="#methods">Capabilities</a></li>
+        <li class="nav-item has-menu">
+          <button class="nav-menu-btn" type="button" aria-expanded="false"
+                  aria-controls="nav-menu-labs">Our Labs</button>
+          <ul class="nav-menu" id="nav-menu-labs">
+            <li><a href="genetics/index.html">Genetics Laboratory</a></li>
+            <li><a href="ai/index.html">AI Lab</a></li>
+            <li><a href="analysis/index.html">Analysis Lab</a></li>
+            <li class="nav-menu-sep"><a href="work-with-us/index.html">Work With Us</a></li>
+          </ul>
+        </li>
+        <li class="nav-item has-menu">
+          <button class="nav-menu-btn" type="button" aria-expanded="false"
+                  aria-controls="nav-menu-tools">Data &amp; Tools</button>
+          <ul class="nav-menu" id="nav-menu-tools">
+            <li><a href="tools/distributions/index.html">Bird Distribution Maps <span class="nav-tag">Beta</span></a></li>
+            <li><a href="tools/index.html">CascadiaTools</a></li>
+            <li><a href="tools/course/index.html">Field Course</a></li>
+          </ul>
+        </li>
         <li><a href="impact/index.html">Impact</a></li>
-        <li><a href="tools/index.html">Tools</a></li>
-        <li><a href="#team">Team</a></li>
-        <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+        <li><a href="index.html#team">Team</a></li>
+        <li><a href="support/index.html">Support</a></li>
+        <li><a href="index.html#contact" class="nav-cta">Contact Us</a></li>
       </ul>
     </div>
   </nav>
@@ -67,7 +121,7 @@
   <main id="main">
 
   <!-- HERO -->
-  <section class="hero" id="hero">
+  <section class="hero hero--home" id="hero">
     <video class="hero-video" autoplay muted loop playsinline preload="auto"
            poster="assets/images/wildlife/poster-wolf-bear.jpg" aria-hidden="true">
       <source src="assets/videos/wolf-bear.mp4" type="video/mp4">
@@ -77,33 +131,65 @@
       <img src="assets/images/logos/Cascadia_Wildlife_Lab_LogoVectorOwl.png"
            alt="Cascadia Wildlife Lab" class="hero-logo">
       <h1 class="hero-title">
-        Science and Technology for<br>
-        <em>Evidence-Based Conservation</em>
+        Every animal leaves evidence.<br>
+        <em><span class="hero-phrase">Better data.</span>
+        <span class="hero-phrase">Better decisions for wildlife.</span></em>
       </h1>
       <p class="hero-subtitle">
-        A collaborative research group mobilizing genomics, artificial intelligence,
-        modeling, and field ecology to advance wildlife science and
-        evidence-based conservation
+        The Cascadia Wildlife Lab finds and reads that evidence with DNA,
+        sound, cameras and statistics, measuring wildlife at the scale
+        conservation decisions are made. We share our methods openly.
       </p>
       <div class="hero-actions">
-        <a href="#labs" class="btn btn-primary">Explore Our Labs</a>
-        <a href="#methods" class="btn btn-outline">Our Capabilities</a>
+        <a href="#impact" class="btn btn-primary">See What We've Found</a>
+        <a href="support/index.html" class="btn btn-outline">Support the Work</a>
       </div>
     </div>
-    <div class="hero-scroll" aria-hidden="true">
-      <span>Scroll</span>
-      <div class="hero-scroll-line"></div>
-    </div>
+  </section>
+
+  <!-- NUMBERS -->
+  <section class="stats" aria-label="The work in numbers">
+    <ul class="stats-grid">
+      <li class="stat">
+        <span class="stat-num">4,000+</span>
+        <span class="stat-label">acoustic recorders in the forests of three states<sup>*</sup></span>
+      </li>
+      <li class="stat">
+        <span class="stat-num">2 million+</span>
+        <span class="stat-label">hours of forest sound recorded each year<sup>*</sup></span>
+      </li>
+      <li class="stat">
+        <span class="stat-num">84</span>
+        <span class="stat-label">species recognized by the PNW-Cnet neural network<sup>*</sup></span>
+      </li>
+      <li class="stat">
+        <span class="stat-num">610</span>
+        <span class="stat-label">bird species in our <a href="tools/distributions/index.html">distribution maps</a>, now in beta</span>
+      </li>
+      <li class="stat">
+        <span class="stat-num">29</span>
+        <span class="stat-label">free <a href="tools/index.html">analysis modules</a>, each tested against known answers</span>
+      </li>
+    </ul>
+    <p class="stats-note">
+      <sup>*</sup> The Northwest Forest Plan acoustic monitoring network, run by our
+      partners at the
+      <a href="https://www.damonlesmeister.com/bioacoustics.html" target="_blank" rel="noopener">Pacific
+      Northwest Bioacoustics Lab</a>, a collaboration of the USDA Forest Service and
+      Oregon State University. Figures from the
+      <a href="https://www.biorxiv.org/content/10.64898/2025.12.18.695274v1" target="_blank" rel="noopener">2024
+      annual report</a> and the lab's description of PNW-Cnet.
+    </p>
   </section>
 
   <!-- LABS -->
   <section class="labs" id="labs">
     <div class="section-header reveal">
-      <span class="eyebrow">Three Integrated Facilities</span>
-      <h2>Our Laboratories</h2>
+      <span class="eyebrow">Three Labs, One Question</span>
+      <h2>What Is Actually Happening to Wildlife?</h2>
       <p class="section-subtitle">
-        Three specialized labs working in concert — from molecule to landscape
-        scale — to produce rigorous, publication-quality wildlife science.
+        One lab reads DNA. One watches and listens. One turns the evidence into
+        numbers a decision can rest on.
       </p>
     </div>
 
@@ -112,8 +198,8 @@
       <article class="lab-card reveal reveal-d1">
         <a href="genetics/index.html" class="lab-card-image-link">
           <div class="lab-card-image">
-            <img src="assets/images/wildlife/fieldwork.jpg"
-                 alt="Researchers with a marten in old-growth forest" loading="lazy">
+            <img src="assets/images/wildlife/lab-bench.jpg"
+                 alt="A scientist in a lab coat pipetting samples at a laboratory bench" loading="lazy">
             <div class="lab-card-image-overlay"></div>
           </div>
         </a>
@@ -122,15 +208,15 @@
                alt="Cascadia Genetics Laboratory" class="lab-card-logo">
           <h3>Cascadia Genetics Laboratory</h3>
           <p>
-            Noninvasive genetic surveys and environmental DNA — designing
-            field protocols, processing challenging samples, and delivering
-            population-level genomic inference for management and conservation.
+            Hair, scat and a liter of stream water become answers: which
+            species are present, what they eat, and how many individuals
+            there are, without capturing a single animal.
           </p>
           <ul class="lab-tags">
             <li>Noninvasive Surveys</li>
             <li>eDNA</li>
-            <li>Population Genomics</li>
-            <li>Wildlife Forensics</li>
+            <li>DNA Metabarcoding</li>
+            <li>Genotyping &amp; SNP Panels</li>
           </ul>
           <a href="genetics/index.html" class="btn btn-ghost-dark">
             Explore Genetics Lab &rarr;
@@ -141,8 +227,8 @@
       <article class="lab-card reveal reveal-d2">
         <a href="ai/index.html" class="lab-card-image-link">
           <div class="lab-card-image">
-            <img src="assets/images/wildlife/camera-trap-ai.jpg"
-                 alt="AI wildlife monitoring camera system" loading="lazy">
+            <img src="assets/images/wildlife/wolf-pack-snow.jpg"
+                 alt="A wolf pack on a snowy slope, photographed by a remote research camera" loading="lazy">
             <div class="lab-card-image-overlay"></div>
           </div>
         </a>
@@ -151,8 +237,8 @@
                alt="Cascadia AI Lab" class="lab-card-logo">
           <h3>Cascadia AI Lab</h3>
           <p>
-            Custom computer vision and bioacoustics AI for camera trap and
-            acoustic monitoring — in partnership with the
+            Neural networks that find animals in millions of camera-trap
+            images and hours of forest sound, in partnership with the
             <a href="https://www.damonlesmeister.com/bioacoustics.html"
                class="text-link" target="_blank" rel="noopener">Pacific
             Northwest Bioacoustics Lab</a>.
@@ -172,8 +258,8 @@
       <article class="lab-card reveal reveal-d3">
         <a href="analysis/index.html" class="lab-card-image-link">
           <div class="lab-card-image">
-            <img src="assets/images/wildlife/lidar.jpg"
-                 alt="LiDAR forest structure visualization" loading="lazy">
+            <img src="assets/images/wildlife/bird-map-townsends-warbler.jpg"
+                 alt="Map of the Pacific Northwest shaded by the modeled probability of detecting Townsend's Warbler" loading="lazy">
             <div class="lab-card-image-overlay"></div>
           </div>
         </a>
@@ -182,15 +268,15 @@
                alt="Cascadia Analysis Lab" class="lab-card-logo">
           <h3>Cascadia Analysis Lab</h3>
           <p>
-            Density estimation via spatial capture-recapture, animal movement
-            analysis, occupancy modeling, and LiDAR-based habitat
-            characterization for rigorous ecological inference.
+            Turns detections into the numbers managers need: how many
+            animals there are, where they live, and whether they are
+            increasing. The methods are published as free, tested tools.
           </p>
           <ul class="lab-tags">
             <li>Spatial Capture-Recapture</li>
             <li>Movement Ecology</li>
             <li>Occupancy Modeling</li>
-            <li>LiDAR</li>
+            <li>Species Distributions</li>
           </ul>
           <a href="analysis/index.html" class="btn btn-ghost-dark">
             Explore Analysis Lab &rarr;
@@ -201,136 +287,108 @@
     </div>
   </section>
 
-  <!-- CAPABILITIES / METHODS -->
-  <section class="methods" id="methods">
-    <div class="section-header reveal">
-      <span class="eyebrow">What We Bring to the Field</span>
-      <h2>Capabilities Across Taxa &amp; Methods</h2>
-      <p class="section-subtitle">
-        From boots-on-the-ground data collection to cutting-edge computational
-        analysis — a complete toolkit for wildlife research at any scale
-      </p>
-    </div>
-
-    <div class="methods-grid">
-
-      <div class="method-item reveal reveal-d1">
-        <svg class="method-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
-          <circle cx="20" cy="14" r="6"/>
-          <path d="M8 36 C8 28 32 28 32 36" stroke-linecap="round"/>
-          <path d="M28 10 L34 6 M28 14 L34 14 M28 18 L34 22" stroke-linecap="round"/>
-        </svg>
-        <h3>Traditional Wildlife Trapping &amp; GPS Collaring</h3>
-        <p>Large-scale mammal capture programs using box traps, snares, and
-        telazol immobilization. We deploy GPS and VHF collars to generate
-        telemetry datasets that underpin home range, movement, and survival analyses.</p>
-      </div>
-
-      <div class="method-item reveal reveal-d2">
-        <svg class="method-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
-          <path d="M12 6 C12 6 8 14 12 20 C16 26 12 34 12 34" stroke-linecap="round"/>
-          <path d="M28 6 C28 6 32 14 28 20 C24 26 28 34 28 34" stroke-linecap="round"/>
-          <line x1="12" y1="12" x2="28" y2="12"/>
-          <line x1="12" y1="20" x2="28" y2="20"/>
-          <line x1="12" y1="28" x2="28" y2="28"/>
-        </svg>
-        <h3>Noninvasive Genetics &amp; eDNA</h3>
-        <p>Hair snares, scat transects, and water/sediment filtration for
-        environmental DNA — extracting individual identity, species composition,
-        and population parameters without ever handling an animal.</p>
-      </div>
-
-      <div class="method-item reveal reveal-d3">
-        <svg class="method-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
-          <rect x="6" y="10" width="20" height="15" rx="2"/>
-          <circle cx="16" cy="17" r="4"/>
-          <path d="M26 14 L34 10 M26 17 L34 17 M26 20 L34 24" stroke-linecap="round"/>
-          <rect x="8" y="25" width="16" height="2" rx="1"/>
-        </svg>
-        <h3>Camera Trap Networks &amp; Computer Vision AI</h3>
-        <p>Deployment and management of large camera trap arrays paired with
-        deep learning classifiers trained for your species and your cameras —
-        turning millions of images into detection data at scales impossible
-        with manual review.</p>
-      </div>
-
-      <div class="method-item reveal reveal-d1">
-        <svg class="method-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
-          <path d="M6 22 Q10 14 14 18 Q18 22 22 14 Q26 6 30 10 Q34 14 34 18" stroke-linecap="round" stroke-linejoin="round"/>
-          <rect x="8" y="28" width="6" height="6" rx="1"/>
-          <rect x="17" y="26" width="6" height="8" rx="1"/>
-          <rect x="26" y="24" width="6" height="10" rx="1"/>
-        </svg>
-        <h3>Passive Acoustic Monitoring &amp; Bioacoustics AI</h3>
-        <p>AudioMoth, Swift, and Song Meter deployment for continuous acoustic
-        monitoring of owls, murrelets, and other forest birds — combined with
-        custom neural network detectors built for the target species.</p>
-      </div>
-
-      <div class="method-item reveal reveal-d2">
-        <svg class="method-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
-          <circle cx="20" cy="20" r="14"/>
-          <path d="M6 20 Q13 14 20 20 Q27 26 34 20" stroke-linecap="round"/>
-          <line x1="20" y1="6" x2="20" y2="34"/>
-          <circle cx="20" cy="20" r="3" fill="currentColor" stroke="none"/>
-        </svg>
-        <h3>DNA Metabarcoding</h3>
-        <p>High-throughput sequencing of bulk environmental samples to
-        characterize multi-species communities — dietary analysis from scat,
-        aquatic biodiversity from eDNA, and diet reconstruction from gut contents.</p>
-      </div>
-
-      <div class="method-item reveal reveal-d3">
-        <svg class="method-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4">
-          <polyline points="6,30 14,18 20,23 28,11 34,15" stroke-linecap="round" stroke-linejoin="round"/>
-          <line x1="6" y1="30" x2="34" y2="30"/>
-          <line x1="6" y1="8" x2="6" y2="30"/>
-          <circle cx="14" cy="18" r="2" fill="currentColor" stroke="none"/>
-          <circle cx="28" cy="11" r="2" fill="currentColor" stroke="none"/>
-        </svg>
-        <h3>Quantitative Ecology &amp; Spatial Analysis</h3>
-        <p>Spatial capture-recapture, occupancy modeling, species distribution
-        models, Bayesian hierarchical models, movement analysis, and LiDAR-based
-        habitat characterization — rigorous inference from any combination of
-        field data streams.</p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- APPROACH -->
+  <!-- WHY IT MATTERS -->
   <section class="approach" id="approach">
     <div class="approach-inner">
       <div class="approach-text reveal">
-        <span class="eyebrow">Our Approach</span>
-        <h2>A Collaborative<br>Approach</h2>
+        <span class="eyebrow">Why It Matters</span>
+        <h2>Biodiversity Is Changing Faster Than We Can Measure It</h2>
         <p>
-          The Cascadia Wildlife Lab brings together faculty, research biologists,
-          and computational scientists from Oregon State University, the USDA Forest
-          Service, NCASI, and partner institutions — each leading their own
-          programs, and each contributing specialized expertise toward a shared
-          goal: evidence-based conservation.
+          The decisions that shape forests, rivers and coasts are still made
+          on evidence that is sparse, slow and incomplete. Conservation
+          decisions are only as good as the evidence beneath them, and the
+          evidence is only as good as the methods that produced it.
         </p>
         <p>
-          That goal shapes how we work. Conservation decisions are only as good
-          as the evidence beneath them, and the evidence is only as good as the
-          methods that produced it. So we pair large field datasets with
-          molecular, analytical, and computational capabilities strong enough to
-          get real answers out of them — and we document those answers to
-          standards that hold up under scientific and regulatory scrutiny.
+          So we pair large field datasets with molecular, analytical and
+          computational methods strong enough to get real answers out of
+          them, and we document those answers to standards that hold up
+          under scientific and regulatory scrutiny.
+        </p>
+        <p class="approach-pull">
+          Our role is not to argue for particular outcomes. It is to make the
+          evidence good enough that the argument can be had honestly.
         </p>
         <p>
-          We offer the analytical depth of a research university and the logistical capacity of a wildlife
-          consulting program — serving agencies, tribes, NGOs, and academic
-          partners across the Pacific Northwest and beyond.
+          The Lab brings together faculty, research biologists and
+          computational scientists from Oregon State University, the USDA
+          Forest Service, NCASI and partner institutions. Each leads their
+          own program and contributes specialized expertise toward that
+          shared goal.
         </p>
         <a href="#team" class="btn btn-primary">Meet the Team</a>
       </div>
       <div class="approach-image reveal reveal-d2">
-        <img src="assets/images/wildlife/cascades.jpg"
-             alt="Cascade mountain landscape with old-growth forest" loading="lazy">
-        <p class="approach-image-caption">Pacific Northwest &mdash; Cascadia Region</p>
+        <img src="assets/images/wildlife/dunes-detection-dogs.jpg"
+             alt="Two researchers and a detection dog crossing coastal sand dunes at sunrise" loading="lazy">
+        <p class="approach-image-caption">Detection-dog survey for Humboldt martens, Oregon coast &middot; Photo: Carter Pardue</p>
       </div>
+    </div>
+  </section>
+
+  <!-- DATA & TOOLS -->
+  <section class="resources" id="data-tools">
+    <div class="section-header reveal">
+      <span class="eyebrow">Open Science</span>
+      <h2>Explore Our Data and Tools</h2>
+      <p class="section-subtitle">
+        We publish the methods along with the findings. Explore the maps,
+        run the analyses yourself, or take the course.
+      </p>
+    </div>
+
+    <div class="resources-grid">
+
+      <article class="resource-card resource-card--feature reveal reveal-d1">
+        <a href="tools/distributions/index.html" class="resource-card-image">
+          <img src="assets/images/wildlife/bird-map-rufous-hummingbird.jpg"
+               alt="Map of the Pacific Northwest shaded by the modeled probability of detecting Rufous Hummingbird, highest along the coast and the Cascades" loading="lazy">
+          <span class="resource-card-caption">Rufous Hummingbird, modeled probability of detection</span>
+        </a>
+        <div class="resource-card-body">
+          <span class="resource-badge">Beta &middot; Not for decisions yet</span>
+          <h3>Bird Distribution Maps</h3>
+          <p>
+            Animated maps of where birds are found and how that has changed
+            since 2002: 610 species across North America, and 242 in finer
+            detail across the Pacific Northwest. Modeled from eBird and
+            satellite data. Each model's validation scores are published
+            beside its map, including the tests it did not pass.
+          </p>
+          <a href="tools/distributions/index.html" class="btn btn-ghost-dark">Explore the Maps &rarr;</a>
+        </div>
+      </article>
+
+      <article class="resource-card reveal reveal-d2">
+        <div class="resource-card-body">
+          <span class="resource-badge">29 Modules &middot; Free</span>
+          <h3>CascadiaTools</h3>
+          <p>
+            A library of vetted statistical analyses for wildlife data, from
+            occupancy and spatial capture-recapture to movement and
+            conservation genetics. Describe your data and your question in
+            your own words. An AI agent runs code that was written once,
+            tested against known answers and checked by a second,
+            independent agent.
+          </p>
+          <a href="tools/index.html" class="btn btn-ghost-dark">Explore CascadiaTools &rarr;</a>
+        </div>
+      </article>
+
+      <article class="resource-card reveal reveal-d3">
+        <div class="resource-card-body">
+          <span class="resource-badge">Free Course &middot; 17 Stations</span>
+          <h3>CascadiaTools Field Course</h3>
+          <p>
+            A hands-on tutorial built for the Oregon Chapter of The Wildlife
+            Society. Install the tools, run worked examples on your own
+            laptop, and learn to check an analysis instead of taking it on
+            trust.
+          </p>
+          <a href="tools/course/index.html" class="btn btn-ghost-dark">Take the Course &rarr;</a>
+        </div>
+      </article>
+
     </div>
   </section>
 
@@ -358,12 +416,12 @@
   </section>
 
   <!-- IMPACT TEASER -->
-  <section class="impact-teaser">
+  <section class="impact-teaser" id="impact">
     <div class="section-header reveal">
       <span class="eyebrow">Conservation Impact</span>
       <h2>Evidence in the World</h2>
       <p class="section-subtitle">
-        Our species, methods, and findings in the public record — short films on
+        Our species, methods and findings in the public record: short films on
         what the research turned up, and journalism on the decisions it informs
       </p>
     </div>
@@ -392,21 +450,21 @@
         </div>
       </a>
 
-      <a class="impact-item reveal reveal-d3" href="impact/index.html#films">
+      <a class="impact-item reveal reveal-d3" href="impact/index.html#coverage">
         <div class="impact-item-media">
-          <img src="assets/images/media/carnivore-risk.jpg"
-               alt="Camera trap image of a carnivore at a forest site" loading="lazy">
+          <img src="assets/images/wildlife/camera-trap-ai.jpg"
+               alt="A coastal wolf carrying prey along a gravel beach" loading="lazy">
         </div>
         <div class="impact-item-body">
-          <span class="impact-item-kicker">Film</span>
-          <h3>Carnivore interactions as a game of risk and reward</h3>
+          <span class="impact-item-kicker">National Geographic</span>
+          <h3>Wolves hunt sea otters and seals, a startling find</h3>
         </div>
       </a>
 
-      <a class="impact-item reveal reveal-d1" href="impact/index.html#coverage">
+      <a class="impact-item reveal reveal-d4" href="impact/index.html#coverage">
         <div class="impact-item-media">
-          <img src="assets/images/wildlife/marten.jpg"
-               alt="Pacific marten peering around a mossy tree trunk in winter" loading="lazy">
+          <img src="assets/images/wildlife/dunes-survey-team.jpg"
+               alt="Researchers and two detection dogs walking through coastal sand dunes" loading="lazy">
         </div>
         <div class="impact-item-body">
           <span class="impact-item-kicker">Hakai Magazine</span>
@@ -414,14 +472,25 @@
         </div>
       </a>
 
-      <a class="impact-item reveal reveal-d2" href="impact/index.html#coverage">
+      <a class="impact-item reveal reveal-d1" href="impact/index.html#coverage">
         <div class="impact-item-media">
           <img src="assets/images/media/marbled-murrelet.jpg"
                alt="A marbled murrelet taking off from the water" loading="lazy">
         </div>
         <div class="impact-item-body">
+          <span class="impact-item-kicker">Popular Science</span>
+          <h3>Listening in on the mysterious marbled murrelet with machine learning</h3>
+        </div>
+      </a>
+
+      <a class="impact-item reveal reveal-d2" href="impact/index.html#coverage">
+        <div class="impact-item-media">
+          <img src="assets/images/media/last-call-spotted-owl.jpg"
+               alt="Title frame of the film Last Call, about the northern spotted owl" loading="lazy">
+        </div>
+        <div class="impact-item-body">
           <span class="impact-item-kicker">OPB</span>
-          <h3>How AI could help us locate and study threatened birds</h3>
+          <h3>Tracking the sound of the spotted owl's extinction</h3>
         </div>
       </a>
 
@@ -436,29 +505,29 @@
         </div>
       </a>
 
-      <a class="impact-item reveal reveal-d1" href="impact/index.html#coverage">
+      <a class="impact-item reveal reveal-d4" href="impact/index.html#films">
         <div class="impact-item-media">
-          <img src="assets/images/wildlife/lidar.jpg"
-               alt="LiDAR visualization of Pacific Northwest forest structure" loading="lazy">
+          <img src="assets/images/media/carnivore-risk.jpg"
+               alt="Camera trap image of a carnivore at a forest site" loading="lazy">
         </div>
         <div class="impact-item-body">
-          <span class="impact-item-kicker">OPB</span>
-          <h3>Tracking the sound of the spotted owl's extinction</h3>
-        </div>
-      </a>
-
-      <a class="impact-item reveal reveal-d2" href="impact/index.html#coverage">
-        <div class="impact-item-media">
-          <img src="assets/images/wildlife/fieldwork.jpg"
-               alt="Researchers handling a marten in old-growth forest" loading="lazy">
-        </div>
-        <div class="impact-item-body">
-          <span class="impact-item-kicker">OPB &middot; Jefferson Public Radio</span>
-          <h3>Protecting Oregon's coastal martens</h3>
+          <span class="impact-item-kicker">Film</span>
+          <h3>Carnivore interactions as a game of risk and reward</h3>
         </div>
       </a>
 
     </div>
+
+    <p class="press-strip reveal">
+      <span class="press-strip-label">As covered by</span>
+      <span>National Geographic</span>
+      <span>Scientific American</span>
+      <span>PBS</span>
+      <span>OPB</span>
+      <span>Popular Science</span>
+      <span>Hakai Magazine</span>
+      <span>The Wildlife Society</span>
+    </p>
 
     <div class="impact-teaser-more reveal">
       <a href="impact/index.html" class="btn btn-ghost-dark">
@@ -474,7 +543,7 @@
       <h2>Our Team</h2>
       <p class="section-subtitle">
         Faculty, research biologists, and computing scientists who together
-        form the Cascadia Wildlife Lab — each bringing deep expertise in their
+        form the Cascadia Wildlife Lab, each bringing deep expertise in their
         own discipline and research group
       </p>
     </div>
@@ -643,21 +712,24 @@
   </section>
 
   <!-- CTA -->
-  <section class="cta">
+  <section class="cta" id="support">
     <div class="cta-bg">
-      <img src="assets/images/wildlife/cougar.jpg" alt="" aria-hidden="true">
+      <img src="assets/images/wildlife/cougar-ridge.jpg" alt="" aria-hidden="true" loading="lazy">
     </div>
     <div class="cta-overlay"></div>
     <div class="cta-content reveal">
       <span class="eyebrow">Support This Work</span>
       <h2>Better Data, Better Decisions</h2>
       <p>
-        Every capability described on this site — the genetics lab, the AI
-        models, the analytical methods — exists because someone funded its
-        development. Partners and supporters make the next set of hard-to-study
-        species and hard-to-answer questions tractable.
+        Every capability described on this site, from the genetics lab to
+        the AI models to the analytical methods, exists because someone
+        funded its development. Partners and supporters make the next set of
+        hard-to-study species and hard-to-answer questions tractable.
       </p>
-      <a href="#contact" class="btn btn-primary btn-large">Get In Touch</a>
+      <div class="cta-actions">
+        <a href="support/index.html" class="btn btn-primary btn-large">Support the Work</a>
+        <a href="work-with-us/index.html" class="btn btn-outline btn-large">Work With Us</a>
+      </div>
     </div>
   </section>
 
@@ -675,11 +747,10 @@
 
     <div class="contact-inner">
       <div class="contact-main reveal reveal-d1">
-        <h3>Project Inquiries</h3>
+        <h3>Write to Us</h3>
         <p>
-          Study design, method selection, cost estimates, and timelines — for
-          agencies, tribal nations, NGOs, industry, and academic partners across
-          the Pacific Northwest and beyond.
+          Project inquiries, partnerships, gifts, press and questions about
+          the tools all reach the same people.
         </p>
         <a class="contact-email"
            href="mailto:info@cascadiawildlifelab.org?subject=Cascadia%20Wildlife%20Lab%20inquiry">
@@ -703,39 +774,54 @@
       </div>
 
       <aside class="contact-aside reveal reveal-d2">
-        <h4>What helps us respond quickly</h4>
-        <ul>
-          <li>Target species and the question you need answered</li>
-          <li>Study area, and roughly how large it is</li>
-          <li>Sample or survey type already in hand, if any</li>
-          <li>Field season or reporting deadline you are working toward</li>
-          <li>Whether you need full service or analysis only</li>
-          <li>Funding source and any procurement constraints</li>
+        <h4>Where to start</h4>
+        <ul class="contact-paths">
+          <li>
+            <a href="work-with-us/index.html">Planning a study, or need lab work or analysis?</a>
+            See how projects work and what helps us respond quickly.
+          </li>
+          <li>
+            <a href="support/index.html">Want to fund or partner on the work?</a>
+            See what support has built and the ways to help.
+          </li>
+          <li>
+            <a href="tools/install.html">Want to run our analyses yourself?</a>
+            Start with the CascadiaTools install guide.
+          </li>
+          <li>
+            <a href="impact/index.html">Writing about the research?</a>
+            Films and press coverage are on the Impact page.
+          </li>
         </ul>
       </aside>
     </div>
+
+    <p class="photo-credit photo-credit--light">
+      Field and laboratory photographs by Carter Pardue and Brook Ferris.
+    </p>
   </section>
 
   </main>
 
   <!-- AFFILIATION BAR -->
-  <div class="affiliation-bar">
+  <aside class="affiliation-bar" aria-label="Affiliation">
     <span class="affiliation-label">Based at</span>
     <div class="affiliation-divider"></div>
     <a href="https://oregonstate.edu" target="_blank" rel="noopener">
       <img src="assets/images/logos/osu-logo.webp"
            alt="Oregon State University">
     </a>
-  </div>
+  </aside>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <div class="footer-inner">
+    <div class="footer-inner footer-inner--site">
       <div class="footer-brand">
         <img src="assets/images/logos/Cascadia_Wildlife_Lab_LogoVectorOwl.png"
              alt="Cascadia Wildlife Lab" class="footer-logo">
-        <p>Mobilizing technology for wildlife ecology and conservation
-        in the Pacific Northwest and beyond.</p>
+        <p class="footer-tagline">Better data. Better decisions.</p>
+        <p>Wildlife science with DNA, sound, cameras and statistics, based at
+        Oregon State University.</p>
       </div>
       <div class="footer-col">
         <h4>Our Labs</h4>
@@ -743,26 +829,31 @@
           <li><a href="genetics/index.html">Cascadia Genetics Laboratory</a></li>
           <li><a href="ai/index.html">Cascadia AI Lab</a></li>
           <li><a href="analysis/index.html">Cascadia Analysis Lab</a></li>
+          <li><a href="work-with-us/index.html">Work With Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Data &amp; Tools</h4>
+        <ul>
+          <li><a href="tools/distributions/index.html">Bird Distribution Maps</a></li>
+          <li><a href="tools/index.html">CascadiaTools</a></li>
+          <li><a href="tools/course/index.html">Field Course</a></li>
+          <li><a href="ai/index.html#tools">AI Models &amp; Software</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Explore</h4>
         <ul>
-          <li><a href="index.html#methods">Capabilities</a></li>
           <li><a href="impact/index.html">Conservation Impact</a></li>
-          <li><a href="ai/index.html#tools">Tools &amp; Software</a></li>
-          <li><a href="tools/index.html">CascadiaTools</a></li>
-          <li><a href="tools/distributions/index.html">Bird Distribution Maps</a></li>
           <li><a href="index.html#team">Our Team</a></li>
+          <li><a href="support/index.html">Support the Work</a></li>
           <li><a href="index.html#contact">Contact</a></li>
         </ul>
       </div>
       <div class="footer-col footer-contact">
         <h4>Contact</h4>
-        <p>Cascadia Wildlife Lab<br>Pacific Northwest, USA</p>
-        <a href="mailto:info@cascadiawildlifelab.org">
-          info@cascadiawildlifelab.org
-        </a>
+        <p>Cascadia Wildlife Lab<br>Oregon State University<br>Corvallis, Oregon</p>
+        <a href="mailto:info@cascadiawildlifelab.org">info@cascadiawildlifelab.org</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -770,6 +861,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=2026-11-12"></script>
 </body>
 </html>
