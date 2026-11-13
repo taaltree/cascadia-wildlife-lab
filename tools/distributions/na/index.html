@@ -59,6 +59,7 @@ html[data-extent="na"] .only-pnw{display:none!important}html:not([data-extent="n
 svg text{fill:var(--muted);font-size:12px;font-family:var(--font-body)}
 .tip{position:absolute;pointer-events:none;background:var(--forest-dark);color:var(--white);font-size:.82rem;padding:3px 7px;border-radius:3px;white-space:nowrap;display:none;z-index:3}
 .chart{position:relative}
+.why-row{display:grid;grid-template-columns:9.5em 1fr 2.8em;gap:.4rem;align-items:center;font-size:.86rem;margin:.18rem 0}.why-bar{position:relative;height:.8rem;background:#eef3ef;border-radius:2px}.why-bar>span:first-child{position:absolute;left:0;top:0;bottom:0;background:var(--series);border-radius:2px}.why-rng{position:absolute;top:45%;height:2px;background:var(--forest-dark,#1b3a1b)}.why-pc{text-align:right;font-variant-numeric:tabular-nums}.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .7rem}.why-pd{margin:0}.why-pd figcaption{font-size:.8rem;line-height:1.25;min-height:2.5em}.why-unit{margin-top:-.2rem}
 .dm-card .table-scroll{margin:.4rem 0 0}
 .dm-card table.tbl{font-size:.85rem}
 .dm-card table.tbl th,.dm-card table.tbl td{padding:.3rem .45rem}
@@ -136,6 +137,7 @@ dl.q dd{margin:0}
 </section>
 <aside>
   <div class="dm-card"><h2 id="vtitle"></h2><div id="legend"><canvas width="256" height="1"></canvas><div class="ticks" id="ticks"></div></div><p class="small" id="vread"></p><div id="snote"></div></div>
+  <div class="dm-card" id="whycard" hidden><h2>Why it's here</h2><p class="small" id="whynote"></p><div id="whybars"></div><p class="small" id="whyeffort"></p><div id="whypd"></div><p class="small">What the model learned from where the species was and was not reported: associations, not proven causes. Correlated variables (temperature and elevation, forest cover and greenness) can trade credit. <a href="#m-why" data-goto="m-why">How this was tested</a>.</p></div>
   <div class="dm-card" id="bbscard"><h2>Population trend, BBS</h2><p class="small" id="bbsnote"></p><div class="chart" id="bbschart"></div><div id="bbstable"></div></div>
   <div class="dm-card" id="bhcard" hidden><h2>Map vs BBS counts</h2><p class="small" id="bhnote"></p><div id="bhbody"></div></div>
   <div class="dm-card" id="ebcard" hidden><h2>eBird yearly index</h2><p class="small">Probability of detection at a standard checklist with habitat held at 2010. It cannot tell improving detection from a real rise.</p><div class="chart" id="ebchart"></div></div>
@@ -146,7 +148,7 @@ dl.q dd{margin:0}
 <h2>Methods</h2>
 <div class="only-pnw">
 <p class="lead">Pilot methods as of November 2026. Every setting was tested on simulated species with known answers before it was used on real species. Where a test failed, this page says so.</p>
-<nav class="toc" aria-label="On this page"><a href="#m-what">What is mapped</a><a href="#m-data">Data</a><a href="#m-cov">Covariates</a><a href="#m-models">The models</a><a href="#m-change">Change views</a><a href="#m-clip">Range clip</a><a href="#m-bbs">Population trends</a><a href="#m-valid">Validation</a><a href="#m-bbshab">Check against BBS counts</a><a href="#m-limits">Known limits</a></nav>
+<nav class="toc" aria-label="On this page"><a href="#m-what">What is mapped</a><a href="#m-data">Data</a><a href="#m-cov">Covariates</a><a href="#m-models">The models</a><a href="#m-landsat" class="only-pnw">Landsat model</a><a href="#m-change">Change views</a><a href="#m-why" class="only-pnw">Why it's here</a><a href="#m-clip">Range clip</a><a href="#m-bbs">Population trends</a><a href="#m-valid">Validation</a><a href="#m-bbshab">Check against BBS counts</a><a href="#m-limits">Known limits</a></nav>
 
 <h3 id="m-what">What is mapped</h3>
 <p>The tool covers every bird in the region with at least 1,000 June-July detections, plus the pilot species: 242 in all. Each map shows the modeled probability that one standard checklist reports the species: 60 minutes, 1 km traveled, one observer, 7 am, July 1. It is calculated on a 1 km grid (1.59 million km², Oregon, Washington, Idaho and British Columbia) for each year from 2002 to 2018. It is not occupancy, abundance, or a count of birds.</p>
@@ -173,6 +175,7 @@ dl.q dd{margin:0}
 <tr><td>Average of three climate models</td><td>Equal-weight mean of the Daymet, TerraClimate and CHELSA models</td><td>Where conditions suit the species. Best on new places</td></tr>
 <tr><td>Base (land cover and terrain, no climate)</td><td>Land cover, vegetation and terrain only. Mean of three fits with different seeds</td><td>Change driven by land cover</td></tr>
 <tr><td>Base + Daymet, + TerraClimate, + CHELSA</td><td>Base covariates plus that product's three climate variables. One fit each</td><td>Comparing climate products. Single fits are noisier than the average</td></tr>
+<tr class="only-pnw"><td>Base + Daymet + Landsat</td><td>Base + Daymet, plus 17 Landsat layers (1 km summaries of 62.5 m summer composites, 1984-2025): greenness, burn and moisture indices, tasseled cap, within-cell patchiness, and the share, greenness and regrowth rate of young stands (1-8 years after harvest or fire). One fit</td><td>Young-forest habitat and its quality, for example regrowth after harvest. <a href="#m-landsat">Tests</a></td></tr>
 <tr><td>Experimental: location + year</td><td>Base covariates plus grid location and year. Mean of three fits. <a href="#m-exp">Failed its test with known truth</a></td><td>Broad patterns of spread or decline in reporting, read with the warnings below</td></tr>
 </tbody></table></div>
 
@@ -185,6 +188,27 @@ dl.q dd{margin:0}
 <li><strong>25 km views:</strong> the mean over 25 km blocks.</li>
 </ul>
 <p><strong>Habitat area panel.</strong> The side panel's Measure menu gives three readings of the same yearly maps, for the region and model chosen: the mean probability; the <em>expected area</em>, the sum of the probabilities over 1 km cells in km², a smooth index in which a broad rise in low probabilities counts as much as a rise in the core; and the <em>area above a threshold</em>, the area of cells at or above a cutoff chosen per species and model to make the sum of the false-negative and false-positive rates smallest on held-out checklists (the maximum of sensitivity + specificity − 1). Areas are counted inside the range clip when the species is clipped. Thresholds are chosen at actual checklist effort while the maps use the standard checklist, and they are low for rare species, so the thresholded area is an index, not a measured occupied area. Neither is a population trend. Tested on 18 simulated species with known habitat change: the expected area followed the true series closely (median correlation 0.94 for the average of three climate models, false change under 0.3% when nothing changed). <strong>The thresholded area failed:</strong> about 80% of cells sit above the cutoff every year, so it barely moves (median correlation 0.69 for the same model). Use it for the size of the area, not for its change.</p>
+
+<div class="only-pnw">
+<h3 id="m-landsat">Landsat model</h3>
+<p>Landsat composites (Collection 2, June-September, Landsat 4-9 harmonized to one sensor scale; water, cloud, shadow and snow masked) were checked against MODIS (NDVI r 0.98) and across sensors (Landsat 7 vs 8 in the same year, r 0.99). The harvest detector agrees with Hansen's Global Forest Change on where forest was lost over 2001-2024 (r 0.82 per 1 km cell) but is noisier year by year, so the model uses multi-year young-stand measures, which start in 1994.</p>
+<ul>
+<li><strong>Simulated species whose habitat depends on young-stand quality</strong> (share of young stands and how green they regrow): the current models follow their change with correlation 0.08; with Landsat, 0.96. Map pattern 0.60 vs 0.91. Change shown where nothing changed: 1.36 times the current model, within the 1.5 limit. Weather-driven change: 0.86 vs 0.89. Passes all three tests set in advance.</li>
+<li><strong>Real species, held-out checklists</strong> (242 species, same rows as the Daymet model): prediction error 0.5% lower for new places (190 of 242 species better; young-forest species 0.7%, 14 of 15), but 0.2% higher for later years (97 of 242 better). So Landsat helps a little with where species are, especially young-forest species, and does not improve prediction of later years.</li>
+<li>The simulated test used the same Landsat layers to build the truth, so it shows the model can use this information when a species depends on it, not that real species do. A Landsat-only model, which could reach back to 1985, created too much false change (1.62 times) and is not shown.</li>
+</ul>
+</div>
+
+<div class="only-pnw">
+<h3 id="m-why">Why it's here: what drives each map</h3>
+<p>The side panel's "Why it's here" card shows what each model relies on. Both measures come from the same five held-out spatial folds used for the model-quality scores: each fold's model is fitted on the other four folds and examined on its own checklists, and the bands and ranges show the spread across folds.</p>
+<ul>
+<li><strong>Share of the map's variation.</strong> Each group of covariates (land cover, vegetation greenness, terrain and water, climate, and Landsat stand condition in the Landsat model) is shuffled among held-out checklists, keeping the group's variables together, with survey effort fixed at the standard checklist. The group's importance is how much the prediction moves (mean squared change on the logit scale); shares are importances divided by their total. Groups with many variables are not favored by construction, but a group can borrow credit from a correlated one.</li>
+<li><strong>Survey effort</strong> (duration, distance, observers, date, hour) is not habitat and is reported separately: how much held-out prediction error rises when it is shuffled. The maps hold it at the standard checklist.</li>
+<li><strong>Response curves</strong> (partial dependence) for the six most important variables: each variable is set to values across its range (2.5th to 97.5th percentile of checklists) on 2,000 held-out checklists at the standard checklist, and the predictions averaged. All curves for a species share one vertical scale, so taller curves matter more. For the average of the three climate models, climate curves average the three products at the same percentile of each, drawn on Daymet's axis.</li>
+</ul>
+<p><strong>Test with known truth.</strong> 18 simulated species with known drivers (climate, needleleaf forest and greenness, or elevation alone) were fitted with the three climate models. Pass rules were set before the results: the top group correct for at least 14 of 18; median share error at most 0.10; curve shapes matching the truth (rank correlation at least 0.8) for at least 80% of true drivers. Results: top group correct for 16 of 18 (both misses were near-ties in the truth too); median share error 0.05; curve shapes matched for 97% of 72 drivers. Known biases: climate's share was understated by about 0.1 on average, mostly credited to land cover instead; elevation-only species kept 73-94% of the share on terrain (truth 100%), so elevation was not wrongly credited to temperature. Curve heights were about half the true effect, partly because the map shows detection at a standard checklist rather than occupancy and partly because tree models flatten curves: read the shapes and the relative heights, not the values. With real species, "drivers" are correlates of where birds are reported, which may stand in for unmeasured causes.</p>
+</div>
 
 <h3 id="m-clip">Range clip</h3>
 <p>The clip uses all extant BirdLife polygons, excluding vagrant ones, plus a 50 km buffer. Cells outside it are drawn faint: flagged, not removed. If under 95% of a species' June-July detections fall inside, the map is not clipped and says that the range map and the data disagree: 189 of 242 species are clipped. Some of the 53 unclipped species look like differences in taxonomy, where BirdLife splits what eBird treats as one species. Range maps do not feed into the models.</p>
@@ -335,7 +359,7 @@ dl.q dd{margin:0}
 const EXT = document.documentElement.dataset.extent === "na" ? "na" : "pnw", NAX = EXT === "na", HOME = NAX ? "NA" : "PNW";  // two pages from this source: pilot (1 km) and North America (3 km, na/index.html)
 const TILES = new URLSearchParams(location.search).get("tiles") || ("https://tiles.cascadiawildlifelab.org/distribution/" + (NAX ? "na_v1" : "v1"));
 const REGIONS = NAX ? {NA:["North America",[-168,14,-52,72]],US:["United States",[-125,24,-66.9,49.5]],CA:["Canada",[-141,41.7,-52.6,70]],MX:["Mexico",[-117.2,14.5,-86.7,32.7]]} : {PNW:["All pilot region",[-139.5,41.8,-110.8,60.1]],OR:["Oregon",[-124.8,41.9,-116.4,46.4]],WA:["Washington",[-124.9,45.5,-116.9,49.1]],ID:["Idaho",[-117.3,41.9,-110.9,49.1]],BC:["British Columbia",[-139.2,48.2,-114,60.1]]};
-const SETS = NAX ? {avg3:"Average of three climate models, 2002-2018",base_seeds3:"Base (land cover and terrain, no climate), 2002-2018",aef_daymet3:"AlphaEarth era: embeddings + Daymet, 2017-2024"} : {avg3:"Average of three climate models",base_seeds3:"Base (land cover and terrain, no climate)",base_daymet3:"Base + Daymet climate",base_tc3:"Base + TerraClimate",base_chelsa3:"Base + CHELSA",stxy3:"Experimental: location + year"};
+const SETS = NAX ? {avg3:"Average of three climate models, 2002-2018",base_seeds3:"Base (land cover and terrain, no climate), 2002-2018",aef_daymet3:"AlphaEarth era: embeddings + Daymet, 2017-2024"} : {avg3:"Average of three climate models",base_seeds3:"Base (land cover and terrain, no climate)",base_daymet3:"Base + Daymet climate",base_tc3:"Base + TerraClimate",base_chelsa3:"Base + CHELSA",base_daymet3_ls:"Base + Daymet + Landsat (young-stand quality)",stxy3:"Experimental: location + year"};
 const YEARS = Array.from({length:17},(_,i)=>2002+i), MID = YEARS.slice(2,15), AEFY = Array.from({length:8},(_,i)=>2017+i);
 const yearsFor = st => st==="aef_daymet3" ? AEFY : YEARS;
 const VIEWS = {
@@ -493,7 +517,7 @@ function line(el,xs,ys,lo,hi,fmtY,w=340,h=130){
   svg.onmouseleave=()=>{tip.style.display="none";dot.style.display="none";};
 }
 function panels(){
-  $("bbscard").hidden = isCov() || NAX; bbsHabPanel();  // BBS trends exist for the pilot species only
+  $("bbscard").hidden = isCov() || NAX; bbsHabPanel(); whyPanel();  // BBS trends exist for the pilot species only
   if(isCov()){ const k=covNow(); $("ebcard").hidden=true; $("habmbox").hidden=true; $("habchange").textContent=""; $("habtitle").textContent="Regional mean"; $("habnote").textContent=`Whole pilot region, ${k.unit}. The Region menu moves the map only.`; lineRange($("habchart"),YEARS,k.region_mean,k); return; }
   const hm=sp.area?$("habm").value:"mean"; $("habtitle").textContent=$("set").value==="stxy3"?(hm==="mean"?"Modeled reporting rate, regional mean":"Modeled reporting-rate area"):(hm==="mean"?"Modeled habitat, regional mean":hm==="exp"?"Modeled habitat area, expected":"Modeled habitat area, above threshold"); $("habnote").textContent=$("set").value==="stxy3" ? "Regional mean of the experimental model. Not a population trend: it mixes species change with changes in eBird reporting." : NAX ? ($("set").value==="aef_daymet3" ? "Not a population trend. Regional means of the AlphaEarth model did not drift in tests; year-to-year wiggles are partly embedding noise." : "Not a population trend: change in modeled habitat conditions, which on the pilot did not follow spreading or declining species.") : sp.common==="Eurasian Collared-Dove" ? "Not a population trend. This line stayed nearly flat while Eurasian Collared-Dove spread across the region." : "Not a population trend. For example, the same line for Eurasian Collared-Dove stayed nearly flat while that species spread across the region.";
   const g=$("region").value,b=sp.bbs[g];
@@ -506,6 +530,32 @@ function panels(){
   }
   habitatPanel(g);
   if(DATA.ebird_index_shown&&sp.ebird_index&&sp.ebird_index[g]){ $("ebcard").hidden=false; line($("ebchart"),YEARS,sp.ebird_index[g],null,null,x=>fmt(x,3)); } else $("ebcard").hidden=true;
+}
+const WHY={};
+async function whyPanel(){
+  const c=$("whycard"), st=$("set").value, tag=sp&&sp.tag;
+  if(isCov()||NAX||!sp){ c.hidden=true; return; }
+  if(!(tag in WHY)){ try{ const r=await fetch(`data/explain/${tag}.json`); WHY[tag]=r.ok?await r.json():null; }catch(e){ WHY[tag]=null; } if(!sp||sp.tag!==tag) return; }
+  const W=WHY[tag], e=W&&W.sets[$("set").value];
+  c.hidden=false;
+  if(!e){ $("whynote").textContent=""; $("whybars").innerHTML=`<p class="small">${W?"Not computed for this model.":"Not computed for this species yet."}</p>`; $("whyeffort").textContent=""; $("whypd").innerHTML=""; return; }
+  const pc=x=>Math.round(100*x)+"%", G=W.groups, gs=Object.keys(e.share).sort((a,b)=>e.share[b][0]-e.share[a][0]);
+  $("whynote").textContent=`${SETS[st]||st}. Share of the map's variation from each group of habitat variables, with the range across five held-out folds.`;
+  $("whybars").innerHTML=`<div class="why-bars">${gs.map(g=>{const v=e.share[g]; return `<div class="why-row" title="${G[g]}: ${pc(v[0])} (folds ${pc(v[1])} to ${pc(v[2])})"><span class="why-lab">${G[g]}</span><span class="why-bar"><span style="width:${Math.max(1,100*v[0])}%"></span><span class="why-rng" style="left:${100*v[1]}%;width:${Math.max(.5,100*(v[2]-v[1]))}%"></span></span><span class="why-pc">${pc(v[0])}</span></div>`;}).join("")}</div>`;
+  const ef=e.loss.effort; $("whyeffort").textContent=ef?`Survey effort, held at the standard checklist on the map, also shapes reports: shuffling it raises held-out prediction error by ${ef[0].toFixed(1)}% (habitat groups: ${gs.map(g=>`${G[g].toLowerCase()} ${e.loss[g][0].toFixed(1)}%`).join(", ")}).`:"";
+  const ymax=Math.max(...e.vars.map(v=>Math.max(...v.hi)))*1.05||1;
+  $("whypd").innerHTML=`<p class="small"><strong>Response curves</strong>, most important first: probability of detection at a standard checklist as one variable changes, others as observed. Shared vertical scale; band = range across folds.${st==="avg3"?" Climate curves average the three climate products at matching percentiles, drawn on Daymet's axis.":""}</p><div class="why-grid">${e.vars.map((v,i)=>`<figure class="why-pd"><figcaption>${v.label} <span class="small">(${pc(v.imp)})</span></figcaption><div class="chart" data-i="${i}"></div><div class="small why-unit">${v.unit}</div></figure>`).join("")}</div>`;
+  $("whypd").querySelectorAll(".chart").forEach(el=>pdChart(el,e.vars[+el.dataset.i],ymax));
+}
+function pdChart(el,v,ymax,w=170,h=96){
+  const m={l:6,r:6,t:6,b:18},xs=v.x,x0=xs[0],x1=xs[xs.length-1]===x0?x0+1:xs[xs.length-1];
+  const X=x=>m.l+(x-x0)/(x1-x0)*(w-m.l-m.r),Y=y=>h-m.b-(y/ymax)*(h-m.t-m.b),d=Math.abs(x1-x0)<2?2:Math.abs(x1-x0)<20?1:0;
+  const band=`<path d="M${xs.map((x,i)=>`${X(x)},${Y(v.hi[i])}`).join("L")}L${xs.map((x,i)=>`${X(x)},${Y(v.lo[i])}`).reverse().join("L")}Z" fill="var(--band)"/>`;
+  el.innerHTML=`<svg viewBox="0 0 ${w} ${h}" width="100%" role="img" aria-label="Response curve for ${v.label}"><line x1="${m.l}" x2="${w-m.r}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--line)"/>${band}<path d="M${xs.map((x,i)=>`${X(x)},${Y(v.y[i])}`).join("L")}" fill="none" stroke="var(--series)" stroke-width="2"/><text x="${m.l}" y="${h-4}">${fmt(xs[0],d)}</text><text x="${w-m.r}" y="${h-4}" text-anchor="end">${fmt(xs[xs.length-1],d)}</text><circle r="3.5" fill="var(--series)" style="display:none"/></svg><div class="tip"></div>`;
+  const svg=el.querySelector("svg"),tip=el.querySelector(".tip"),dot=el.querySelector("circle");
+  svg.onmousemove=ev=>{const b=svg.getBoundingClientRect(),px=(ev.clientX-b.left)/b.width*w; let i=0; xs.forEach((x,k)=>{ if(Math.abs(X(x)-px)<Math.abs(X(xs[i])-px)) i=k; });
+    dot.style.display="";dot.setAttribute("cx",X(xs[i]));dot.setAttribute("cy",Y(v.y[i]));tip.style.display="block";tip.textContent=`${fmt(xs[i],d)} ${v.unit.split(",")[0]}: ${fmt(v.y[i],3)}`;tip.style.left=Math.min(b.width-140,X(xs[i])/w*b.width)+"px";tip.style.top="0";};
+  svg.onmouseleave=()=>{tip.style.display="none";dot.style.display="none";};
 }
 let BH=null;
 const bhWord=(v,pos,neg,none)=>v[1]>0?pos:v[2]<0?neg:none;
@@ -613,7 +663,7 @@ async function init(){
   $("tabMap").addEventListener("click",()=>tab("map")); $("tabMethods").addEventListener("click",()=>tab("methods")); $("tabQuality").addEventListener("click",()=>tab("quality"));
   if(location.hash==="#methods"||location.hash.startsWith("#m-")) tab("methods",true);
   if(location.hash==="#quality") tab("quality",true);
-  document.addEventListener("click",e=>{ const a=e.target.closest("a"); if(!a) return; if(a.dataset.q||a.id==="mquality"){e.preventDefault();tab("quality");scrollTo(0,0);} else if(a.id==="qvalid"){e.preventDefault();tab("methods");document.getElementById("m-valid").scrollIntoView();} });
+  document.addEventListener("click",e=>{ const a=e.target.closest("a"); if(!a) return; if(a.dataset.q||a.id==="mquality"){e.preventDefault();tab("quality");scrollTo(0,0);} else if(a.id==="qvalid"){e.preventDefault();tab("methods");document.getElementById("m-valid").scrollIntoView();} else if(a.dataset.goto){e.preventDefault();tab("methods");document.getElementById(a.dataset.goto).scrollIntoView();} });
   $("set").addEventListener("change",()=>{ if($("set").value==="stxy3"&&!sp.scale_stxy3){$("set").value="avg3";} if(!sp.sets.includes($("set").value)){$("set").value="avg3";} fillViews(); speciesNotes();setFrames();panels();});
   $("view").addEventListener("change",setFrames);
   $("habm").addEventListener("change",()=>{ try{localStorage.setItem("dm-habm",$("habm").value);}catch(e){} panels(); });
