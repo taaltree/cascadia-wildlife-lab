@@ -2412,3 +2412,6 @@ a.lab-service-go:hover,
 .hero--home .hero-content { max-width: 1200px; }
 .hero--home .hero-title { font-size: clamp(2.2rem, 4.7vw, 4.1rem); }
 .hero--home .hero-subtitle { text-wrap: balance; }
+
+/* Two buttons side by side at the foot of a card (one per bird-map model) */
+.resource-card-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }

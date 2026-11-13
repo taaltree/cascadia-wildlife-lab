@@ -180,7 +180,7 @@ input[type=range]{width:100%;accent-color:var(--moss)}
 
 <template id="t-welcome">
   <p class="eyebrow">Start here</p>
-  <h1>Run an analysis you can defend, in plain language</h1>
+  <h1>Run an analysis you can defend, in your own words</h1>
   <p class="lead">No experience with Claude is needed. You will meet Claude and its models, install CascadiaTools in the Claude desktop app, learn every slash command, and run worked examples on your own laptop.</p>
   <div class="note"><h3>By the end you will be able to</h3>
     <ul><li>Explain what Claude is, what it gets wrong, and which of its models to pick.</li>
@@ -444,7 +444,7 @@ input[type=range]{width:100%;accent-color:var(--moss)}
   <div class="note"><h3>Three rules</h3><ul>
     <li><strong>Full name.</strong> Plugin commands have the form <code>/cascadia-tools:eco-power</code>. The short <code>/eco-power</code> also works unless another command uses that name.</li>
     <li><strong>First in the message.</strong> A command typed after other words doesn't run as a command.</li>
-    <li><strong>Optional, mostly.</strong> You can write in plain language and Claude usually picks the right one: "How many sites do I need?" loads <code>eco-power</code>. The slash guarantees it.</li>
+    <li><strong>Optional, mostly.</strong> You can write in your own words and Claude usually picks the right one: "How many sites do I need?" loads <code>eco-power</code>. The slash guarantees it.</li>
   </ul></div>
   <p>The one you will use most is <code>eco-analyze</code>, which calls the protocol commands in order. Use the others to run a single step, to repeat a step, or to ask for that step by name when you want it held to its rules.</p>
   <div class="tools-row"><input type="search" id="cmdSearch" placeholder="Filter: figures, sample size, sensitive..." aria-label="Filter commands"><span class="small" id="cmdCount"></span></div>
@@ -685,7 +685,7 @@ input[type=range]{width:100%;accent-color:var(--moss)}
   <ul class="check" id="ownList"></ul>
   <h2>When you get an OPEN verdict</h2>
   <p>OPEN is useful information, and you have options. Ask:</p>
-  <div class="cmd"><pre>/cascadia-tools:eco-acceptance-gate Explain this OPEN verdict in plain terms. Which results can I still report, what would change the verdict (more visits, a simpler model, a different module), and how should I describe the limit in my paper?</pre></div>
+  <div class="cmd"><pre>/cascadia-tools:eco-acceptance-gate Explain this OPEN verdict. Which results can I still report, what would change the verdict (more visits, a simpler model, a different module), and how should I describe the limit in my paper?</pre></div>
   <h2>When no module fits</h2>
   <p>Claude should say so rather than force a poor fit. <code>/cascadia-tools:eco-new-module</code> can build a project-specific module, starting from the primary literature, with its own simulator, recovery runs, negative controls and cross-check. Expect that to take hours or longer, and have a statistician look at it. Results are unverified until they pass the gate.</p>
   <h2>Long Bayesian jobs</h2>
