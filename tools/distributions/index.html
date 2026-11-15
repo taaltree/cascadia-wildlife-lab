@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bird Distribution Maps — Cascadia Wildlife Lab</title>
-<meta name="description" content="Pilot maps of modeled distributions and regional population trends for 242 Pacific Northwest birds, 2002-2018.">
+<title>Cascadia Distribution Maps — Cascadia Wildlife Lab</title>
+<meta name="description" content="Cascadia pilot maps (Oregon, Washington, Idaho, British Columbia): modeled distributions and regional population trends of 242 birds at 1 km, 2002-2018.">
 <link rel="canonical" href="https://cascadiawildlifelab.org/tools/distributions/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Cascadia Wildlife Lab">
-<meta property="og:title" content="Bird Distribution Maps">
-<meta property="og:description" content="Pilot maps of modeled habitat conditions and regional population trends for Pacific Northwest birds, 2002-2018.">
+<meta property="og:title" content="Cascadia Distribution Maps">
+<meta property="og:description" content="Cascadia pilot maps of modeled habitat conditions and regional population trends for 242 birds, 2002-2018.">
 <meta property="og:url" content="https://cascadiawildlifelab.org/tools/distributions/">
 <meta property="og:image" content="https://cascadiawildlifelab.org/assets/images/social-card.jpg">
 <meta property="og:image:alt" content="A wolf and a brown bear on a Pacific Northwest gravel bar">
@@ -40,7 +40,7 @@
 .dm-map label,.qctl label{display:flex;flex-direction:column;font-size:.82rem;font-weight:600;color:var(--forest-dark);gap:.2rem}
 .tools-page input[type=search],.tools-page .dm-select,.dm-map select,.qctl select{font:inherit;font-size:.97rem;color:var(--text);background:var(--white);border:1px solid rgba(27,58,27,.35);border-radius:3px;padding:.4rem .55rem;min-height:40px;max-width:100%}
 html[data-extent="na"] .only-pnw{display:none!important}html:not([data-extent="na"]) .only-na{display:none!important}
-.dm-models{display:grid;grid-template-columns:repeat(2,minmax(0,23rem));gap:.75rem;margin:1.4rem 0 0}.dm-models-label{grid-column:1/-1;margin:0;font-size:.74rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.72)}.dm-model{display:flex;flex-direction:column;gap:.2rem;padding:.85rem 1.1rem .9rem;border:1.5px solid rgba(255,255,255,.4);border-radius:3px;color:#fff;text-decoration:none;transition:background .2s,border-color .2s,transform .2s}a.dm-model:hover,a.dm-model:focus-visible{background:rgba(255,255,255,.08);border-color:var(--gold);transform:translateY(-2px)}.dm-model[aria-current]{background:var(--gold);border-color:var(--gold);color:var(--forest-dark)}.dm-model-name{font-family:var(--font-display);font-size:1.2rem;font-weight:600;line-height:1.2}.dm-model-tag{margin-left:.5rem;padding:.1rem .4rem;border:1px solid currentColor;border-radius:2px;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;vertical-align:.2em;opacity:.85}.dm-model-meta{font-size:.9rem;opacity:.9}.dm-model-state{margin-top:.3rem;font-size:.72rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase}a.dm-model .dm-model-state{color:var(--gold)}@media(max-width:560px){.dm-models{grid-template-columns:1fr 1fr;gap:.5rem}.dm-model{padding:.7rem .75rem .75rem}.dm-model-name{font-size:1.02rem}.dm-model-tag{display:table;margin:.3rem 0 0}.dm-model-meta{font-size:.8rem}.dm-wide{display:none}}
+.dm-xlinks{margin:1rem 0 0;font-size:.98rem;color:rgba(255,255,255,.85)}.dm-xlinks a{color:var(--gold);font-weight:600}.dm-models{display:grid;grid-template-columns:repeat(2,minmax(0,23rem));gap:.75rem;margin:1.4rem 0 0}.dm-models-label{grid-column:1/-1;margin:0;font-size:.74rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.72)}.dm-model{display:flex;flex-direction:column;gap:.2rem;padding:.85rem 1.1rem .9rem;border:1.5px solid rgba(255,255,255,.4);border-radius:3px;color:#fff;text-decoration:none;transition:background .2s,border-color .2s,transform .2s}a.dm-model:hover,a.dm-model:focus-visible{background:rgba(255,255,255,.08);border-color:var(--gold);transform:translateY(-2px)}.dm-model[aria-current]{background:var(--gold);border-color:var(--gold);color:var(--forest-dark)}.dm-model-name{font-family:var(--font-display);font-size:1.2rem;font-weight:600;line-height:1.2}.dm-model-tag{margin-left:.5rem;padding:.1rem .4rem;border:1px solid currentColor;border-radius:2px;font-family:var(--font-body);font-size:.62rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;vertical-align:.2em;opacity:.85}.dm-model-meta{font-size:.9rem;opacity:.9}.dm-model-state{margin-top:.3rem;font-size:.72rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase}a.dm-model .dm-model-state{color:var(--gold)}@media(max-width:560px){.dm-models{grid-template-columns:1fr 1fr;gap:.5rem}.dm-model{padding:.7rem .75rem .75rem}.dm-model-name{font-size:1.02rem}.dm-model-tag{display:table;margin:.3rem 0 0}.dm-model-meta{font-size:.8rem}.dm-wide{display:none}}
 .hab-measure{display:flex;flex-direction:column;gap:.2rem;margin:.1rem 0 .5rem;font-weight:600;color:var(--forest-dark)}.hab-measure select{width:100%}.hab-measure[hidden]{display:none}
 .dm-map select:focus-visible,.qctl select:focus-visible,.combo input:focus-visible{outline:3px solid var(--sage-light);outline-offset:1px}
 #map{height:600px;border:1px solid var(--line);border-radius:4px;background:var(--white)}
@@ -136,12 +136,12 @@ dl.q dd{margin:0}
 </nav>
 <main id="main">
 <div class="tools-header dm-head"><div class="tools-header-inner" style="max-width:1280px">
-<nav class="tools-crumbs" aria-label="Breadcrumb"><a href="../../index.html">Cascadia Wildlife Lab</a> &rsaquo; Bird Distribution Maps</nav>
+<nav class="tools-crumbs" aria-label="Breadcrumb"><a href="../../index.html">Cascadia Wildlife Lab</a> &rsaquo; Distribution Maps &rsaquo; <span class="only-pnw">Cascadia</span><span class="only-na">North America</span></nav>
 <span class="eyebrow only-pnw">Pilot, not for decisions yet</span><span class="eyebrow only-na">Beta, not for decisions yet</span>
-<h1>Bird Distribution Maps</h1>
-<p class="lead only-pnw">Modeled distributions of 242 birds at a standard eBird checklist, 2002-2018, in Oregon, Washington, Idaho and British Columbia. Population trends are shown separately.</p>
-<p class="lead only-na">Modeled distributions of 610 birds at a standard eBird checklist across the United States, Canada and Mexico, at 3 km: 2002-2018, and 2017-2024 with AlphaEarth satellite embeddings.</p>
-<nav class="dm-models" aria-label="Choose a model"><p class="dm-models-label">Two separate models. Choose one:</p><span class="dm-model only-pnw" aria-current="page"><span class="dm-model-name">Pacific Northwest<span class="dm-model-tag">Pilot</span></span><span class="dm-model-meta">1 km grid &middot; 242 species &middot; 2002-2018</span><span class="dm-model-state">Showing now</span></span><a class="dm-model only-na" href="../index.html" data-to="../index.html"><span class="dm-model-name">Pacific Northwest<span class="dm-model-tag">Pilot</span></span><span class="dm-model-meta">1 km grid &middot; 242 species &middot; 2002-2018</span><span class="dm-model-state">Switch<span class="dm-wide"> to this model</span> &rarr;</span></a><a class="dm-model only-pnw" href="na/index.html" data-to="na/index.html"><span class="dm-model-name">North America<span class="dm-model-tag">Beta</span></span><span class="dm-model-meta">3 km grid &middot; 610 species &middot; 2002-2018 and 2017-2024</span><span class="dm-model-state">Switch<span class="dm-wide"> to this model</span> &rarr;</span></a><span class="dm-model only-na" aria-current="page"><span class="dm-model-name">North America<span class="dm-model-tag">Beta</span></span><span class="dm-model-meta">3 km grid &middot; 610 species &middot; 2002-2018 and 2017-2024</span><span class="dm-model-state">Showing now</span></span></nav>
+<h1><span class="only-pnw">Cascadia Distribution Maps</span><span class="only-na">North America Distribution Maps</span></h1>
+<p class="lead only-pnw">The Cascadia pilot: modeled distributions of 242 birds at a standard eBird checklist in Oregon, Washington, Idaho and British Columbia, at 1 km, 2002-2018, with population trends, habitat change and checks against Breeding Bird Survey counts.</p>
+<p class="lead only-na">Modeled distributions across the United States, Canada and Mexico at 3 km: 610 birds from eBird checklists (2002-2018, and 2017-2024 with AlphaEarth satellite embeddings), and 435 mammals, amphibians and reptiles from GBIF records (beta).</p>
+<p class="dm-xlinks"><span class="only-pnw">A separate map set: <a class="dm-xlink" href="na/index.html" data-to="na/index.html">North America Distribution Maps</a> (3 km; birds, mammals, amphibians and reptiles) &rarr;</span><span class="only-na">A separate map set: <a class="dm-xlink" href="../index.html" data-to="../index.html">Cascadia Distribution Maps</a> (1 km pilot for birds, with deeper analysis) &rarr;</span></p>
 </div></div>
 <div class="dm-tabbar"><div role="tablist" aria-label="Page sections"><button type="button" class="tab-btn" role="tab" id="tabMap" aria-selected="true" aria-controls="panelMap">Map</button><button type="button" class="tab-btn" role="tab" id="tabMethods" aria-selected="false" aria-controls="panelMethods">Methods</button><button type="button" class="tab-btn" role="tab" id="tabQuality" aria-selected="false" aria-controls="panelQuality">Model quality</button></div></div>
 <div id="panelMap" class="dm-map" role="tabpanel" aria-labelledby="tabMap">
@@ -390,7 +390,7 @@ dl.q dd{margin:0}
   <div class="footer-inner">
     <div class="footer-brand"><img src="../../assets/images/logos/Cascadia_Wildlife_Lab_LogoVectorOwl.png" alt="Cascadia Wildlife Lab" class="footer-logo"><p>Mobilizing technology for wildlife ecology and conservation in the Pacific Northwest and beyond.</p></div>
     <div class="footer-col"><h2 class="footer-h">Our Labs</h2><ul><li><a href="../../genetics/index.html">Cascadia Genetics Laboratory</a></li><li><a href="../../ai/index.html">Cascadia AI Lab</a></li><li><a href="../../analysis/index.html">Cascadia Analysis Lab</a></li></ul></div>
-    <div class="footer-col"><h2 class="footer-h">Explore</h2><ul><li><a href="../../impact/index.html">Conservation Impact</a></li><li><a href="../index.html">CascadiaTools</a></li><li><a href="index.html">Bird Distribution Maps</a></li></ul></div>
+    <div class="footer-col"><h2 class="footer-h">Explore</h2><ul><li><a href="../../impact/index.html">Conservation Impact</a></li><li><a href="../index.html">CascadiaTools</a></li><li><a href="index.html">Distribution Maps</a></li></ul></div>
     <div class="footer-col footer-contact"><h2 class="footer-h">Contact</h2><p>Cascadia Wildlife Lab<br>Pacific Northwest, USA</p><a href="mailto:info@cascadiawildlifelab.org">info@cascadiawildlifelab.org</a></div>
   </div>
   <div class="footer-bottom"><p>&copy; <span id="year">2026</span> Cascadia Wildlife Lab. All rights reserved.</p></div>
@@ -573,7 +573,7 @@ function line(el,xs,ys,lo,hi,fmtY,w=340,h=130){
 }
 function panels(){
   const mam=isMam(); $("mamcard").hidden=!mam; $("habcard").hidden=mam;
-  if(mam){ $("bbscard").hidden=true; $("bhcard").hidden=true; $("ebcard").hidden=true; $("whycard").hidden=true; mamPanel(); return; }
+  if(mam){ $("bbscard").hidden=true; $("bhcard").hidden=true; $("ebcard").hidden=true; mamPanel(); whyPanel(); return; }
   $("bbscard").hidden = isCov() || NAX; bbsHabPanel(); whyPanel();  // BBS trends exist for the pilot species only
   if(isCov()){ const k=covNow(); $("ebcard").hidden=true; $("habmbox").hidden=true; $("habchange").textContent=""; $("habtitle").textContent="Regional mean"; $("habnote").textContent=`Whole pilot region, ${k.unit}. The Region menu moves the map only.`; lineRange($("habchart"),YEARS,k.region_mean,k); return; }
   const hm=sp.area?$("habm").value:"mean"; $("habtitle").textContent=$("set").value==="stxy3"?(hm==="mean"?"Modeled reporting rate, regional mean":"Modeled reporting-rate area"):(hm==="mean"?"Modeled habitat, regional mean":hm==="exp"?"Modeled habitat area, expected":"Modeled habitat area, above threshold"); $("habnote").textContent=$("set").value==="stxy3" ? "Regional mean of the experimental model. Not a population trend: it mixes species change with changes in eBird reporting." : NAX ? ($("set").value==="aef_daymet3" ? "Not a population trend. Regional means of the AlphaEarth model did not drift in tests; year-to-year wiggles are partly embedding noise." : "Not a population trend: change in modeled habitat conditions, which on the pilot did not follow spreading or declining species.") : sp.common==="Eurasian Collared-Dove" ? "Not a population trend. This line stayed nearly flat while Eurasian Collared-Dove spread across the region." : "Not a population trend. For example, the same line for Eurasian Collared-Dove stayed nearly flat while that species spread across the region.";
@@ -629,16 +629,18 @@ const WHY={};
 async function whyPanel(){
   const c=$("whycard"), st=$("set").value, tag=sp&&sp.tag;
   if(isCov()||!sp){ c.hidden=true; return; }
-  if(!(tag in WHY)){ try{ const r=await fetch(`data/explain/${tag}.json`); WHY[tag]=r.ok?await r.json():null; }catch(e){ WHY[tag]=null; } if(!sp||sp.tag!==tag) return; }
+  if(isMam()&&lowHidden()){ c.hidden=true; return; }
+  if(!(tag in WHY)){ try{ const r=await fetch(isMam()?`data/explain_po/${tag}.json`:`data/explain/${tag}.json`); WHY[tag]=r.ok?await r.json():null; }catch(e){ WHY[tag]=null; } if(!sp||sp.tag!==tag) return; }
   const W=WHY[tag], e=W&&W.sets[$("set").value];
+  if(isMam()&&!W){ c.hidden=true; return; }
   c.hidden=false;
   if(!e){ $("whynote").textContent=""; $("whybars").innerHTML=`<p class="small">${st==="aef_daymet3"?"Not shown for the AlphaEarth model: its 64 embedding bands are abstract summaries of satellite imagery with no direct meaning, so a breakdown by variable would not say why the species is there. Switch to the 2002-2018 average to see the drivers.":W?"Not computed for this model.":"Not computed for this species."}</p>`; $("whyeffort").textContent=""; $("whypd").innerHTML=""; return; }
   const pc=x=>Math.round(100*x)+"%", G=W.groups, gs=Object.keys(e.share).sort((a,b)=>e.share[b][0]-e.share[a][0]);
-  $("whynote").textContent=`${SETS[st]||st}. Share of the map's variation from each group of habitat variables, with the range across five held-out folds.`;
+  $("whynote").textContent=W.presence_only?`Share of the map's variation from each group of habitat variables, with the range across three refits of the model.${sp.status==="lower"?" This map did not meet the standard, so read this as a rough guide too.":""}`:`${SETS[st]||st}. Share of the map's variation from each group of habitat variables, with the range across five held-out folds.`;
   $("whybars").innerHTML=`<div class="why-bars">${gs.map(g=>{const v=e.share[g]; return `<div class="why-row" title="${G[g]}: ${pc(v[0])} (folds ${pc(v[1])} to ${pc(v[2])})"><span class="why-lab">${G[g]}</span><span class="why-bar"><span style="width:${Math.max(1,100*v[0])}%"></span><span class="why-rng" style="left:${100*v[1]}%;width:${Math.max(.5,100*(v[2]-v[1]))}%"></span></span><span class="why-pc">${pc(v[0])}</span></div>`;}).join("")}</div>`;
-  const ef=e.loss.effort; $("whyeffort").textContent=ef?`Survey effort, held at the standard checklist on the map, also shapes reports: shuffling it raises held-out prediction error by ${ef[0].toFixed(1)}% (habitat groups: ${gs.map(g=>`${G[g].toLowerCase()} ${e.loss[g][0].toFixed(1)}%`).join(", ")}).`:"";
+  const ef=e.loss&&e.loss.effort; $("whyeffort").textContent=ef?`Survey effort, held at the standard checklist on the map, also shapes reports: shuffling it raises held-out prediction error by ${ef[0].toFixed(1)}% (habitat groups: ${gs.map(g=>`${G[g].toLowerCase()} ${e.loss[g][0].toFixed(1)}%`).join(", ")}).`:"";
   const ymax=Math.max(...e.vars.map(v=>Math.max(...v.hi)))*1.05||1;
-  $("whypd").innerHTML=`<p class="small"><strong>Response curves</strong>, most important first: probability of detection at a standard checklist as one variable changes, others as observed. Shared vertical scale; band = range across folds.${st==="avg3"?" Climate curves average the three climate products at matching percentiles, drawn on Daymet's axis.":""}</p><div class="why-grid">${e.vars.map((v,i)=>`<figure class="why-pd"><figcaption>${v.label} <span class="small">(${pc(v.imp)})</span></figcaption><div class="chart" data-i="${i}"></div><div class="small why-unit">${v.unit}</div></figure>`).join("")}</div>`;
+  $("whypd").innerHTML=`<p class="small"><strong>Response curves</strong>, most important first: ${W.presence_only?"relative suitability":"probability of detection at a standard checklist"} as one variable changes, others as observed. Shared vertical scale; band = range across folds.${st==="avg3"?" Climate curves average the three climate products at matching percentiles, drawn on Daymet's axis.":""}</p><div class="why-grid">${e.vars.map((v,i)=>`<figure class="why-pd"><figcaption>${v.label} <span class="small">(${pc(v.imp)})</span></figcaption><div class="chart" data-i="${i}"></div><div class="small why-unit">${v.unit}</div></figure>`).join("")}</div>`;
   $("whypd").querySelectorAll(".chart").forEach(el=>pdChart(el,e.vars[+el.dataset.i],ymax));
 }
 function pdChart(el,v,ymax,w=170,h=96){
@@ -723,7 +725,7 @@ function chooseSpecies(name){
   const oa=$("set").querySelector('[value=aef_daymet3]'); if(oa){oa.hidden=!r.sets.includes("aef_daymet3"); oa.disabled=oa.hidden; if(oa.hidden&&$("set").value==="aef_daymet3"){$("set").value="avg3"; fillViews();}} for(const o of $("region").options) o.text=REGIONS[o.value][0]+((NAX?(r.withheld||[]).includes(o.value):!r.habitat[o.value])?" (not mapped)":"");
   comboClose(); speciesNotes(); setFrames(); panels();
   try{history.replaceState(null,"",`?${new URLSearchParams({...Object.fromEntries(new URLSearchParams(location.search)),sp:r.tag})}`)}catch(e){}
-  document.querySelectorAll("a.dm-model").forEach(a=>{ a.href=a.dataset.to+"?sp="+encodeURIComponent(r.tag); }); // the other model opens on the same species when it has it
+  document.querySelectorAll("a.dm-model, a.dm-xlink").forEach(a=>{ a.href=a.dataset.to+"?sp="+encodeURIComponent(r.tag); }); // the other model opens on the same species when it has it
 }
 async function init(){
   if(NAX){ try{ const r=await fetch("data/regions.json"); if(r.ok) Object.assign(REGIONS, await r.json()); }catch(e){} }
