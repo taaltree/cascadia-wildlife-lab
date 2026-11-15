@@ -59,6 +59,7 @@ html[data-extent="na"] .only-pnw{display:none!important}html:not([data-extent="n
 svg text{fill:var(--muted);font-size:12px;font-family:var(--font-body)}
 .tip{position:absolute;pointer-events:none;background:var(--forest-dark);color:var(--white);font-size:.82rem;padding:3px 7px;border-radius:3px;white-space:nowrap;display:none;z-index:3}
 .chart{position:relative}
+.dm-credit{color:var(--muted);font-size:.8rem}.dm-low{display:flex;align-items:center;gap:.4rem;font-size:.9rem}.dm-low input{width:auto;margin:0}
 .why-row{display:grid;grid-template-columns:9.5em 1fr 2.8em;gap:.4rem;align-items:center;font-size:.86rem;margin:.18rem 0}.why-bar{position:relative;height:.8rem;background:#eef3ef;border-radius:2px}.why-bar>span:first-child{position:absolute;left:0;top:0;bottom:0;background:var(--series);border-radius:2px}.why-rng{position:absolute;top:45%;height:2px;background:var(--forest-dark,#1b3a1b)}.why-pc{text-align:right;font-variant-numeric:tabular-nums}.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .7rem}.why-pd{margin:0}.why-pd figcaption{font-size:.8rem;line-height:1.25;min-height:2.5em}.why-unit{margin-top:-.2rem}
 .dm-card .table-scroll{margin:.4rem 0 0}
 .dm-card table.tbl{font-size:.85rem}
@@ -124,6 +125,8 @@ dl.q dd{margin:0}
 <div class="dm-tabbar"><div role="tablist" aria-label="Page sections"><button type="button" class="tab-btn" role="tab" id="tabMap" aria-selected="true" aria-controls="panelMap">Map</button><button type="button" class="tab-btn" role="tab" id="tabMethods" aria-selected="false" aria-controls="panelMethods">Methods</button><button type="button" class="tab-btn" role="tab" id="tabQuality" aria-selected="false" aria-controls="panelQuality">Model quality</button></div></div>
 <div id="panelMap" class="dm-map" role="tabpanel" aria-labelledby="tabMap">
 <div class="controls">
+  <label class="only-na" id="grpbox">Group<select id="grp"><option value="bird">Birds (eBird checklists)</option></select></label>
+  <label class="only-na dm-low" id="lowbox" hidden><input type="checkbox" id="lowshow"> Show lower-performing maps</label>
   <label>Show<select id="mode"><option value="species">Species prediction</option><option value="cov">Covariate through time</option></select></label>
   <div class="combo" id="spbox"><label for="species">Species</label><input id="species" role="combobox" aria-expanded="false" aria-controls="splist" aria-autocomplete="list" autocomplete="off" spellcheck="false" placeholder="Type or pick a species"><ul id="splist" role="listbox" aria-label="Species" hidden></ul></div>
   <label id="covbox" hidden>Covariate<select id="cov"></select></label>
@@ -141,14 +144,15 @@ dl.q dd{margin:0}
   <div class="dm-card" id="bbscard"><h2>Population trend, BBS</h2><p class="small" id="bbsnote"></p><div class="chart" id="bbschart"></div><div id="bbstable"></div></div>
   <div class="dm-card" id="bhcard" hidden><h2>Map vs BBS counts</h2><p class="small" id="bhnote"></p><div id="bhbody"></div></div>
   <div class="dm-card" id="ebcard" hidden><h2>eBird yearly index</h2><p class="small">Probability of detection at a standard checklist with habitat held at 2010. It cannot tell improving detection from a real rise.</p><div class="chart" id="ebchart"></div></div>
-  <div class="dm-card"><h2 id="habtitle">Modeled habitat, regional mean</h2><label class="small hab-measure" id="habmbox">Measure<select id="habm"><option value="mean">Mean probability</option><option value="exp">Expected area: sum of probabilities</option><option value="thr">Area above a threshold</option></select></label><p class="small" id="habnote"></p><div class="chart" id="habchart"></div><p class="small" id="habchange"></p></div>
+  <div class="dm-card" id="mamcard" hidden><h2>About this mammal map</h2><div id="mambody"></div></div>
+  <div class="dm-card" id="habcard"><h2 id="habtitle">Modeled habitat, regional mean</h2><label class="small hab-measure" id="habmbox">Measure<select id="habm"><option value="mean">Mean probability</option><option value="exp">Expected area: sum of probabilities</option><option value="thr">Area above a threshold</option></select></label><p class="small" id="habnote"></p><div class="chart" id="habchart"></div><p class="small" id="habchange"></p></div>
 </aside>
 </div>
 <section id="panelMethods" class="tools-section" role="tabpanel" aria-labelledby="tabMethods" hidden><div class="tools-wrap--narrow prose dm-doc" style="margin:auto">
 <h2>Methods</h2>
 <div class="only-pnw">
 <p class="lead">Pilot methods as of November 2026. Every setting was tested on simulated species with known answers before it was used on real species. Where a test failed, this page says so.</p>
-<nav class="toc" aria-label="On this page"><a href="#m-what">What is mapped</a><a href="#m-data">Data</a><a href="#m-cov">Covariates</a><a href="#m-models">The models</a><a href="#m-landsat" class="only-pnw">Landsat model</a><a href="#m-change">Change views</a><a href="#m-why" class="only-pnw">Why it's here</a><a href="#m-clip">Range clip</a><a href="#m-bbs">Population trends</a><a href="#m-valid">Validation</a><a href="#m-bbshab">Check against BBS counts</a><a href="#m-limits">Known limits</a></nav>
+<nav class="toc" aria-label="On this page"><a href="#m-what">What is mapped</a><a href="#m-data">Data</a><a href="#m-cov">Covariates</a><a href="#m-models">The models</a><a href="#m-landsat" class="only-pnw">Landsat model</a><a href="#m-change">Change views</a><a href="#m-why">Why it's here</a><a href="#m-clip">Range clip</a><a href="#m-bbs">Population trends</a><a href="#m-valid">Validation</a><a href="#m-bbshab">Check against BBS counts</a><a href="#m-limits">Known limits</a></nav>
 
 <h3 id="m-what">What is mapped</h3>
 <p>The tool covers every bird in the region with at least 1,000 June-July detections, plus the pilot species: 242 in all. Each map shows the modeled probability that one standard checklist reports the species: 60 minutes, 1 km traveled, one observer, 7 am, July 1. It is calculated on a 1 km grid (1.59 million km², Oregon, Washington, Idaho and British Columbia) for each year from 2002 to 2018. It is not occupancy, abundance, or a count of birds.</p>
@@ -199,7 +203,7 @@ dl.q dd{margin:0}
 </ul>
 </div>
 
-<div class="only-pnw">
+<div>
 <h3 id="m-why">Why it's here: what drives each map</h3>
 <p>The side panel's "Why it's here" card shows what each model relies on. Both measures come from the same five held-out spatial folds used for the model-quality scores: each fold's model is fitted on the other four folds and examined on its own checklists, and the bands and ranges show the spread across folds.</p>
 <ul>
@@ -207,7 +211,7 @@ dl.q dd{margin:0}
 <li><strong>Survey effort</strong> (duration, distance, observers, date, hour) is not habitat and is reported separately: how much held-out prediction error rises when it is shuffled. The maps hold it at the standard checklist.</li>
 <li><strong>Response curves</strong> (partial dependence) for the six most important variables: each variable is set to values across its range (2.5th to 97.5th percentile of checklists) on 2,000 held-out checklists at the standard checklist, and the predictions averaged. All curves for a species share one vertical scale, so taller curves matter more. For the average of the three climate models, climate curves average the three products at the same percentile of each, drawn on Daymet's axis.</li>
 </ul>
-<p><strong>Test with known truth.</strong> 18 simulated species with known drivers (climate, needleleaf forest and greenness, or elevation alone) were fitted with the three climate models. Pass rules were set before the results: the top group correct for at least 14 of 18; median share error at most 0.10; curve shapes matching the truth (rank correlation at least 0.8) for at least 80% of true drivers. Results: top group correct for 16 of 18 (both misses were near-ties in the truth too); median share error 0.05; curve shapes matched for 97% of 72 drivers. Known biases: climate's share was understated by about 0.1 on average, mostly credited to land cover instead; elevation-only species kept 73-94% of the share on terrain (truth 100%), so elevation was not wrongly credited to temperature. Curve heights were about half the true effect, partly because the map shows detection at a standard checklist rather than occupancy and partly because tree models flatten curves: read the shapes and the relative heights, not the values. With real species, "drivers" are correlates of where birds are reported, which may stand in for unmeasured causes.</p>
+<p><strong>Test with known truth (Pacific Northwest, 1 km).</strong> 18 simulated species with known drivers (climate, needleleaf forest and greenness, or elevation alone) were fitted with the three climate models. Pass rules were set before the results: the top group correct for at least 14 of 18; median share error at most 0.10; curve shapes matching the truth (rank correlation at least 0.8) for at least 80% of true drivers. Results: top group correct for 16 of 18 (both misses were near-ties in the truth too); median share error 0.05; curve shapes matched for 97% of 72 drivers. Known biases: climate's share was understated by about 0.1 on average, mostly credited to land cover instead; elevation-only species kept 73-94% of the share on terrain (truth 100%), so elevation was not wrongly credited to temperature. Curve heights were about half the true effect, partly because the map shows detection at a standard checklist rather than occupancy and partly because tree models flatten curves: read the shapes and the relative heights, not the values. With real species, "drivers" are correlates of where birds are reported, which may stand in for unmeasured causes.</p>
 </div>
 
 <h3 id="m-clip">Range clip</h3>
@@ -260,7 +264,7 @@ dl.q dd{margin:0}
 </div>
 <div class="only-na">
 <p class="lead">North America methods as of November 2026, beta. The models are the pilot's, rebuilt on a 3 km grid for the continent; the pilot page has the full description of each setting. Every setting was tested on simulated species with known answers; where a test failed, this page says so.</p>
-<nav class="toc" aria-label="On this page"><a href="#n-what">What is mapped</a><a href="#n-data">Data and withheld records</a><a href="#n-models">Models and covariates</a><a href="#n-tests">Tests with known truth</a><a href="#n-aef">AlphaEarth era: reliability</a><a href="#n-heldout">Held-out checklists</a><a href="#n-limits">Known limits</a></nav>
+<nav class="toc" aria-label="On this page"><a href="#n-what">What is mapped</a><a href="#n-data">Data and withheld records</a><a href="#n-models">Models and covariates</a><a href="#n-tests">Tests with known truth</a><a href="#n-aef">AlphaEarth era: reliability</a><a href="#n-heldout">Held-out checklists</a><a href="#n-why">Why it's here</a><a href="#m-mammals">Mammals, amphibians, reptiles</a><a href="#n-limits">Known limits</a></nav>
 <h3 id="n-what">What is mapped</h3>
 <p>610 birds: every species with at least 1,000 June-July detections on complete eBird checklists in 2002-2020, spread over at least 10 separate 50 km blocks. Each map shows the modeled probability that one standard checklist (60 minutes, 1 km, one observer, 7 am, early July) reports the species, in 3 km cells across the United States (without Hawaii), Canada and Mexico. The western Aleutians, which cross 180 degrees, are left out.</p>
 <h3 id="n-data">Data and withheld records</h3>
@@ -312,6 +316,25 @@ dl.q dd{margin:0}
 <li><strong>Not shown:</strong> a model is hidden for a species when it predicts held-out checklists in new places worse than a flat average: seven species-model pairs in six localized or introduced species: Northern Red Bishop (climate average); Rosy-faced Lovebird and Red-masked Parakeet (base); Arizona Woodpecker, King Eider, Rosy-faced Lovebird and Southern House Wren (AlphaEarth). Each species keeps its other models.</li>
 <li><strong>Low predictions:</strong> for about one species in six, predictions run below 0.6 of what was observed in one of the tests; their maps say so and should be read as relative.</li>
 </ul></div>
+<h3 id="n-why">Why it's here: what drives each map</h3>
+<p>The side panel's "Why it's here" card shows what each bird model relies on, from the same five held-out spatial folds (51 km blocks) used for the held-out scores below.</p>
+<ul>
+<li><strong>Share of the map's variation.</strong> Each group of covariates (land cover, vegetation greenness, terrain and water, climate) is shuffled among held-out checklists, keeping the group's variables together, with survey effort fixed at the standard checklist. The group's importance is how much the prediction moves (mean squared change on the logit scale); shares are importances divided by their total. Groups with many variables are not favored by construction, but a group can borrow credit from a correlated one.</li>
+<li><strong>Survey effort</strong> (duration, distance, observers, date, hour) is not habitat and is reported separately: how much held-out prediction error rises when it is shuffled. The maps hold it at the standard checklist.</li>
+<li><strong>Response curves</strong> (partial dependence) for the six most important variables: each variable is set to values across its range (2.5th to 97.5th percentile of checklists) on 2,000 held-out checklists at the standard checklist, and the predictions averaged. All curves for a species share one vertical scale, so taller curves matter more. For the average of the three climate models, climate curves average the three products at the same percentile of each, drawn on Daymet's axis.</li>
+</ul>
+<p><strong>Test with known truth.</strong> The same test was repeated on the 3 km grid with 18 simulated species and all 2.5 million June-July checklists of 2002-2018. It passed: top group correct for 14 of 18 (the minimum allowed), median share error 0.02, curve shapes matched for 93% of 72 true drivers. In two misses the credit moved between land cover and greenness, which are correlated, so read those two groups together. Most curve misses were for the summer maximum-temperature optimum where the true peak was shallow. Shown for the 2002-2018 models (the average of three climate models, and Base); not for the AlphaEarth model, whose embedding bands have no direct meaning.</p>
+<h3 id="m-mammals">Mammals, amphibians and reptiles (beta): presence-only maps from GBIF records</h3>
+<p>These groups have no checklist data like eBird's, so their maps come from <strong>presence-only</strong> records: GBIF occurrence records from 2002-2020 (<a href="https://doi.org/10.15468/dl.encvrb">GBIF.org 2026, doi:10.15468/dl.encvrb</a>), most from iNaturalist in recent years, kept as one record per species, 3 km cell, year and month. Each map shows <em>where conditions resemble the places a species was recorded</em>, on a relative scale. It is not a probability, an abundance or a population trend, and there are no change views. Every species with at least 300 records is mapped: 155 mammals, 94 amphibians and 186 reptiles.</p>
+<p><strong>Maps that meet the standard and lower-performing maps.</strong> A map meets the standard when (1) in the simulation test, maps built from that many records matched the true pattern with a rank correlation of at least 0.8, and (2) where an independent survey exists, it scored an AUC of at least 0.7 there. That holds for 62 mammals, 17 amphibians and 38 reptiles. The other 318 maps are <strong>lower performing</strong>: they are hidden until you tick "Show lower-performing maps", carry a caveat giving the reasons, and their "Model quality explained" link sets out the evidence in plain language.</p>
+<ul>
+<li><strong>Cleaning.</strong> Marine species (whales, seals, sea turtles, sea snakes), species of orders with no native North American members (zoo and captive records), non-native primates and domestic animals are left out. Names that differ only because a genus was renamed are merged (for example bullfrog under Lithobates and Aquarana); recently split species are not lumped. For species whose records agree with their range map (at least 95% within the range plus 50 km), isolated records more than 200 km outside it are left out as likely captives or errors.</li>
+<li><strong>Model.</strong> Boosted trees comparing a species' records with all other records of its group (a "target-group" background). Because both come from the same observers, this cancels much of the pull of roads, cities and parks. Covariates as for the birds' Base + TerraClimate model, matched to each record's year. The map is the mean of the 2016-2020 predictions, scaled so the species' top 0.5% of land is 1.</li>
+<li><strong>Simulation test.</strong> 18 invented species with known habitat, their records drawn the way each group's real GBIF records fall. Rank correlation between map and truth, at 300 / 1,000 / 3,000 records: mammals 0.64 / 0.80 / 0.87; amphibians 0.56 / 0.73 / 0.84; reptiles 0.56 / 0.72 / 0.85. So mammal maps meet the standard from about 1,000 records, amphibian and reptile maps from about 3,000. <strong>Change over time failed</strong> in every group: where nothing changed, the models still showed about as much change as where it did.</li>
+<li><strong>Independent tests.</strong> Mammals: <a href="https://doi.org/10.5061/dryad.k0p2ngfhn">Snapshot USA</a> camera traps (9,626 deployments, 2019-2023). Frogs and toads: the USGS North American Amphibian Monitoring Program calling surveys (<a href="https://doi.org/10.5066/F7G44NG0">NAAMP</a>, 64,081 stop-years, 2002-2015, eastern and central US). Each site was scored by a model that never saw records from its own 51 km block. Boosted trees beat a simpler model in both (median AUC inside the recorded area 0.76 vs 0.72 for mammals, 0.73 vs 0.71 for frogs and toads). Widespread species often scored below 0.7 (for example coyote, beaver, bullfrog, green frog): when a species is found almost everywhere, records alone cannot separate better from poorer habitat. Salamanders, western amphibians and reptiles have no independent test.</li>
+<li><strong>Range maps.</strong> Mammals and amphibians: IUCN Red List range maps (<a href="https://www.iucnredlist.org">IUCN 2026, version 2026-1</a>); reptiles: GARD 1.7 (Roll et al. 2017, <em>Nature Ecology &amp; Evolution</em> 1:1677-1682; Caetano et al. 2022, <em>PLoS Biology</em>). As for the birds, areas more than 50 km outside the range are drawn faint (flagged, not removed) when at least 95% of the species' records fall inside; otherwise the map is not clipped and says the range and the records disagree. Range polygons themselves are not shown. Per-species credits appear with each map.</li>
+</ul>
+
 <h3 id="n-limits">Known limits</h3>
 <ul>
 <li><strong>Uneven data.</strong> eBird coverage is far denser in the United States and southern Canada than in the north and in Mexico, and far denser after 2010 than before. Maps are least reliable where checklists are scarce: held-out scores in Mexico are clearly lower (above).</li>
@@ -323,8 +346,8 @@ dl.q dd{margin:0}
 </div></section>
 <section id="panelQuality" class="tools-section" role="tabpanel" aria-labelledby="tabQuality" hidden><div class="tools-wrap dm-doc">
 <h2 id="quality">Model quality</h2>
-<p class="lead">How well each model predicted eBird checklists it was not trained on. New places: five folds of 50 km blocks, each predicted by a model fitted to the other four. Later years: fitted to 2002-2014, tested on 2015-2018.</p>
-<div class="callout callout--warn"><strong>These scores test where a species gets reported, not whether a map's change over time is right.</strong> A model can score well here and still miss a real decline. For change, see <a href="#m-valid" id="qvalid">the tests with known truth</a> and the BBS comparison below. The later-years test of the location + year model holds year at 2014, so it does not test that model's year effects.</div>
+<p class="lead q-bird">How well each model predicted eBird checklists it was not trained on. New places: five folds of 50 km blocks, each predicted by a model fitted to the other four. Later years: fitted to 2002-2014, tested on 2015-2018.</p>
+<div class="callout callout--warn q-bird"><strong>These scores test where a species gets reported, not whether a map's change over time is right.</strong> A model can score well here and still miss a real decline. For change, see <a href="#m-valid" id="qvalid">the tests with known truth</a> and the BBS comparison below. The later-years test of the location + year model holds year at 2014, so it does not test that model's year effects.</div>
 <div id="qbody"><p class="small">Loading scores…</p></div>
 <h3>What the scores mean</h3>
 <dl class="q prose">
@@ -377,7 +400,12 @@ const AEFVIEWS = {
   change24:{label:"Change, 24 km",title:"Change, 2017-2020 to 2021-2024, 24 km",frames:[{name:"change4_24km",label:"24 km"}],kind:"d",read:"Failed its test with known truth: where nothing truly changed, the embeddings still produced about half as much apparent change as real change did. Read only large, consistent patterns. See Methods."},
   change3:{label:"Change, 3 km",title:"Change, 2017-2020 to 2021-2024, 3 km",frames:[{name:"change4_3km",label:"3 km"}],kind:"d",read:"Failed its test with known truth, and noisier than the 24 km view. See Methods."},
 };
-const viewsFor = st => st==="aef_daymet3" ? AEFVIEWS : VIEWS;
+const POVIEWS = {recent:{label:"Relative suitability, 2016-2020",title:"Relative habitat suitability, 2016-2020",frames:[{name:"recent",label:"2016-2020"}],kind:"r",read:"Where conditions most resemble places the species was recorded, relative to other mammals' records. A relative scale, not a probability or an abundance."}};
+if(NAX) SETS.po_brt = "Presence-only model, GBIF records, 2016-2020";
+const isMam = () => !!(sp && sp.taxon && sp.taxon !== "bird");  // mammals, amphibians, reptiles (presence-only)
+let PO = null;
+const lowHidden = () => isMam() && sp.status === "lower" && !$("lowshow").checked;
+const viewsFor = st => st==="aef_daymet3" ? AEFVIEWS : st==="po_brt" ? POVIEWS : VIEWS;
 const SEQ = ["#f6fbc8","#d6efb3","#a5dbb7","#6bc4bc","#3aa7c1","#1f7fb6","#23509f","#1f2f7e","#081d58"];
 const DIV = ["#2d004b","#6b5aa5","#b2abd2","#e4e2ec","#f7f7f7","#fbdcb1","#f5a54a","#c8650f","#7f3b08"];
 const $ = id => document.getElementById(id);
@@ -396,8 +424,9 @@ map.addControl(new maplibregl.NavigationControl({showCompass:false}));
 function clearFrames(){ for(const id of loaded){ if(map.getLayer(id)) map.removeLayer(id); if(map.getSource(id)) map.removeSource(id);} loaded = new Set(); }
 function setFrames(){
   stop(); clearFrames();
+  if(lowHidden()){ frames=[]; $("timebar").style.visibility="hidden"; $("vtitle").textContent="Lower-performing map: hidden"; $("ticks").innerHTML=""; $("vread").textContent="This species' model did not meet the standard used for the maps shown by default. Read why in the panel, then tick \"Show lower-performing maps\" above to view it."; return; }
   const cov = isCov(), st = $("set").value, v = (cov?COVVIEWS:viewsFor(st))[$("view").value];
-  const base = cov ? `${TILES}/covariates/${$("cov").value}` : `${TILES}/${sp.tag}/${st}`;
+  const base = cov ? `${TILES}/covariates/${$("cov").value}` : isMam() ? `${TILES.replace(/na_v1$/,"na_po_v1")}/${sp.tag}/${st}` : `${TILES}/${sp.tag}/${st}`;
   frames = v.frames;
   frames.forEach((f,i)=>{
     const id = `f${i}`;
@@ -421,6 +450,7 @@ function legend(v){
     $("vread").textContent = v.kind==="c" ? "Input to the models, not a prediction. Colors run from the 1st to 99th percentile over all years." : "Input to the models, not a prediction. Purple is a decrease, orange an increase.";
     return;
   }
+  if(v.kind==="r"){ $("ticks").innerHTML='<span>Low</span><span>Relative suitability</span><span>High</span>'; $("vtitle").textContent=v.title; $("vread").textContent=v.read; return; }
   const s = $("set").value==="stxy3" ? sp.scale_stxy3 : $("set").value==="aef_daymet3" ? (sp.scale_aef||sp.scale) : sp.scale;
   $("ticks").innerHTML = v.kind==="p" ? `<span>0</span><span>${fmt(s.pmax/2,2)}</span><span>${fmt(s.pmax,2)}+</span>` :
     v.kind==="d" ? `<span>−${fmt(s.dmax)} decrease</span><span>0</span><span>+${fmt(s.dmax)} increase</span>` : `<span>−${fmt(s.smax,4)}/yr</span><span>0</span><span>+${fmt(s.smax,4)}/yr</span>`;
@@ -429,6 +459,8 @@ function legend(v){
 }
 function speciesNotes(){
   if(isCov()){ const k=covNow(); $("snote").innerHTML = k.source==="Daymet" ? '<div class="note">In British Columbia, Daymet temperature shows blocky changes of several °C that TerraClimate and CHELSA do not show. These look like artifacts of the product rather than real climate change.</div>' : k.group==="Climate" ? '<div class="note">Climate products disagree on trends, so compare them before reading a change here as real.</div>' : k.group==="Land cover" ? '<div class="note">Annual land cover products change slowly and have known errors. ESA forest loss in 2019-2020, after these maps end, is mostly unconfirmed by MODIS.</div>' : ""; return; }
+  if(isMam()){ const low=sp.status==="lower";
+    $("snote").innerHTML=(low?`<div class="note"><strong>Lower-performing map: a rough guide only.</strong> ${sp.reasons.join(" ")} Patterns may be partly wrong; do not use it for decisions.</div>`:"")+`<div class="note"><strong>Beta, presence-only.</strong> Built from GBIF records (mostly iNaturalist), not surveys. It shows where conditions resemble recorded places, not change over time: change failed its test with known truth.${sp.range&&sp.range.clipped?" Faint areas lie over 50 km outside the species' range map.":" Not clipped to a range map."}</div><p class="small"><a href="#quality" data-q="1">How good is this map? Plain-language model quality</a></p>`; return; }
   const n = [`<div class="note">${sp.clip.note}</div>`];
   if(NAX&&(sp.dropped_sets||[]).length) n.push(`<div class="note">Not shown for this species: ${sp.dropped_sets.map(k=>SETS[k]||k).join("; ")}. It did worse than a flat average on held-out checklists in new places.</div>`);
   if($("set").value==="stxy3") n.unshift('<div class="note"><strong>Experimental.</strong> This model did not pass its test with known truth. It shows modeled reporting rate through time, which mixes real change in the species with changes in eBird reporting, and it is not a population trend. Read broad patterns only.</div>');
@@ -454,6 +486,8 @@ function calChart(pts){
   return `<svg viewBox="0 0 ${w} ${h}" style="max-width:420px;width:100%" role="img" aria-label="Predicted probability against the observed reporting rate; the table below lists the values"><line x1="${m.l}" x2="${w-m.r}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--line)"/><line x1="${m.l}" x2="${m.l}" y1="${Y(0)}" y2="${m.t}" stroke="var(--line)"/><line x1="${X(0)}" y1="${Y(0)}" x2="${X(mx)}" y2="${Y(mx)}" stroke="var(--muted)" stroke-dasharray="4 4"/>${tx}<path d="M${pts.map(p=>`${X(p[0])},${Y(p[1])}`).join("L")}" fill="none" stroke="var(--series)" stroke-width="2"/>${pts.map((p,i)=>`<g data-i="${i}"><circle cx="${X(p[0])}" cy="${Y(p[1])}" r="12" fill="transparent"/><circle cx="${X(p[0])}" cy="${Y(p[1])}" r="4.5" fill="var(--series)" stroke="var(--panel)" stroke-width="2"/></g>`).join("")}<text x="${m.l+(w-m.l-m.r)/2}" y="${h-6}" text-anchor="middle">Mean predicted probability (square-root scale)</text><text transform="translate(12 ${m.t+(h-m.t-m.b)/2}) rotate(-90)" text-anchor="middle">Observed reporting rate</text></svg><div class="tip"></div><p class="small">Dashed line: perfect calibration.</p>`;
 }
 function renderQuality(){
+  document.querySelectorAll(".q-bird").forEach(e=>e.hidden=!!isMam());
+  if(sp&&isMam()){ poQuality(); return; }
   if(!Q||!sp) return;
   const tag=sp.tag, sets=sp.sets, qs=Q.species[tag], rg=REGIONS[qRegion][0];
   const stab=cv=>`<h3>${CVS[cv]}</h3><div class="table-scroll"><table class="tbl qt"><thead><tr><th>Model</th><th>AUC</th><th>PR-AUC</th><th>PR-AUC ÷ prevalence</th><th>Deviance explained</th><th>Prediction ÷ observed</th><th>Held-out detections</th></tr></thead><tbody>${sets.map(st=>{const r=qRow(tag,st,cv,qRegion); return `<tr><td>${SETS[st]}</td><td>${r?q3(r.auc):NA}${r&&r.auc_min!==null&&qRegion==="PNW"?` <span class="small">(${q3(r.auc_min)}-${q3(r.auc_max)})</span>`:""}</td><td>${r?q3(r.prauc):NA}</td><td>${r?q3(r.lift,1):NA}</td><td>${r?q3(r.d2):NA}</td><td>${r?q3(r.ratio):NA}</td><td>${r?r.detections.toLocaleString():NA}</td></tr>`;}).join("")}</tbody></table></div>`;
@@ -517,6 +551,8 @@ function line(el,xs,ys,lo,hi,fmtY,w=340,h=130){
   svg.onmouseleave=()=>{tip.style.display="none";dot.style.display="none";};
 }
 function panels(){
+  const mam=isMam(); $("mamcard").hidden=!mam; $("habcard").hidden=mam;
+  if(mam){ $("bbscard").hidden=true; $("bhcard").hidden=true; $("ebcard").hidden=true; $("whycard").hidden=true; mamPanel(); return; }
   $("bbscard").hidden = isCov() || NAX; bbsHabPanel(); whyPanel();  // BBS trends exist for the pilot species only
   if(isCov()){ const k=covNow(); $("ebcard").hidden=true; $("habmbox").hidden=true; $("habchange").textContent=""; $("habtitle").textContent="Regional mean"; $("habnote").textContent=`Whole pilot region, ${k.unit}. The Region menu moves the map only.`; lineRange($("habchart"),YEARS,k.region_mean,k); return; }
   const hm=sp.area?$("habm").value:"mean"; $("habtitle").textContent=$("set").value==="stxy3"?(hm==="mean"?"Modeled reporting rate, regional mean":"Modeled reporting-rate area"):(hm==="mean"?"Modeled habitat, regional mean":hm==="exp"?"Modeled habitat area, expected":"Modeled habitat area, above threshold"); $("habnote").textContent=$("set").value==="stxy3" ? "Regional mean of the experimental model. Not a population trend: it mixes species change with changes in eBird reporting." : NAX ? ($("set").value==="aef_daymet3" ? "Not a population trend. Regional means of the AlphaEarth model did not drift in tests; year-to-year wiggles are partly embedding noise." : "Not a population trend: change in modeled habitat conditions, which on the pilot did not follow spreading or declining species.") : sp.common==="Eurasian Collared-Dove" ? "Not a population trend. This line stayed nearly flat while Eurasian Collared-Dove spread across the region." : "Not a population trend. For example, the same line for Eurasian Collared-Dove stayed nearly flat while that species spread across the region.";
@@ -531,14 +567,51 @@ function panels(){
   habitatPanel(g);
   if(DATA.ebird_index_shown&&sp.ebird_index&&sp.ebird_index[g]){ $("ebcard").hidden=false; line($("ebchart"),YEARS,sp.ebird_index[g],null,null,x=>fmt(x,3)); } else $("ebcard").hidden=true;
 }
+function aucWords(a,units){ return `if you pick one of the ${units} where it was found and one where it was not, the map rates the first higher ${Math.round(a*100)}% of the time (50% would be chance)`; }
+function mamPanel(){
+  const m=sp, g=(PO&&PO.groups[m.taxon])||"", low=m.status==="lower";
+  const t=m.indep, test = !t ? `<p class="small"><strong>No independent test:</strong> no survey data with absences exist for ${g.toLowerCase()} across the continent, so this map rests on the simulation test alone.</p>`
+    : t.auc==null ? `<p class="small"><strong>Not independently tested:</strong> ${t.name} did not detect it at enough sites to score.</p>`
+    : `<p class="small"><strong>${t.name}:</strong> AUC ${t.auc.toFixed(2)}${t.auc_clip!=null?` overall, ${t.auc_clip.toFixed(2)} inside the area where it has been recorded`:""}. In words: ${aucWords(t.auc,t.units)}.</p>`;
+  const R=m.range||{}, src=R.source||"IUCN";
+  const rng = R.has ? (R.clipped ? `<p class="small"><strong>Range:</strong> ${Math.round(R.within_50*100)}% of its records lie inside its ${src} range + 50 km, so places beyond that are drawn faint (flagged, not removed)${R.dropped?`; ${R.dropped.toLocaleString()} isolated records far outside it were left out of the model`:""}.</p>` : `<p class="small"><strong>Range:</strong> only ${Math.round(R.within_50*100)}% of its records lie inside its ${src} range + 50 km, so the range map and the records disagree (the range may be out of date). The map is not clipped and no records were removed.</p>`)
+    +(R.credit?`<p class="small dm-credit">Range map: ${R.credit}</p>`:"") : `<p class="small"><strong>Range:</strong> no range map available; the map is not clipped.</p>`;
+  $("mambody").innerHTML=(m.note?`<div class="note">${m.note}</div>`:"")+`<p class="small"><strong>${low?"Lower-performing":"Meets the standard"}.</strong> <em>${m.sci}</em>${m.category?`, IUCN Red List: ${m.category}`:""}. ${m.records.toLocaleString()} GBIF records, 2002-2020 (one per place and month).</p>`
+    +`<p class="small"><strong>Simulation test:</strong> with this many records, maps matched the true pattern with a rank correlation of about ${m.expected_pattern.toFixed(2)} (1 = perfect; the standard is 0.8).</p>`+test+rng
+    +(low?`<label class="small dm-low"><input type="checkbox" id="lowshow2" ${$("lowshow").checked?"checked":""}> Show lower-performing maps</label>`:"")
+    +`<p class="small"><a href="#quality" data-q="1">Model quality explained</a> · <a href="#m-mammals" data-goto="m-mammals">Methods</a></p>`;
+  const b=$("lowshow2"); if(b) b.onchange=()=>{ $("lowshow").checked=b.checked; $("lowshow").dispatchEvent(new Event("change")); };
+}
+function poQuality(){
+  const m=sp, g=(PO&&PO.groups[m.taxon])||"", t=m.indep, low=m.status==="lower", E=(PO&&PO.expected[m.taxon])||{};
+  const rows=DATA.species.filter(s=>s.taxon===m.taxon).sort((a,b)=>a.common.localeCompare(b.common));
+  const f2=x=>x==null?"–":x.toFixed(2);
+  $("qbody").innerHTML=`<h3>${m.common} <span class="small">(${g}, presence-only)</span></h3>
+<p><strong>${low?"Lower-performing map.":"Meets the standard for maps shown by default."}</strong> ${low?m.reasons.join(" "):"It passed the simulation test at its record count"+(t&&t.auc!=null?" and the independent test.":", and no independent test was failed.")}</p>
+<h3>1. Simulation test: can a map built from this many records find the right places?</h3>
+<p>We invented 18 species with known habitat preferences and drew their records the way real GBIF records of ${g.toLowerCase()} fall: clustered near roads, towns and parks. We then fitted the same model and compared its map with the truth. With about ${m.tier.toLocaleString()} or more records, the median rank correlation between map and truth was <strong>${f2(m.expected_pattern)}</strong>. 1 would mean the map ranks every place exactly as the truth does; 0, no relation. Maps shown by default reach at least 0.8.</p>
+<div class="table-scroll"><table class="tbl"><thead><tr><th>Records</th>${Object.keys(E).map(n=>`<th>${(+n).toLocaleString()}</th>`).join("")}</tr></thead><tbody><tr><td>Map vs truth (${g.toLowerCase()})</td>${Object.values(E).map(v=>`<td>${v.toFixed(2)}</td>`).join("")}</tr></tbody></table></div>
+<p class="small">The same test showed that these models cannot track change over time, which is why no change views are offered.</p>
+<h3>2. Independent test against real surveys</h3>
+${!t?`<p>None is possible: there are no continent-wide ${g.toLowerCase()} surveys that record absences. This map rests on the simulation test alone.</p>`:t.auc==null?`<p>${t.name} did not record this species at enough sites to score it.</p>`:`<p>${t.name} recorded where the species was found and where it was not. The map, built without any records from within 51 km of each site, scored <strong>AUC ${t.auc.toFixed(2)}</strong>: ${aucWords(t.auc,t.units)}. Below 0.7 the map is treated as lower performing.${t.auc_clip!=null?` Counting only ${t.units} inside the area where the species has been recorded, AUC is ${t.auc_clip.toFixed(2)}: this tells how well the map picks good from poor habitat within its range, which is harder than telling range from non-range.`:""}</p>`}
+<h3>3. Agreement with the range map</h3>
+<p>${m.range&&m.range.has?(m.range.within_50>=0.95?`${Math.round(m.range.within_50*100)}% of records fall inside the ${m.range.source||"IUCN"} range plus 50 km, so the map is drawn faint beyond it. ${m.range.dropped?`${m.range.dropped.toLocaleString()} isolated records more than 200 km outside were treated as errors or captives and left out.`:"No records were far outside it."}`:`Only ${Math.round(m.range.within_50*100)}% of records fall inside the ${m.range.source||"IUCN"} range plus 50 km. The range map may be out of date or the records may include errors; the map is not clipped and no records were removed.`):"No range map is available for this species, so the map is not clipped."}</p>${m.range&&m.range.credit?`<p class="small">Range map: ${m.range.credit}</p>`:""}
+<h3>How to read the map</h3>
+<ul><li>It ranks places by how much their conditions resemble places where the species was recorded, relative to other ${g.toLowerCase()}. It is not a probability, an abundance, or a population trend.</li>
+<li>Pale areas are not proof of absence: some regions have few GBIF records of any kind.</li>
+<li>Strong colour far outside the known range usually means similar habitat, not a population.</li></ul>
+<h3>All ${g.toLowerCase()}</h3>
+<div class="table-scroll"><table class="tbl" id="poall"><thead><tr><th>Species</th><th>Records</th><th>Map vs truth (simulation)</th><th>Independent AUC</th><th>Status</th></tr></thead><tbody>${rows.map(r=>`<tr data-t="${r.tag}" style="cursor:pointer"><td>${r.common}</td><td>${r.records.toLocaleString()}</td><td>${f2(r.expected_pattern)}</td><td>${r.indep?f2(r.indep.auc):"none"}</td><td>${r.status==="lower"?"Lower performing":"Standard"}</td></tr>`).join("")}</tbody></table></div>`;
+  document.querySelectorAll("#poall tr[data-t]").forEach(t=>t.onclick=()=>{ const r=DATA.species.find(s=>s.tag===t.dataset.t); if(r){ chooseSpecies(r.common); renderQuality(); $("qbody").scrollIntoView(); } });
+}
 const WHY={};
 async function whyPanel(){
   const c=$("whycard"), st=$("set").value, tag=sp&&sp.tag;
-  if(isCov()||NAX||!sp){ c.hidden=true; return; }
+  if(isCov()||!sp){ c.hidden=true; return; }
   if(!(tag in WHY)){ try{ const r=await fetch(`data/explain/${tag}.json`); WHY[tag]=r.ok?await r.json():null; }catch(e){ WHY[tag]=null; } if(!sp||sp.tag!==tag) return; }
   const W=WHY[tag], e=W&&W.sets[$("set").value];
   c.hidden=false;
-  if(!e){ $("whynote").textContent=""; $("whybars").innerHTML=`<p class="small">${W?"Not computed for this model.":"Not computed for this species yet."}</p>`; $("whyeffort").textContent=""; $("whypd").innerHTML=""; return; }
+  if(!e){ $("whynote").textContent=""; $("whybars").innerHTML=`<p class="small">${st==="aef_daymet3"?"Not shown for the AlphaEarth model: its 64 embedding bands are abstract summaries of satellite imagery with no direct meaning, so a breakdown by variable would not say why the species is there. Switch to the 2002-2018 average to see the drivers.":W?"Not computed for this model.":"Not computed for this species."}</p>`; $("whyeffort").textContent=""; $("whypd").innerHTML=""; return; }
   const pc=x=>Math.round(100*x)+"%", G=W.groups, gs=Object.keys(e.share).sort((a,b)=>e.share[b][0]-e.share[a][0]);
   $("whynote").textContent=`${SETS[st]||st}. Share of the map's variation from each group of habitat variables, with the range across five held-out folds.`;
   $("whybars").innerHTML=`<div class="why-bars">${gs.map(g=>{const v=e.share[g]; return `<div class="why-row" title="${G[g]}: ${pc(v[0])} (folds ${pc(v[1])} to ${pc(v[2])})"><span class="why-lab">${G[g]}</span><span class="why-bar"><span style="width:${Math.max(1,100*v[0])}%"></span><span class="why-rng" style="left:${100*v[1]}%;width:${Math.max(.5,100*(v[2]-v[1]))}%"></span></span><span class="why-pc">${pc(v[0])}</span></div>`;}).join("")}</div>`;
@@ -613,9 +686,10 @@ function setMode(){
 let comboActive=-1, comboItems=[];
 function comboRender(q){
   const ul=$("splist"), t=(q||"").trim().toLowerCase();
-  comboItems=DATA.species.filter(s=>!t||s.common.toLowerCase().includes(t)||(s.sci||"").toLowerCase().includes(t));
+  const grp=NAX?$("grp").value:"bird";
+  comboItems=DATA.species.filter(s=>(s.taxon||"bird")===grp&&(s.status!=="lower"||$("lowshow").checked)).filter(s=>!t||s.common.toLowerCase().includes(t)||(s.sci||"").toLowerCase().includes(t));
   comboActive=-1;
-  ul.innerHTML=comboItems.length?comboItems.map((s,i)=>`<li role="option" id="op${i}" data-i="${i}" aria-selected="false">${s.common}<i>${s.sci||""}</i></li>`).join(""):'<li class="none">No match</li>';
+  ul.innerHTML=comboItems.length?comboItems.map((s,i)=>`<li role="option" id="op${i}" data-i="${i}" aria-selected="false">${s.common}${s.status==="lower"?" (lower performing)":""}<i>${s.sci||""}</i></li>`).join(""):'<li class="none">No match</li>';
   ul.hidden=false; $("species").setAttribute("aria-expanded","true");
 }
 function comboClose(){ $("splist").hidden=true; $("species").setAttribute("aria-expanded","false"); $("species").removeAttribute("aria-activedescendant"); if(sp) $("species").value=sp.common; }
@@ -637,13 +711,19 @@ async function init(){
   fillViews();
   try{ DATA=await (await fetch("data/species.json")).json(); }
   catch(e){ $("snote").innerHTML='<p class="err">Could not load the species list.</p>'; return; }
+  if(NAX){ try{ const r=await fetch("data/po.json"); if(r.ok){ PO=await r.json(); DATA.species.push(...PO.species.map(x=>({...x,taxon:x.group}))); for(const [k,lab] of Object.entries(PO.groups)) if(PO.species.some(x=>x.group===k)) $("grp").add(new Option(`${lab} (GBIF records, beta)`,k)); } }catch(e){} }
+  if(NAX&&!PO) $("grpbox").hidden=true;
   if(!NAX){ try{ const r=await fetch("data/covariates.json"); if(r.ok) COVS=await r.json(); }catch(e){} }
   if(!COVS.length) $("mode").closest("label").hidden=true;
   if(!NAX){ try{ const r=await fetch("data/bbs_habitat.json"); if(r.ok) BH=await r.json(); }catch(e){} }
   bbsHabSummary();
   if(COVS.length){ const gs={}; for(const k of COVS)(gs[k.group]=gs[k.group]||[]).push(k); for(const [g,items] of Object.entries(gs)){ const o=document.createElement("optgroup"); o.label=g; for(const k of items) o.append(new Option(k.group==="Climate"?`${k.label}, ${k.source}`:k.label,k.id)); $("cov").append(o);} } else $("mode").querySelector('[value=cov]').disabled=true;
   const q=new URLSearchParams(location.search).get("sp"), first=DATA.species.find(s=>s.tag===q)||DATA.species[0];
+  if(NAX&&first.taxon&&first.taxon!=="bird"){ $("grp").value=first.taxon; if(first.status==="lower") $("lowbox").hidden=false; }
+  if(NAX) $("lowbox").hidden=$("grp").value==="bird";
   const start=()=>{ map.resize(); map.fitBounds(REGIONS[HOME][1],{padding:10,animate:false}); chooseSpecies(first.common); };
+  if(NAX) $("grp").addEventListener("change",()=>{ const g=$("grp").value; $("lowbox").hidden=g==="bird"; const s0=DATA.species.find(s=>(s.taxon||"bird")===g&&(s.status!=="lower"||$("lowshow").checked))||DATA.species.find(s=>(s.taxon||"bird")===g); if(s0) chooseSpecies(s0.common); });
+  if(NAX) $("lowshow").addEventListener("change",()=>{ if(sp){ speciesNotes(); setFrames(); panels(); } });
   mapReady?start():map.once("load",start);  // not map.loaded() or map.isStyleLoaded(): both are false while tiles load, after "load" has already fired: the species then never loaded
   const box=$("species");
   box.addEventListener("focus",()=>{ box.select(); comboRender(""); });
@@ -663,7 +743,7 @@ async function init(){
   $("tabMap").addEventListener("click",()=>tab("map")); $("tabMethods").addEventListener("click",()=>tab("methods")); $("tabQuality").addEventListener("click",()=>tab("quality"));
   if(location.hash==="#methods"||location.hash.startsWith("#m-")) tab("methods",true);
   if(location.hash==="#quality") tab("quality",true);
-  document.addEventListener("click",e=>{ const a=e.target.closest("a"); if(!a) return; if(a.dataset.q||a.id==="mquality"){e.preventDefault();tab("quality");scrollTo(0,0);} else if(a.id==="qvalid"){e.preventDefault();tab("methods");document.getElementById("m-valid").scrollIntoView();} else if(a.dataset.goto){e.preventDefault();tab("methods");document.getElementById(a.dataset.goto).scrollIntoView();} });
+  document.addEventListener("click",e=>{ const a=e.target.closest("a"); if(!a) return; if(a.dataset.q||a.id==="mquality"){e.preventDefault();tab("quality");scrollTo(0,0);} else if(a.id==="qvalid"){e.preventDefault();tab("methods");document.getElementById("m-valid").scrollIntoView();} else if(a.dataset.goto){e.preventDefault();tab("methods"); let el=document.getElementById(a.dataset.goto); if(NAX&&el&&el.closest(".only-pnw")) el=document.getElementById(a.dataset.goto.replace(/^m-/,"n-"))||el; el.scrollIntoView();} });
   $("set").addEventListener("change",()=>{ if($("set").value==="stxy3"&&!sp.scale_stxy3){$("set").value="avg3";} if(!sp.sets.includes($("set").value)){$("set").value="avg3";} fillViews(); speciesNotes();setFrames();panels();});
   $("view").addEventListener("change",setFrames);
   $("habm").addEventListener("change",()=>{ try{localStorage.setItem("dm-habm",$("habm").value);}catch(e){} panels(); });
