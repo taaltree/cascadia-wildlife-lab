@@ -173,7 +173,7 @@ dl.q dd{margin:0}
 <h2>Methods</h2>
 <div class="only-pnw">
 <p class="lead">Pilot methods as of November 2026. Every setting was tested on simulated species with known answers before it was used on real species. Where a test failed, this page says so.</p>
-<nav class="toc" aria-label="On this page"><a href="#m-what">What is mapped</a><a href="#m-data">Data</a><a href="#m-cov">Covariates</a><a href="#m-models">The models</a><a href="#m-landsat" class="only-pnw">Landsat model</a><a href="#m-change">Change views</a><a href="#m-why">Why it's here</a><a href="#m-clip">Range clip</a><a href="#m-bbs">Population trends</a><a href="#m-valid">Validation</a><a href="#m-bbshab">Check against BBS counts</a><a href="#m-limits">Known limits</a></nav>
+<nav class="toc" aria-label="On this page"><a href="#m-what">What is mapped</a><a href="#m-data">Data</a><a href="#m-cov">Covariates</a><a href="#m-models">The models</a><a href="#m-landsat" class="only-pnw">Landsat model</a><a href="#m-fine" class="only-pnw">62.5 m detail</a><a href="#m-change">Change views</a><a href="#m-why">Why it's here</a><a href="#m-clip">Range clip</a><a href="#m-bbs">Population trends</a><a href="#m-valid">Validation</a><a href="#m-bbshab">Check against BBS counts</a><a href="#m-limits">Known limits</a></nav>
 
 <h3 id="m-what">What is mapped</h3>
 <p>The tool covers every bird in the region with at least 1,000 June-July detections, plus the pilot species: 242 in all. Each map shows the modeled probability that one standard checklist reports the species: 60 minutes, 1 km traveled, one observer, 7 am, July 1. It is calculated on a 1 km grid (1.59 million km², Oregon, Washington, Idaho and British Columbia) for each year from 2002 to 2018. It is not occupancy, abundance, or a count of birds.</p>
@@ -221,6 +221,17 @@ dl.q dd{margin:0}
 <li><strong>Simulated species whose habitat depends on young-stand quality</strong> (share of young stands and how green they regrow): the current models follow their change with correlation 0.08; with Landsat, 0.96. Map pattern 0.60 vs 0.91. Change shown where nothing changed: 1.36 times the current model, within the 1.5 limit. Weather-driven change: 0.86 vs 0.89. Passes all three tests set in advance.</li>
 <li><strong>Real species, held-out checklists</strong> (242 species, same rows as the Daymet model): prediction error 0.5% lower for new places (190 of 242 species better; young-forest species 0.7%, 14 of 15), but 0.2% higher for later years (97 of 242 better). So Landsat helps a little with where species are, especially young-forest species, and does not improve prediction of later years.</li>
 <li>The simulated test used the same Landsat layers to build the truth, so it shows the model can use this information when a species depends on it, not that real species do. A Landsat-only model, which could reach back to 1985, created too much false change (1.62 times) and is not shown.</li>
+</ul>
+</div>
+
+<div class="only-pnw">
+<h3 id="m-fine">62.5 m detail (2018 map)</h3>
+<p>At 1 km a cell that is part mature forest and part clearcut gets one value, so a clearcut can look like habitat for a mature-forest bird such as Hermit Thrush. The "62.5 m Landsat detail" model uses, at each checklist's location, the Base + Daymet covariates interpolated smoothly between 1 km cells (so the map has no steps at cell edges) plus the Landsat greenness (NDVI) and burn ratio (NBR) of the 62.5 m pixel, their means within 250 m, and the share of open ground (NBR below 0.1) within 250 m. The map predicts every 62.5 m pixel for 2018 at the standard checklist.</p>
+<ul>
+<li><strong>Test with known truth.</strong> 12 simulated species: forest birds that avoid open ground, early-seral birds that prefer it, and birds with no fine-scale preference. Location error was simulated honestly: a travelling checklist's bird could be anywhere along its route. Inside 1 km cells the map ranked sub-pixels as the truth did with a median rank correlation of 0.71 to 0.84 (needed 0.5); for birds with no fine-scale preference it added little invented detail (0.14 of the between-cell spread; limit 0.25); and the 1 km pattern improved (0.92 vs 0.87).</li>
+<li><strong>Real species.</strong> On held-out checklists whose location is good to about 1 km (five 50 km folds), the 62.5 m model predicted better than the 1 km Base + Daymet model for 225 of 241 species (median log-loss improvement 2.0%, 95% interval 1.7 to 2.1%), most for shoreline and shrub-steppe birds. A first version that repeated each 1 km value over the cell's pixels drew visible 1 km squares and did less well (1.2%); the interpolated version replaced it.</li>
+<li><strong>How much fine detail to expect.</strong> For many forest birds, elevation and climate still shape most of the map, and the contrast between a clearcut and the forest around it is modest (for example Hermit Thrush). It is clearest where habitat edges are sharp: shorelines, shrub-steppe, and young versus mature forest for early-seral birds.</li>
+<li><strong>Limits.</strong> eBird records one point per checklist, so the model learns fine-scale habitat from checklists whose location is good to roughly 100 m to 1 km: read stands and landscapes, not single pixels. One year (2018) is shown; no change views at this scale.</li>
 </ul>
 </div>
 
@@ -403,7 +414,7 @@ dl.q dd{margin:0}
 const EXT = document.documentElement.dataset.extent === "na" ? "na" : "pnw", NAX = EXT === "na", HOME = NAX ? "NA" : "PNW";  // two pages from this source: pilot (1 km) and North America (3 km, na/index.html)
 const TILES = new URLSearchParams(location.search).get("tiles") || ("https://tiles.cascadiawildlifelab.org/distribution/" + (NAX ? "na_v1" : "v1"));
 const REGIONS = NAX ? {NA:["North America",[-168,14,-52,72]],US:["United States",[-125,24,-66.9,49.5]],CA:["Canada",[-141,41.7,-52.6,70]],MX:["Mexico",[-117.2,14.5,-86.7,32.7]]} : {PNW:["All pilot region",[-139.5,41.8,-110.8,60.1]],OR:["Oregon",[-124.8,41.9,-116.4,46.4]],WA:["Washington",[-124.9,45.5,-116.9,49.1]],ID:["Idaho",[-117.3,41.9,-110.9,49.1]],BC:["British Columbia",[-139.2,48.2,-114,60.1]]};
-const SETS = NAX ? {avg3:"Average of three climate models, 2002-2018",base_seeds3:"Base (land cover and terrain, no climate), 2002-2018",aef_daymet3:"AlphaEarth era: embeddings + Daymet, 2017-2024"} : {avg3:"Average of three climate models",base_seeds3:"Base (land cover and terrain, no climate)",base_daymet3:"Base + Daymet climate",base_tc3:"Base + TerraClimate",base_chelsa3:"Base + CHELSA",base_daymet3_ls:"Base + Daymet + Landsat (young-stand quality)",stxy3:"Experimental: location + year"};
+const SETS = NAX ? {avg3:"Average of three climate models, 2002-2018",base_seeds3:"Base (land cover and terrain, no climate), 2002-2018",aef_daymet3:"AlphaEarth era: embeddings + Daymet, 2017-2024"} : {avg3:"Average of three climate models",base_seeds3:"Base (land cover and terrain, no climate)",base_daymet3:"Base + Daymet climate",base_tc3:"Base + TerraClimate",base_chelsa3:"Base + CHELSA",base_daymet3_ls:"Base + Daymet + Landsat (young-stand quality)",fine:"Base + Daymet + 62.5 m Landsat detail (2018 map)",stxy3:"Experimental: location + year"};
 const YEARS = Array.from({length:17},(_,i)=>2002+i), MID = YEARS.slice(2,15), AEFY = Array.from({length:8},(_,i)=>2017+i);
 const yearsFor = st => st==="aef_daymet3" ? AEFY : YEARS;
 const VIEWS = {
@@ -426,7 +437,8 @@ if(NAX) SETS.po_brt = "Presence-only model, GBIF records, 2016-2020";
 const isMam = () => !!(sp && sp.taxon && sp.taxon !== "bird");  // mammals, amphibians, reptiles (presence-only)
 let PO = null;
 const lowHidden = () => isMam() && sp.status === "lower" && !$("lowshow").checked;
-const viewsFor = st => st==="aef_daymet3" ? AEFVIEWS : st==="po_brt" ? POVIEWS : VIEWS;
+const FINEVIEWS = {fine2018:{label:"2018, 62.5 m detail",title:"Modeled habitat at 62.5 m, 2018",frames:[{name:"fine_2018",label:"2018"}],kind:"p",read:"Zoom in to see stands: clearcuts, young forest, riparian strips and shorelines. Same colour scale as the 1 km maps."}};
+const viewsFor = st => st==="aef_daymet3" ? AEFVIEWS : st==="po_brt" ? POVIEWS : st==="fine" ? FINEVIEWS : VIEWS;
 const SEQ = ["#f6fbc8","#d6efb3","#a5dbb7","#6bc4bc","#3aa7c1","#1f7fb6","#23509f","#1f2f7e","#081d58"];
 const DIV = ["#2d004b","#6b5aa5","#b2abd2","#e4e2ec","#f7f7f7","#fbdcb1","#f5a54a","#c8650f","#7f3b08"];
 const $ = id => document.getElementById(id);
@@ -451,7 +463,7 @@ function setFrames(){
   frames = v.frames;
   frames.forEach((f,i)=>{
     const id = `f${i}`;
-    map.addSource(id,{type:"raster",url:`pmtiles://${base}/${f.name}.pmtiles`,tileSize:256,maxzoom:NAX?6:7});
+    map.addSource(id,{type:"raster",url:`pmtiles://${base}/${f.name}.pmtiles`,tileSize:256,maxzoom:st==="fine"?11:NAX?6:7});
     map.addLayer({id,type:"raster",source:id,paint:{"raster-opacity":0,"raster-fade-duration":0,"raster-resampling":"nearest"}});
     loaded.add(id);
   });
@@ -484,6 +496,7 @@ function speciesNotes(){
     $("snote").innerHTML=(low?`<div class="note"><strong>Lower-performing map: a rough guide only.</strong> ${sp.reasons.join(" ")} Patterns may be partly wrong; do not use it for decisions.</div>`:"")+`<div class="note"><strong>Beta, presence-only.</strong> Built from GBIF records (mostly iNaturalist), not surveys. It shows where conditions resemble recorded places, not change over time: change failed its test with known truth.${sp.range&&sp.range.clipped?" Faint areas lie over 50 km outside the species' range map.":" Not clipped to a range map."}</div><p class="small"><a href="#quality" data-q="1">How good is this map? Plain-language model quality</a></p>`; return; }
   const n = [`<div class="note">${sp.clip.note}</div>`];
   if(NAX&&(sp.dropped_sets||[]).length) n.push(`<div class="note">Not shown for this species: ${sp.dropped_sets.map(k=>SETS[k]||k).join("; ")}. It did worse than a flat average on held-out checklists in new places.</div>`);
+  if($("set").value==="fine") n.unshift('<div class="note"><strong>62.5 m detail.</strong> Tested with simulated species (inside 1 km cells it ranked clearcut against forest with a rank correlation of about 0.76) and on held-out checklists (more accurate than the 1 km model for 225 of 241 species). eBird locations are only good to roughly 100 m to 1 km, so read patterns across stands and landscapes, not single pixels. One year, 2018. <a href="#m-fine" data-goto="m-fine">How it was tested</a>.</div>');
   if($("set").value==="stxy3") n.unshift('<div class="note"><strong>Experimental.</strong> This model did not pass its test with known truth. It shows modeled reporting rate through time, which mixes real change in the species with changes in eBird reporting, and it is not a population trend. Read broad patterns only.</div>');
   if(sp.prevalence>=.2) n.push(`<div class="note">Widespread species: reported on ${Math.round(sp.prevalence*100)}% of checklists. In tests, map patterns were less reliable for very common species.</div>`);
   if(NAX&&$("set").value==="aef_daymet3"&&sp.heldout_aef&&sp.heldout_aef.spatial!==null){ const h=sp.heldout_aef; n.push(h.spatial<.6||h.temporal<.6?`<div class="note">AlphaEarth model: predictions ran low on held-out checklists (mean prediction / observed: ${h.spatial} new places, ${h.temporal} later years). Treat values as relative.</div>`:`<p class="small">AlphaEarth model, held-out mean prediction / observed: ${h.spatial} new places, ${h.temporal} later years (2022-2024). 1 means no bias.</p>`); }
@@ -678,6 +691,7 @@ function changeLine(ys,st){ const k=st==="aef_daymet3"?4:5, yy=yearsFor(st), a=y
 const SERIES={};
 async function habitatPanel(g){
   let h=sp.habitat[g]; const el=$("habchart"),st=$("set").value,mode=$("habm").value,tag=sp.tag;
+  if(st==="fine"){ $("habmbox").hidden=true; $("habchange").textContent=""; el.innerHTML='<p class="small">The 62.5 m model is one 2018 map, so it has no yearly series. Choose a 1 km model to see habitat through time.</p>'; return; }
   $("habmbox").hidden=!sp.area; $("habchange").textContent="";
   if(NAX&&(sp.withheld||[]).includes(g)) h=null;
   else if(!h&&NAX){ if(!SERIES[tag]){ el.innerHTML='<p class="small">Loading…</p>'; try{ const r=await fetch(`data/series/${tag}.json`); if(!r.ok) throw 0; SERIES[tag]=await r.json(); }catch(e){ el.innerHTML='<p class="err">Could not load the regional series.</p>'; return; } if(sp.tag!==tag||$("region").value!==g) return; } h=SERIES[tag][g]; }
