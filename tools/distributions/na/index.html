@@ -59,7 +59,7 @@ html[data-extent="na"] .only-pnw{display:none!important}html:not([data-extent="n
 svg text{fill:var(--muted);font-size:12px;font-family:var(--font-body)}
 .tip{position:absolute;pointer-events:none;background:var(--forest-dark);color:var(--white);font-size:.82rem;padding:3px 7px;border-radius:3px;white-space:nowrap;display:none;z-index:3}
 .chart{position:relative}
-.dm-credit{color:var(--muted);font-size:.8rem}.dm-low{display:flex;align-items:center;gap:.4rem;font-size:.9rem}.dm-low input{width:auto;margin:0}
+.dm-credit{color:var(--muted);font-size:.8rem}.dm-rtrow{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin:.4rem 0}.dm-rtbtn{font-size:.9rem;padding:.4rem .9rem}.dm-low{display:flex;align-items:center;gap:.4rem;font-size:.9rem}.dm-low input{width:auto;margin:0}
 .why-row{display:grid;grid-template-columns:9.5em 1fr 2.8em;gap:.4rem;align-items:center;font-size:.86rem;margin:.18rem 0}.why-bar{position:relative;height:.8rem;background:#eef3ef;border-radius:2px}.why-bar>span:first-child{position:absolute;left:0;top:0;bottom:0;background:var(--series);border-radius:2px}.why-rng{position:absolute;top:45%;height:2px;background:var(--forest-dark,#1b3a1b)}.why-pc{text-align:right;font-variant-numeric:tabular-nums}.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .7rem}.why-pd{margin:0}.why-pd figcaption{font-size:.8rem;line-height:1.25;min-height:2.5em}.why-unit{margin-top:-.2rem}
 .dm-card .table-scroll{margin:.4rem 0 0}
 .dm-card table.tbl{font-size:.85rem}
@@ -164,6 +164,7 @@ dl.q dd{margin:0}
   <div class="dm-card" id="whycard" hidden><h2>Why it's here</h2><p class="small" id="whynote"></p><div id="whybars"></div><p class="small" id="whyeffort"></p><div id="whypd"></div><p class="small">What the model learned from where the species was and was not reported: associations, not proven causes. Correlated variables (temperature and elevation, forest cover and greenness) can trade credit. <a href="#m-why" data-goto="m-why">How this was tested</a>.</p></div>
   <div class="dm-card" id="bbscard"><h2>Population trend, BBS</h2><p class="small" id="bbsnote"></p><div class="chart" id="bbschart"></div><div id="bbstable"></div></div>
   <div class="dm-card" id="bhcard" hidden><h2>Map vs BBS counts</h2><p class="small" id="bhnote"></p><div id="bhbody"></div></div>
+  <div class="dm-card" id="routecard" hidden><h2>BBS survey routes</h2><p class="small">Where the Breeding Bird Survey results above come from. How many routes there are, and how long they have been surveyed, shows how much those results can be trusted.</p><div class="dm-rtrow"><button type="button" class="btn btn-ghost-dark dm-rtbtn" id="rtbtn" aria-pressed="false">Show routes on the map</button><label class="small" id="rtsrcbox" hidden>Analysis <select id="rtsrc"></select></label></div><p class="small" id="rtnote"></p></div>
   <div class="dm-card" id="ebcard" hidden><h2>eBird yearly index</h2><p class="small">Probability of detection at a standard checklist with habitat held at 2010. It cannot tell improving detection from a real rise.</p><div class="chart" id="ebchart"></div></div>
   <div class="dm-card" id="mamcard" hidden><h2>About this mammal map</h2><div id="mambody"></div></div>
   <div class="dm-card" id="habcard"><h2 id="habtitle">Modeled habitat, regional mean</h2><label class="small hab-measure" id="habmbox">Measure<select id="habm"><option value="mean">Mean probability</option><option value="exp">Expected area: sum of probabilities</option><option value="thr">Area above a threshold</option></select></label><p class="small" id="habnote"></p><div class="chart" id="habchart"></div><p class="small" id="habchange"></p></div>
@@ -272,6 +273,7 @@ dl.q dd{margin:0}
 </tbody></table></div>
 <p>Part of that improvement comes from averaging three fits rather than from climate. In the first 16 pilot species, compared fairly against three base fits, the gain was 2.2% (1.1 to 3.4) on new places and a tie on later years, 0.2% (&minus;0.6 to 1.1). So climate helps to map new places but has not been shown to help predict later years. Probabilities run low, especially for rare species, so read them as relative. These tests say nothing about whether change over time is right: that is what the tests with known truth and the BBS comparison are for.</p>
 
+<p><strong>Route map.</strong> The "BBS survey routes" card maps the routes behind each species' BBS results, as points at each route's published start (BBS 1966-2025 release, Ziolkowski et al. 2026, <a href="https://doi.org/10.5066/P144YU3S">doi:10.5066/P144YU3S</a>). The full route paths used for the map check are not shown: they come from sources that may not be redistributed.</p>
 <h3 id="m-bbshab">Independent check against BBS counts</h3>
 <p>The North American Breeding Bird Survey is a standardized roadside count that does not feed the maps, so it is an independent test of them. For each species and model, a Bayesian hierarchical model relates BBS counts on each route and year, 2002-2018, to the mean mapped probability within 100 m of the route path. It separates two questions:</p>
 <ul>
@@ -467,6 +469,7 @@ function setFrames(){
     map.addLayer({id,type:"raster",source:id,paint:{"raster-opacity":0,"raster-fade-duration":0,"raster-resampling":"nearest"}});
     loaded.add(id);
   });
+  if(map.getLayer("bbsr")) map.moveLayer("bbsr");  // BBS route dots stay above the map layers
   $("time").max = frames.length-1; $("time").value = frames.length-1;
   $("timebar").style.visibility = frames.length>1 ? "visible" : "hidden";
   showFrame(frames.length-1); legend(v);
@@ -586,8 +589,8 @@ function line(el,xs,ys,lo,hi,fmtY,w=340,h=130){
 }
 function panels(){
   const mam=isMam(); $("mamcard").hidden=!mam; $("habcard").hidden=mam;
-  if(mam){ $("bbscard").hidden=true; $("bhcard").hidden=true; $("ebcard").hidden=true; mamPanel(); whyPanel(); return; }
-  $("bbscard").hidden = isCov() || NAX; bbsHabPanel(); whyPanel();  // BBS trends exist for the pilot species only
+  if(mam){ $("bbscard").hidden=true; $("bhcard").hidden=true; $("ebcard").hidden=true; $("routecard").hidden=true; clearRoutes(); mamPanel(); whyPanel(); return; }
+  $("bbscard").hidden = isCov() || NAX; bbsHabPanel(); whyPanel(); routePanel();  // BBS trends exist for the pilot species only
   if(isCov()){ const k=covNow(); $("ebcard").hidden=true; $("habmbox").hidden=true; $("habchange").textContent=""; $("habtitle").textContent="Regional mean"; $("habnote").textContent=`Whole pilot region, ${k.unit}. The Region menu moves the map only.`; lineRange($("habchart"),YEARS,k.region_mean,k); return; }
   const hm=sp.area?$("habm").value:"mean"; $("habtitle").textContent=$("set").value==="stxy3"?(hm==="mean"?"Modeled reporting rate, regional mean":"Modeled reporting-rate area"):(hm==="mean"?"Modeled habitat, regional mean":hm==="exp"?"Modeled habitat area, expected":"Modeled habitat area, above threshold"); $("habnote").textContent=$("set").value==="stxy3" ? "Regional mean of the experimental model. Not a population trend: it mixes species change with changes in eBird reporting." : NAX ? ($("set").value==="aef_daymet3" ? "Not a population trend. Regional means of the AlphaEarth model did not drift in tests; year-to-year wiggles are partly embedding noise." : "Not a population trend: change in modeled habitat conditions, which on the pilot did not follow spreading or declining species.") : sp.common==="Eurasian Collared-Dove" ? "Not a population trend. This line stayed nearly flat while Eurasian Collared-Dove spread across the region." : "Not a population trend. For example, the same line for Eurasian Collared-Dove stayed nearly flat while that species spread across the region.";
   const g=$("region").value,b=sp.bbs[g];
@@ -637,6 +640,48 @@ ${!t?`<p>None is possible: there are no continent-wide ${g.toLowerCase()} survey
 <h3>All ${g.toLowerCase()}</h3>
 <div class="table-scroll"><table class="tbl" id="poall"><thead><tr><th>Species</th><th>Records</th><th>Map vs truth (simulation)</th><th>Independent AUC</th><th>Status</th></tr></thead><tbody>${rows.map(r=>`<tr data-t="${r.tag}" style="cursor:pointer"><td>${r.common}</td><td>${r.records.toLocaleString()}</td><td>${f2(r.expected_pattern)}</td><td>${r.indep?f2(r.indep.auc):"none"}</td><td>${r.status==="lower"?"Lower performing":"Standard"}</td></tr>`).join("")}</tbody></table></div>`;
   document.querySelectorAll("#poall tr[data-t]").forEach(t=>t.onclick=()=>{ const r=DATA.species.find(s=>s.tag===t.dataset.t); if(r){ chooseSpecies(r.common); renderQuality(); $("qbody").scrollIntoView(); } });
+}
+let RT=null, rtOn=false, rtPopup=null;
+const RTSP={}, RTLAB={trend:"Population trend",hab:"Map vs BBS counts"};
+function clearRoutes(){ if(map.getLayer("bbsr")) map.removeLayer("bbsr"); if(map.getSource("bbsr")) map.removeSource("bbsr"); if(rtPopup){ rtPopup.remove(); rtPopup=null; } }
+async function routePanel(){
+  const c=$("routecard");
+  if(NAX||isCov()||!sp||isMam()){ c.hidden=true; clearRoutes(); return; }
+  c.hidden=false;
+  const tag=sp.tag;
+  if(!RT){ try{ const r=await fetch("data/bbs_routes/routes.json"); if(!r.ok) throw 0; RT=await r.json(); }catch(e){ $("rtnote").textContent="The route list could not be loaded."; return; } }
+  if(!(tag in RTSP)){ try{ const r=await fetch(`data/bbs_routes/${tag}.json`); RTSP[tag]=r.ok?await r.json():null; }catch(e){ RTSP[tag]=null; } if(!sp||sp.tag!==tag) return; }
+  const S=RTSP[tag], srcs=S?Object.keys(S).sort((a,b)=>a==="trend"?-1:1):[], sel=$("rtsrc"), keep=sel.value;
+  sel.innerHTML=""; for(const k of srcs) sel.add(new Option(`${RTLAB[k]}, ${S[k].period[0]}-${S[k].period[1]}`,k)); if(srcs.includes(keep)) sel.value=keep;
+  $("rtsrcbox").hidden=srcs.length<2;
+  const k=sel.value, A=S&&S[k];
+  if(!A){ $("rtnote").textContent=`${RT.routes.length} BBS routes in the region. No BBS analysis for this species: it was not counted on enough routes.`; }
+  else{
+    const v=Object.values(A.r), n=v.length, yrs=v.reduce((a,x)=>a+x[0],0), det=v.reduce((a,x)=>a+x[1],0), used=k==="hab"?v.filter(x=>x[3]).length:n, span=A.period[1]-A.period[0]+1;
+    $("rtnote").innerHTML=`<strong>${n} routes</strong> in this species' ${k==="trend"?"population trend":"check of the map against BBS counts"} (${A.period[0]}-${A.period[1]}), out of ${RT.routes.length} surveyed in the region; ${yrs.toLocaleString()} route-years in all, with the species counted in ${det.toLocaleString()} of them.${k==="hab"&&used<n?` ${used} of these routes have a mapped path and were used in the check.`:""}${n<14?" <strong>Fewer than 14 routes:</strong> the USGS treats this as too few for a reliable result.":""} Dots: larger = more of the ${span} years surveyed; darker = more birds per survey; small grey = surveyed but never with this species. Click a dot for details.`;
+  }
+  $("rtbtn").textContent=rtOn?"Hide routes":"Show routes on the map"; $("rtbtn").setAttribute("aria-pressed",String(rtOn));
+  if(rtOn) drawRoutes(A, k); else clearRoutes();
+}
+function drawRoutes(A, k){
+  const span=A?A.period[1]-A.period[0]+1:17;
+  const fc={type:"FeatureCollection",features:RT.routes.map(r=>{ const x=A&&A.r[r.id]; return {type:"Feature",geometry:{type:"Point",coordinates:[r.lon,r.lat]},
+    properties:{id:r.id,name:r.name,base:r.ys,in:!!x,ys:x?x[0]:0,yd:x?x[1]:0,m:x?x[2]:0,lm:x?Math.log1p(x[2]):0,used:x&&k==="hab"?!!x[3]:true}}; })};
+  if(map.getSource("bbsr")) map.getSource("bbsr").setData(fc);
+  else{
+    map.addSource("bbsr",{type:"geojson",data:fc});
+    map.addLayer({id:"bbsr",type:"circle",source:"bbsr",paint:{
+      "circle-radius":["case",["get","in"],["interpolate",["linear"],["get","ys"],1,3.5,span,9.5],2.4],
+      "circle-color":["case",["get","in"],["interpolate",["linear"],["get","lm"],0,"#f6d5e8",1,"#d36aa5",3,"#6b0f4b"],"#ffffff"],
+      "circle-stroke-color":["case",["get","in"],"#3d0a2b","#7a7a7a"],"circle-stroke-width":1.1,
+      "circle-opacity":["case",["get","used"],0.95,0.45],"circle-stroke-opacity":["case",["get","used"],1,0.5]}});
+    map.on("click","bbsr",e=>{ const p=e.features[0].properties, A2=RTSP[sp.tag]&&RTSP[sp.tag][$("rtsrc").value];
+      const html = p.in===true||p.in==="true" ? `<strong>${p.id}</strong> ${p.name}<br>Surveyed in ${p.ys} of ${A2.period[1]-A2.period[0]+1} years (${A2.period[0]}-${A2.period[1]}); ${sp.common} counted in ${p.yd} of them; ${Number(p.m).toFixed(1)} birds per survey on average.${p.used==="false"||p.used===false?"<br>No mapped route path: not used in the map check.":""}`
+        : `<strong>${p.id}</strong> ${p.name}<br>${p.base?`Surveyed ${p.base} times in 2002-2018`:"Surveyed"}; ${sp.common} never counted here, so the route is not part of this species' analysis.`;
+      if(rtPopup) rtPopup.remove(); rtPopup=new maplibregl.Popup({closeButton:true,maxWidth:"280px"}).setLngLat(e.lngLat).setHTML(html).addTo(map); });
+    map.on("mouseenter","bbsr",()=>{ map.getCanvas().style.cursor="pointer"; }); map.on("mouseleave","bbsr",()=>{ map.getCanvas().style.cursor=""; });
+  }
+  map.moveLayer("bbsr");
 }
 const WHY={};
 async function whyPanel(){
@@ -783,6 +828,8 @@ async function init(){
   document.addEventListener("click",e=>{ const a=e.target.closest("a"); if(!a) return; if(a.dataset.q||a.id==="mquality"){e.preventDefault();tab("quality");scrollTo(0,0);} else if(a.id==="qvalid"){e.preventDefault();tab("methods");document.getElementById("m-valid").scrollIntoView();} else if(a.dataset.goto){e.preventDefault();tab("methods"); let el=document.getElementById(a.dataset.goto); if(NAX&&el&&el.closest(".only-pnw")) el=document.getElementById(a.dataset.goto.replace(/^m-/,"n-"))||el; el.scrollIntoView();} });
   $("set").addEventListener("change",()=>{ if($("set").value==="stxy3"&&!sp.scale_stxy3){$("set").value="avg3";} if(!sp.sets.includes($("set").value)){$("set").value="avg3";} fillViews(); speciesNotes();setFrames();panels();});
   $("view").addEventListener("change",setFrames);
+  $("rtbtn").addEventListener("click",()=>{ rtOn=!rtOn; routePanel(); });
+  $("rtsrc").addEventListener("change",()=>routePanel());
   $("habm").addEventListener("change",()=>{ try{localStorage.setItem("dm-habm",$("habm").value);}catch(e){} panels(); });
   try{ const v=localStorage.getItem("dm-habm"); if(v&&$("habm").querySelector(`[value="${v}"]`)) $("habm").value=v; }catch(e){}
   $("region").addEventListener("change",e=>{map.fitBounds(REGIONS[e.target.value][1],{padding:10,animate:false});panels();});
