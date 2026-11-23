@@ -59,7 +59,7 @@ html[data-extent="na"] .only-pnw{display:none!important}html:not([data-extent="n
 svg text{fill:var(--muted);font-size:12px;font-family:var(--font-body)}
 .tip{position:absolute;pointer-events:none;background:var(--forest-dark);color:var(--white);font-size:.82rem;padding:3px 7px;border-radius:3px;white-space:nowrap;display:none;z-index:3}
 .chart{position:relative}
-.dm-credit{color:var(--muted);font-size:.8rem}.dm-rtrow{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin:.4rem 0}.dm-rtbtn{font-size:.9rem;padding:.4rem .9rem}.dm-low{display:flex;align-items:center;gap:.4rem;font-size:.9rem}.dm-low input{width:auto;margin:0}
+.dm-credit{color:var(--muted);font-size:.8rem}.dm-rtrow{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin:.4rem 0}.dm-rtbtn{font-size:.9rem;padding:.4rem .9rem}.controls .dm-rtbtn{align-self:flex-end;height:2.6rem;white-space:nowrap}.dm-rtbtn[aria-pressed="true"]{background:var(--forest-dark,#1b3a1b);color:#fff}.dm-low{display:flex;align-items:center;gap:.4rem;font-size:.9rem}.dm-low input{width:auto;margin:0}
 .why-row{display:grid;grid-template-columns:9.5em 1fr 2.8em;gap:.4rem;align-items:center;font-size:.86rem;margin:.18rem 0}.why-bar{position:relative;height:.8rem;background:#eef3ef;border-radius:2px}.why-bar>span:first-child{position:absolute;left:0;top:0;bottom:0;background:var(--series);border-radius:2px}.why-rng{position:absolute;top:45%;height:2px;background:var(--forest-dark,#1b3a1b)}.why-pc{text-align:right;font-variant-numeric:tabular-nums}.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .7rem}.why-pd{margin:0}.why-pd figcaption{font-size:.8rem;line-height:1.25;min-height:2.5em}.why-unit{margin-top:-.2rem}
 .dm-card .table-scroll{margin:.4rem 0 0}
 .dm-card table.tbl{font-size:.85rem}
@@ -154,6 +154,7 @@ dl.q dd{margin:0}
   <label>Region<select id="region"></select></label>
   <label id="setbox">Model<select id="set"></select></label>
   <label>View<select id="view"></select></label>
+  <button type="button" class="btn btn-ghost-dark dm-rtbtn only-pnw" id="rtbtn2" aria-pressed="false" title="Map the Breeding Bird Survey routes behind this species' BBS results">Show BBS routes</button>
 </div>
 <section class="dm-mapcol">
   <div id="map" role="img" aria-label="Map of the selected species and view"></div>
@@ -646,7 +647,8 @@ const RTSP={}, RTLAB={trend:"Population trend",hab:"Map vs BBS counts"};
 function clearRoutes(){ if(map.getLayer("bbsr")) map.removeLayer("bbsr"); if(map.getSource("bbsr")) map.removeSource("bbsr"); if(rtPopup){ rtPopup.remove(); rtPopup=null; } }
 async function routePanel(){
   const c=$("routecard");
-  if(NAX||isCov()||!sp||isMam()){ c.hidden=true; clearRoutes(); return; }
+  if(NAX||isCov()||!sp||isMam()){ c.hidden=true; $("rtbtn2").hidden=true; clearRoutes(); return; }
+  $("rtbtn2").hidden=false;
   c.hidden=false;
   const tag=sp.tag;
   if(!RT){ try{ const r=await fetch("data/bbs_routes/routes.json"); if(!r.ok) throw 0; RT=await r.json(); }catch(e){ $("rtnote").textContent="The route list could not be loaded."; return; } }
@@ -661,6 +663,7 @@ async function routePanel(){
     $("rtnote").innerHTML=`<strong>${n} routes</strong> in this species' ${k==="trend"?"population trend":"check of the map against BBS counts"} (${A.period[0]}-${A.period[1]}), out of ${RT.routes.length} surveyed in the region; ${yrs.toLocaleString()} route-years in all, with the species counted in ${det.toLocaleString()} of them.${k==="hab"&&used<n?` ${used} of these routes have a mapped path and were used in the check.`:""}${n<14?" <strong>Fewer than 14 routes:</strong> the USGS treats this as too few for a reliable result.":""} Dots: larger = more of the ${span} years surveyed; darker = more birds per survey; small grey = surveyed but never with this species. Click a dot for details.`;
   }
   $("rtbtn").textContent=rtOn?"Hide routes":"Show routes on the map"; $("rtbtn").setAttribute("aria-pressed",String(rtOn));
+  $("rtbtn2").textContent=rtOn?"Hide BBS routes":"Show BBS routes"; $("rtbtn2").setAttribute("aria-pressed",String(rtOn));
   if(rtOn) drawRoutes(A, k); else clearRoutes();
 }
 function drawRoutes(A, k){
@@ -829,6 +832,7 @@ async function init(){
   $("set").addEventListener("change",()=>{ if($("set").value==="stxy3"&&!sp.scale_stxy3){$("set").value="avg3";} if(!sp.sets.includes($("set").value)){$("set").value="avg3";} fillViews(); speciesNotes();setFrames();panels();});
   $("view").addEventListener("change",setFrames);
   $("rtbtn").addEventListener("click",()=>{ rtOn=!rtOn; routePanel(); });
+  $("rtbtn2").addEventListener("click",()=>{ rtOn=!rtOn; routePanel(); });
   $("rtsrc").addEventListener("change",()=>routePanel());
   $("habm").addEventListener("change",()=>{ try{localStorage.setItem("dm-habm",$("habm").value);}catch(e){} panels(); });
   try{ const v=localStorage.getItem("dm-habm"); if(v&&$("habm").querySelector(`[value="${v}"]`)) $("habm").value=v; }catch(e){}
