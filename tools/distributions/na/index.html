@@ -154,9 +154,9 @@ dl.q dd{margin:0}
   <label>Region<select id="region"></select></label>
   <label id="setbox">Model<select id="set"></select></label>
   <label>View<select id="view"></select></label>
-  <button type="button" class="btn btn-ghost-dark dm-rtbtn only-pnw" id="rtbtn2" aria-pressed="false" title="Map the Breeding Bird Survey routes behind this species' BBS results">Show BBS routes</button>
-  <button type="button" class="btn btn-ghost-dark dm-rtbtn only-pnw" id="svbtn_ebird" aria-pressed="false" title="eBird checklists behind the maps, counted per 10 km square">Show eBird checklists</button>
-  <button type="button" class="btn btn-ghost-dark dm-rtbtn only-pnw" id="svbtn_gbif" aria-pressed="false" title="GBIF records of this species, counted per 10 km square">Show GBIF records</button>
+  <button type="button" class="btn btn-ghost-dark dm-rtbtn" id="rtbtn2" aria-pressed="false" title="Map the Breeding Bird Survey routes behind this species' BBS results">Show BBS routes</button>
+  <button type="button" class="btn btn-ghost-dark dm-rtbtn" id="svbtn_ebird" aria-pressed="false" title="eBird checklists behind the maps, counted per square">Show eBird checklists</button>
+  <button type="button" class="btn btn-ghost-dark dm-rtbtn only-na" id="svbtn_gbif" aria-pressed="false" title="The GBIF records this map was fitted to, counted per square">Show GBIF records</button>
 </div>
 <section class="dm-mapcol">
   <div id="map" role="img" aria-label="Map of the selected species and view"></div>
@@ -164,11 +164,11 @@ dl.q dd{margin:0}
 </section>
 <aside>
   <div class="dm-card"><h2 id="vtitle"></h2><div id="legend"><canvas width="256" height="1"></canvas><div class="ticks" id="ticks"></div></div><p class="small" id="vread"></p><div id="snote"></div></div>
-  <div class="dm-card" id="svcard" hidden><h2>eBird and GBIF data on the map</h2><div id="svbody"></div></div>
+  <div class="dm-card" id="svcard" hidden><h2 id="svtitle">Data on the map</h2><div id="svbody"></div></div>
   <div class="dm-card" id="whycard" hidden><h2>Why it's here</h2><p class="small" id="whynote"></p><div id="whybars"></div><p class="small" id="whyeffort"></p><div id="whypd"></div><p class="small">What the model learned from where the species was and was not reported: associations, not proven causes. Correlated variables (temperature and elevation, forest cover and greenness) can trade credit. <a href="#m-why" data-goto="m-why">How this was tested</a>.</p></div>
   <div class="dm-card" id="bbscard"><h2>Population trend, BBS</h2><p class="small" id="bbsnote"></p><div class="chart" id="bbschart"></div><div id="bbstable"></div></div>
   <div class="dm-card" id="bhcard" hidden><h2>Map vs BBS counts</h2><p class="small" id="bhnote"></p><div id="bhbody"></div></div>
-  <div class="dm-card" id="routecard" hidden><h2>BBS survey routes</h2><p class="small">Where the Breeding Bird Survey results above come from. How many routes there are, and how long they have been surveyed, shows how much those results can be trusted.</p><div class="dm-rtrow"><button type="button" class="btn btn-ghost-dark dm-rtbtn" id="rtbtn" aria-pressed="false">Show routes on the map</button><label class="small" id="rtsrcbox" hidden>Analysis <select id="rtsrc"></select></label></div><p class="small" id="rtnote"></p></div>
+  <div class="dm-card" id="routecard" hidden><h2>BBS survey routes</h2><p class="small only-pnw">Where the Breeding Bird Survey results above come from. How many routes there are, and how long they have been surveyed, shows how much those results can be trusted.</p><p class="small only-na">Where the Breeding Bird Survey, an independent roadside count, recorded this species in 2002-2018. The maps on this page are not fitted to BBS data: compare the two to judge the map.</p><div class="dm-rtrow"><button type="button" class="btn btn-ghost-dark dm-rtbtn" id="rtbtn" aria-pressed="false">Show routes on the map</button><label class="small" id="rtsrcbox" hidden>Analysis <select id="rtsrc"></select></label></div><p class="small" id="rtnote"></p></div>
   <div class="dm-card" id="ebcard" hidden><h2>eBird yearly index</h2><p class="small">Probability of detection at a standard checklist with habitat held at 2010. It cannot tell improving detection from a real rise.</p><div class="chart" id="ebchart"></div></div>
   <div class="dm-card" id="mamcard" hidden><h2>About this mammal map</h2><div id="mambody"></div></div>
   <div class="dm-card" id="habcard"><h2 id="habtitle">Modeled habitat, regional mean</h2><label class="small hab-measure" id="habmbox">Measure<select id="habm"><option value="mean">Mean probability</option><option value="exp">Expected area: sum of probabilities</option><option value="thr">Area above a threshold</option></select></label><p class="small" id="habnote"></p><div class="chart" id="habchart"></div><p class="small" id="habchange"></p></div>
@@ -277,7 +277,7 @@ dl.q dd{margin:0}
 </tbody></table></div>
 <p>Part of that improvement comes from averaging three fits rather than from climate. In the first 16 pilot species, compared fairly against three base fits, the gain was 2.2% (1.1 to 3.4) on new places and a tie on later years, 0.2% (&minus;0.6 to 1.1). So climate helps to map new places but has not been shown to help predict later years. Probabilities run low, especially for rare species, so read them as relative. These tests say nothing about whether change over time is right: that is what the tests with known truth and the BBS comparison are for.</p>
 
-<p><strong>eBird and GBIF data on the map.</strong> The "Show eBird checklists" and "Show GBIF records" buttons count data per 10 km square: the complete eBird checklists behind the models (June-July 2002-2018) with the share reporting the species, and GBIF records of the species other than eBird's (May-August 2002-2020). eBird's terms do not allow publishing the original records, so individual checklists are never shown, and squares with fewer than 5 checklists are left out. Species on eBird's Sensitive Species list are shown at 50 km.</p>
+<p><strong>eBird data on the map.</strong> The "Show eBird checklists" button counts, per 10 km square, the complete eBird checklists behind the models (June-July 2002-2018) and the share reporting the species. eBird's terms do not allow publishing the original records, so individual checklists are never shown, and squares with fewer than 5 checklists are left out. Species on eBird's Sensitive Species list are shown at 50 km.</p>
 <p><strong>Route map.</strong> The "BBS survey routes" card maps the routes behind each species' BBS results, as points at each route's published start (BBS 1966-2025 release, Ziolkowski et al. 2026, <a href="https://doi.org/10.5066/P144YU3S">doi:10.5066/P144YU3S</a>). The full route paths used for the map check are not shown: they come from sources that may not be redistributed.</p>
 <h3 id="m-bbshab">Independent check against BBS counts</h3>
 <p>The North American Breeding Bird Survey is a standardized roadside count that does not feed the maps, so it is an independent test of them. For each species and model, a Bayesian hierarchical model relates BBS counts on each route and year, 2002-2018, to the mean mapped probability within 100 m of the route path. It separates two questions:</p>
@@ -310,6 +310,7 @@ dl.q dd{margin:0}
 <ul>
 <li><strong>Records:</strong> 9.1 million complete June-July checklists, 2002-2025, with the pilot's filters (stationary or traveling, up to 5 hours and 5 km, up to 10 observers; shared checklists counted once). Early years are thin: about 25,000 checklists in 2002 against 1.1 million in 2024.</li>
 <li><strong>Withheld records:</strong> eBird hides some sensitive species in some states, so their absence there is not a real absence. A state is left out of a species' training, and drawn faint and marked "not mapped", when the species is on eBird's Sensitive Species list for that state with dates overlapping June-July (list as of May 2026): 92 species-state pairs in 21 species. Check: of 60 listed pairs inside the species' mapped breeding range, 54 have no detections at all and 6 have 1 to 13, where hundreds would be expected. An earlier screen based on zero detections alone removed natural absences too and was replaced.</li>
+<li><strong>Data on the map:</strong> "Show eBird checklists" counts, per 30 km square, the complete checklists behind the bird models (June-July 2002-2018) and the share reporting the species. eBird's terms do not allow publishing the original records, so individual checklists are never shown and squares with fewer than 5 checklists are left out; for a species withheld in some states, those states' checklists are left out, as they were from its model. "Show BBS routes" marks the start point of every Breeding Bird Survey route run in 2002-2018 (BBS 1966-2025 release, Ziolkowski et al. 2026, <a href="https://doi.org/10.5066/P144YU3S">doi:10.5066/P144YU3S</a>) and, per species, how often it was counted there. The bird maps are not fitted to BBS data, so this is an independent look.</li>
 </ul>
 <h3 id="n-models">Models and covariates</h3>
 <div class="table-scroll"><table class="tbl tbl--left"><thead><tr><th>Model</th><th>Years</th><th>Covariates</th></tr></thead><tbody>
@@ -371,6 +372,7 @@ dl.q dd{margin:0}
 <li><strong>Model.</strong> Boosted trees comparing a species' records with all other records of its group (a "target-group" background). Because both come from the same observers, this cancels much of the pull of roads, cities and parks. Covariates as for the birds' Base + TerraClimate model, matched to each record's year. The map is the mean of the 2016-2020 predictions, scaled so the species' top 0.5% of land is 1.</li>
 <li><strong>Simulation test.</strong> 18 invented species with known habitat, their records drawn the way each group's real GBIF records fall. Rank correlation between map and truth, at 300 / 1,000 / 3,000 records: mammals 0.64 / 0.80 / 0.87; amphibians 0.56 / 0.73 / 0.84; reptiles 0.56 / 0.72 / 0.85. So mammal maps meet the standard from about 1,000 records, amphibian and reptile maps from about 3,000. <strong>Change over time failed</strong> in every group: where nothing changed, the models still showed about as much change as where it did.</li>
 <li><strong>Independent tests.</strong> Mammals: <a href="https://doi.org/10.5061/dryad.k0p2ngfhn">Snapshot USA</a> camera traps (9,626 deployments, 2019-2023). Frogs and toads: the USGS North American Amphibian Monitoring Program calling surveys (<a href="https://doi.org/10.5066/F7G44NG0">NAAMP</a>, 64,081 stop-years, 2002-2015, eastern and central US). Each site was scored by a model that never saw records from its own 51 km block. Boosted trees beat a simpler model in both (median AUC inside the recorded area 0.76 vs 0.72 for mammals, 0.73 vs 0.71 for frogs and toads). Widespread species often scored below 0.7 (for example coyote, beaver, bullfrog, green frog): when a species is found almost everywhere, records alone cannot separate better from poorer habitat. Salamanders, western amphibians and reptiles have no independent test.</li>
+<li><strong>Records on the map.</strong> "Show GBIF records" counts, per 30 km square, the records the species' map was fitted to (one per 3 km cell, year and month). Species that collectors target are shown only at 90 km: IUCN Near Threatened or worse, and all turtles and tortoises.</li>
 <li><strong>Range maps.</strong> Mammals and amphibians: IUCN Red List range maps (<a href="https://www.iucnredlist.org">IUCN 2026, version 2026-1</a>); reptiles: GARD 1.7 (Roll et al. 2017, <em>Nature Ecology &amp; Evolution</em> 1:1677-1682; Caetano et al. 2022, <em>PLoS Biology</em>). As for the birds, areas more than 50 km outside the range are drawn faint (flagged, not removed) when at least 95% of the species' records fall inside; otherwise the map is not clipped and says the range and the records disagree. Range polygons themselves are not shown. Per-species credits appear with each map.</li>
 </ul>
 
@@ -439,7 +441,7 @@ const AEFVIEWS = {
   change24:{label:"Change, 24 km",title:"Change, 2017-2020 to 2021-2024, 24 km",frames:[{name:"change4_24km",label:"24 km"}],kind:"d",read:"Failed its test with known truth: where nothing truly changed, the embeddings still produced about half as much apparent change as real change did. Read only large, consistent patterns. See Methods."},
   change3:{label:"Change, 3 km",title:"Change, 2017-2020 to 2021-2024, 3 km",frames:[{name:"change4_3km",label:"3 km"}],kind:"d",read:"Failed its test with known truth, and noisier than the 24 km view. See Methods."},
 };
-const POVIEWS = {recent:{label:"Relative suitability, 2016-2020",title:"Relative habitat suitability, 2016-2020",frames:[{name:"recent",label:"2016-2020"}],kind:"r",read:"Where conditions most resemble places the species was recorded, relative to other mammals' records. A relative scale, not a probability or an abundance."}};
+const POVIEWS = {recent:{label:"Relative suitability, 2016-2020",title:"Relative habitat suitability, 2016-2020",frames:[{name:"recent",label:"2016-2020"}],kind:"r",read:"Where conditions most resemble places the species was recorded, relative to other records of its group. A relative scale, not a probability or an abundance."}};
 if(NAX) SETS.po_brt = "Presence-only model, GBIF records, 2016-2020";
 const isMam = () => !!(sp && sp.taxon && sp.taxon !== "bird");  // mammals, amphibians, reptiles (presence-only)
 let PO = null;
@@ -594,7 +596,7 @@ function line(el,xs,ys,lo,hi,fmtY,w=340,h=130){
 }
 function panels(){
   const mam=isMam(); $("mamcard").hidden=!mam; $("habcard").hidden=mam;
-  if(mam){ $("bbscard").hidden=true; $("bhcard").hidden=true; $("ebcard").hidden=true; $("routecard").hidden=true; clearRoutes(); surveyPanel(); mamPanel(); whyPanel(); return; }
+  if(mam){ $("bbscard").hidden=true; $("bhcard").hidden=true; $("ebcard").hidden=true; $("routecard").hidden=true; routePanel(); surveyPanel(); mamPanel(); whyPanel(); return; }
   $("bbscard").hidden = isCov() || NAX; bbsHabPanel(); whyPanel(); routePanel(); surveyPanel();  // BBS trends exist for the pilot species only
   if(isCov()){ const k=covNow(); $("ebcard").hidden=true; $("habmbox").hidden=true; $("habchange").textContent=""; $("habtitle").textContent="Regional mean"; $("habnote").textContent=`Whole pilot region, ${k.unit}. The Region menu moves the map only.`; lineRange($("habchart"),YEARS,k.region_mean,k); return; }
   const hm=sp.area?$("habm").value:"mean"; $("habtitle").textContent=$("set").value==="stxy3"?(hm==="mean"?"Modeled reporting rate, regional mean":"Modeled reporting-rate area"):(hm==="mean"?"Modeled habitat, regional mean":hm==="exp"?"Modeled habitat area, expected":"Modeled habitat area, above threshold"); $("habnote").textContent=$("set").value==="stxy3" ? "Regional mean of the experimental model. Not a population trend: it mixes species change with changes in eBird reporting." : NAX ? ($("set").value==="aef_daymet3" ? "Not a population trend. Regional means of the AlphaEarth model did not drift in tests; year-to-year wiggles are partly embedding noise." : "Not a population trend: change in modeled habitat conditions, which on the pilot did not follow spreading or declining species.") : sp.common==="Eurasian Collared-Dove" ? "Not a population trend. This line stayed nearly flat while Eurasian Collared-Dove spread across the region." : "Not a population trend. For example, the same line for Eurasian Collared-Dove stayed nearly flat while that species spread across the region.";
@@ -650,33 +652,39 @@ let SV=null, svPopup=null;
 const SVSP={}, svOn={ebird:false,gbif:false};
 function svClear(k){ const id="sv_"+k; if(map.getLayer(id)) map.removeLayer(id); if(map.getSource(id)) map.removeSource(id); }
 async function surveyPanel(){
-  const btns=[$("svbtn_ebird"),$("svbtn_gbif")];
-  if(NAX||isCov()||!sp||isMam()){ btns.forEach(b=>b.hidden=true); $("svcard").hidden=true; svClear("ebird"); svClear("gbif"); if(svPopup){svPopup.remove(); svPopup=null;} return; }
-  btns.forEach(b=>b.hidden=false);
-  for(const k of ["ebird","gbif"]){ const b=$("svbtn_"+k); b.setAttribute("aria-pressed",String(svOn[k])); b.textContent=(svOn[k]?"Hide ":"Show ")+(k==="ebird"?"eBird checklists":"GBIF records"); }
-  if(!svOn.ebird&&!svOn.gbif){ $("svcard").hidden=true; svClear("ebird"); svClear("gbif"); return; }
+  // eBird squares for birds (both pages); GBIF squares for the presence-only groups (North America only: the Cascadia maps use no GBIF data)
+  const av={ebird:!!sp&&!isCov()&&!isMam(), gbif:NAX&&!!sp&&!isCov()&&isMam()}, on={ebird:svOn.ebird&&av.ebird, gbif:svOn.gbif&&av.gbif};
+  for(const k of ["ebird","gbif"]){ const b=$("svbtn_"+k); b.hidden=!av[k]; b.setAttribute("aria-pressed",String(svOn[k])); b.textContent=(svOn[k]?"Hide ":"Show ")+(k==="ebird"?"eBird checklists":"GBIF records"); if(!on[k]) svClear(k); }
+  if(!on.ebird&&!on.gbif){ $("svcard").hidden=true; if(svPopup){svPopup.remove(); svPopup=null;} return; }
   const tag=sp.tag;
   if(!SV){ try{ const [c,e]=await Promise.all([fetch("data/survey/cells.json").then(r=>r.json()),fetch("data/survey/effort.json").then(r=>r.json())]);
-    SV={c10:new Map(c.c10.map(x=>[x[0],[x[1],x[2]]])),c50:new Map(c.c50.map(x=>[x[0],[x[1],x[2]]])),e10:new Map(e.e10),e50:new Map(e.e50),min:e.min_checklists,total:e.total}; }
-    catch(err){ $("svcard").hidden=false; $("svbody").innerHTML='<p class="err">The eBird and GBIF summaries could not be loaded.</p>'; return; } }
+    SV=NAX?{c10:new Map(c.c.map(x=>[x[0],[x[1],x[2]]])),c50:new Map(c.cc.map(x=>[x[0],[x[1],x[2]]])),e10:new Map(e.e),e50:new Map(),fine:30,coarse:90,min:e.min_checklists,period:e.period}
+      :{c10:new Map(c.c10.map(x=>[x[0],[x[1],x[2]]])),c50:new Map(c.c50.map(x=>[x[0],[x[1],x[2]]])),e10:new Map(e.e10),e50:new Map(e.e50),fine:10,coarse:50,min:e.min_checklists,period:e.period}; }
+    catch(err){ $("svcard").hidden=false; $("svbody").innerHTML='<p class="err">The data summaries could not be loaded.</p>'; return; } }
   if(!(tag in SVSP)){ try{ const r=await fetch(`data/survey/sp/${tag}.json`); SVSP[tag]=r.ok?await r.json():null; }catch(err){ SVSP[tag]=null; } if(!sp||sp.tag!==tag) return; }
-  const D=SVSP[tag]; if(!D) return;
-  const C=D.res===50?SV.c50:SV.c10, E=D.res===50?SV.e50:SV.e10, km=D.res, parts=[];
-  if(svOn.ebird){
+  const D=SVSP[tag]; if(!D){ $("svcard").hidden=false; $("svbody").innerHTML='<p class="small">No data summary for this species.</p>'; return; }
+  const coarse=D.res===SV.coarse, C=coarse?SV.c50:SV.c10, km=D.res, parts=[];
+  if(on.ebird&&D.ebird){
+    let E=coarse?SV.e50:SV.e10;
+    if(D.eff&&D.eff.length){ E=new Map(E); for(const [id,n] of D.eff){ if(n) E.set(id,n); else E.delete(id); } }
     const det=new Map(D.ebird), fs=[];
     for(const [id,n] of E){ const xy=C.get(id); if(!xy) continue; const d=det.get(id)||0; fs.push({type:"Feature",geometry:{type:"Point",coordinates:xy},properties:{n,d,s:d/n}}); }
-    svDraw("ebird",fs,{"circle-radius":["interpolate",["linear"],["sqrt",["get","n"]],2.2,1.8,10,4,45,8],
+    const big=NAX?[2.2,1.6,30,4,300,9]:[2.2,1.8,10,4,45,8];
+    svDraw("ebird",fs,{"circle-radius":["interpolate",["linear"],["sqrt",["get","n"]],...big],
       "circle-color":["case",[">",["get","d"],0],["interpolate",["linear"],["get","s"],0,"#fdd9b5",0.1,"#f08a3c",0.4,"#7f2704"],"#ffffff"],
       "circle-stroke-color":["case",[">",["get","d"],0],"#7f2704","#8a8a8a"],"circle-stroke-width":0.8,"circle-opacity":0.85});
-    parts.push(`<p class="small"><strong>eBird checklists</strong> (orange): one dot per ${km} km square; size = number of complete checklists behind the models (June-July 2002-2018), colour = share of them reporting ${sp.common}; white = none did. ${sp.common} was reported on ${D.ebird_det.toLocaleString()} checklists. Squares with fewer than ${SV.min} checklists are not shown, and individual checklists never are. Source: eBird Basic Dataset, Sep 2026 (<a href="terms/ebird_terms_of_use.txt">terms</a>).</p>`);
-  } else svClear("ebird");
-  if(svOn.gbif){
+    parts.push(`<p class="small"><strong>eBird checklists</strong> (orange): one dot per ${km} km square; size = number of complete checklists behind the models (${SV.period}), colour = share of them reporting ${sp.common}; white = none did. ${sp.common} was reported on ${D.ebird_det.toLocaleString()} checklists. Squares with fewer than ${SV.min} checklists are not shown, and individual checklists never are. Source: eBird Basic Dataset, Sep 2026 (<a href="terms/ebird_terms_of_use.txt">terms</a>).</p>`);
+    if(D.withheld&&D.withheld.length) parts.push(`<p class="small">eBird withholds records of ${sp.common} in ${D.withheld.map(x=>x.replace(/^[A-Z]{2}-/,"")).join(", ")}, so checklists there are left out here, as they were from its model.</p>`);
+    if(coarse) parts.push(`<p class="small">Shown at ${km} km because this species is on eBird's Sensitive Species list.</p>`);
+  }
+  if(on.gbif&&D.gbif){
     const fs=D.gbif.map(([id,n])=>{ const xy=C.get(id); return xy?{type:"Feature",geometry:{type:"Point",coordinates:xy},properties:{n}}:null; }).filter(Boolean);
-    svDraw("gbif",fs,{"circle-radius":["interpolate",["linear"],["sqrt",["get","n"]],1,2.6,10,10],"circle-color":"#0b6e69","circle-stroke-color":"#ffffff","circle-stroke-width":0.8,"circle-opacity":0.8});
-    parts.push(`<p class="small"><strong>GBIF records</strong> (teal): ${D.gbif_n.toLocaleString()} records of ${sp.common} in May-August 2002-2020 (records other than eBird, mostly iNaturalist), counted per ${km} km square; larger = more records. They were not used to fit these maps. Source: GBIF.org (2026) GBIF Occurrence Download <a href="https://doi.org/10.15468/dl.mrbfnj">doi:10.15468/dl.mrbfnj</a>.</p>`);
-  } else svClear("gbif");
-  if(D.res===50) parts.push('<p class="small">Shown at 50 km because this species is on eBird\'s Sensitive Species list.</p>');
-  $("svcard").hidden=false; $("svbody").innerHTML=parts.join("");
+    svDraw("gbif",fs,{"circle-radius":["interpolate",["linear"],["sqrt",["get","n"]],1,2.4,10,7,40,12],"circle-color":"#0b6e69","circle-stroke-color":"#ffffff","circle-stroke-width":0.8,"circle-opacity":0.8});
+    parts.push(`<p class="small"><strong>GBIF records</strong> (teal): the ${D.gbif_n.toLocaleString()} records this map was fitted to (one per 3 km cell, year and month, 2002-2020; mostly iNaturalist), counted per ${km} km square; larger = more records. Few or no dots in a region can mean few naturalists there, not that the species is absent. Source: GBIF.org (2026) GBIF Occurrence Download <a href="https://doi.org/10.15468/dl.encvrb">doi:10.15468/dl.encvrb</a>.</p>`);
+    if(coarse) parts.push(`<p class="small">Shown at ${km} km because collectors target this species (IUCN Near Threatened or worse, or a turtle or tortoise).</p>`);
+  }
+  $("svtitle").textContent=on.gbif?"GBIF records on the map":"eBird checklists on the map";
+  $("svcard").hidden=!parts.length; $("svbody").innerHTML=parts.join("");
   for(const id of ["sv_ebird","sv_gbif","bbsr"]) if(map.getLayer(id)) map.moveLayer(id);
 }
 function svDraw(k,fs,paint){
@@ -685,17 +693,17 @@ function svDraw(k,fs,paint){
   map.addSource(id,{type:"geojson",data:fc});
   map.addLayer({id,type:"circle",source:id,paint});
   map.on("click",id,e=>{ const p=e.features[0].properties, km=(SVSP[sp.tag]||{}).res||10;
-    const html=k==="ebird"?`${km} km square: ${Number(p.n).toLocaleString()} eBird checklists (June-July 2002-2018); ${sp.common} reported on ${p.d} (${Math.round(100*p.d/p.n)}%).`
-      :`${km} km square: ${p.n} GBIF record${p.n==1?"":"s"} of ${sp.common}, May-August 2002-2020.`;
+    const html=k==="ebird"?`${km} km square: ${Number(p.n).toLocaleString()} eBird checklists (${SV.period}); ${sp.common} reported on ${p.d} (${Math.round(100*p.d/p.n)}%).`
+      :`${km} km square: ${p.n} GBIF record${p.n==1?"":"s"} of ${sp.common} used in the map (2002-2020).`;
     if(svPopup) svPopup.remove(); svPopup=new maplibregl.Popup({maxWidth:"260px"}).setLngLat(e.lngLat).setHTML(html).addTo(map); });
   map.on("mouseenter",id,()=>{ map.getCanvas().style.cursor="pointer"; }); map.on("mouseleave",id,()=>{ map.getCanvas().style.cursor=""; });
 }
 let RT=null, rtOn=false, rtPopup=null;
-const RTSP={}, RTLAB={trend:"Population trend",hab:"Map vs BBS counts"};
+const RTSP={}, RTLAB={trend:"Population trend",hab:"Map vs BBS counts",counts:"BBS counts"};
 function clearRoutes(){ if(map.getLayer("bbsr")) map.removeLayer("bbsr"); if(map.getSource("bbsr")) map.removeSource("bbsr"); if(rtPopup){ rtPopup.remove(); rtPopup=null; } }
 async function routePanel(){
   const c=$("routecard");
-  if(NAX||isCov()||!sp||isMam()){ c.hidden=true; $("rtbtn2").hidden=true; clearRoutes(); return; }
+  if(isCov()||!sp||isMam()){ c.hidden=true; $("rtbtn2").hidden=true; clearRoutes(); return; }
   $("rtbtn2").hidden=false;
   c.hidden=false;
   const tag=sp.tag;
@@ -705,7 +713,11 @@ async function routePanel(){
   sel.innerHTML=""; for(const k of srcs) sel.add(new Option(`${RTLAB[k]}, ${S[k].period[0]}-${S[k].period[1]}`,k)); if(srcs.includes(keep)) sel.value=keep;
   $("rtsrcbox").hidden=srcs.length<2;
   const k=sel.value, A=S&&S[k];
-  if(!A){ $("rtnote").textContent=`${RT.routes.length} BBS routes in the region. No BBS analysis for this species: it was not counted on enough routes.`; }
+  if(!A){ $("rtnote").textContent=NAX?`${RT.routes.length.toLocaleString()} BBS routes were run in ${RT.period[0]}-${RT.period[1]}. None counted ${sp.common}, or it has no BBS species code.`:`${RT.routes.length} BBS routes in the region. No BBS analysis for this species: it was not counted on enough routes.`; }
+  else if(k==="counts"){
+    const v=Object.values(A.r), n=v.length, span=A.period[1]-A.period[0]+1;
+    $("rtnote").innerHTML=`<strong>${n.toLocaleString()} routes</strong> counted ${sp.common}${A.bbs&&A.bbs!==sp.common?` (BBS name: ${A.bbs})`:""} at least once in ${A.period[0]}-${A.period[1]}, out of ${RT.routes.length.toLocaleString()} run in the United States and Canada. Dots: larger = more of the ${span} years surveyed; darker = more birds per survey; small grey = surveyed but never with this species. Click a dot for details.`;
+  }
   else{
     const v=Object.values(A.r), n=v.length, yrs=v.reduce((a,x)=>a+x[0],0), det=v.reduce((a,x)=>a+x[1],0), used=k==="hab"?v.filter(x=>x[3]).length:n, span=A.period[1]-A.period[0]+1;
     $("rtnote").innerHTML=`<strong>${n} routes</strong> in this species' ${k==="trend"?"population trend":"check of the map against BBS counts"} (${A.period[0]}-${A.period[1]}), out of ${RT.routes.length} surveyed in the region; ${yrs.toLocaleString()} route-years in all, with the species counted in ${det.toLocaleString()} of them.${k==="hab"&&used<n?` ${used} of these routes have a mapped path and were used in the check.`:""}${n<14?" <strong>Fewer than 14 routes:</strong> the USGS treats this as too few for a reliable result.":""} Dots: larger = more of the ${span} years surveyed; darker = more birds per survey; small grey = surveyed but never with this species. Click a dot for details.`;
@@ -728,7 +740,7 @@ function drawRoutes(A, k){
       "circle-opacity":["case",["get","used"],0.95,0.45],"circle-stroke-opacity":["case",["get","used"],1,0.5]}});
     map.on("click","bbsr",e=>{ const p=e.features[0].properties, A2=RTSP[sp.tag]&&RTSP[sp.tag][$("rtsrc").value];
       const html = p.in===true||p.in==="true" ? `<strong>${p.id}</strong> ${p.name}<br>Surveyed in ${p.ys} of ${A2.period[1]-A2.period[0]+1} years (${A2.period[0]}-${A2.period[1]}); ${sp.common} counted in ${p.yd} of them; ${Number(p.m).toFixed(1)} birds per survey on average.${p.used==="false"||p.used===false?"<br>No mapped route path: not used in the map check.":""}`
-        : `<strong>${p.id}</strong> ${p.name}<br>${p.base?`Surveyed ${p.base} times in 2002-2018`:"Surveyed"}; ${sp.common} never counted here, so the route is not part of this species' analysis.`;
+        : `<strong>${p.id}</strong> ${p.name}<br>${p.base?`Surveyed ${p.base} times in 2002-2018`:"Surveyed"}; ${sp.common} never counted here${NAX?" in those years":", so the route is not part of this species' analysis"}.`;
       if(rtPopup) rtPopup.remove(); rtPopup=new maplibregl.Popup({closeButton:true,maxWidth:"280px"}).setLngLat(e.lngLat).setHTML(html).addTo(map); });
     map.on("mouseenter","bbsr",()=>{ map.getCanvas().style.cursor="pointer"; }); map.on("mouseleave","bbsr",()=>{ map.getCanvas().style.cursor=""; });
   }
